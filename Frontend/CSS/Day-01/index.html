@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Applications Form</title>
+</head>
+<style>
+.a1
+{
+border:3px groove lavender;
+border-radius:10px
+}
+
+.a2
+{
+border-top:3px outset black;
+}
+
+.a3
+{
+border-top-style:solid;
+border-color:lavender;
+border-width:9px;
+}
+
+</style>
+<body>
+<form method="post">
+<br>
+<h2><center>SRN Technologies</center></h2>
+
+<br><br>
+<label>Name:</label>&nbsp<input class="a1" type="Text" placeholder="Enter your full name" ><br><br>
+<label>Email id:</label>&nbsp<input class="a1" type="email" name="a"><br><br>
+<label>Password:</label>&nbsp<input class="a1" type="password"><br><br>
+<label>DOB:</label>&nbsp<input class="a3" type="date" name="a"><br><br>
+<label>Age:</label>&nbsp<input class="a1" type="number" name="a"><br><br>
+<label>Gender:</label>&nbsp Male:<input class="a1" type="radio" name="a">Female:<input type="radio" name="a"><br><br>
+<label>Contact Number:</label>&nbsp<input class="a1" type="number" name="a"><br><br>
+<label>Skills: </label>&nbsp
+<input class="a1" type="checkbox" name="a">Python
+<input class="a1" type="checkbox" name="a">Java
+<input class="a1" type="checkbox" name="a">C++<br><br>
+<label>Course:</label>&nbsp
+<select>
+<option>--Select the course--</option>
+<option>Java Full Stack Developer</option>
+<option>Python Full Stack Developer</option>
+</select><br><br>
+<label>Passport size photo:</label> &nbsp<input class="a3" type="file" name="a">
+<br><br>
+<label>Are you interested to join now:</label>&nbsp YES<input class="a4" type="radio" name="a"></label>
+&nbsp NO<input class="a1" type="radio" name="a"><br><br>
+&nbsp &nbsp<input class="a2" type="submit"  value="Submit">&nbsp &nbsp
+<input class="a2" type="reset" value="Reset">
+</form>
+</body>
+</html>
