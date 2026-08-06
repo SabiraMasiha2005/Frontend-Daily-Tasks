@@ -25,4 +25,5 @@ Created a poem web page and styled its content using ID, class, and element sele
 ## Output
 
 ### Output
-![CSS Day 02 Output](./screenshots/output.png)
+![CSS Day 02 Output](./screenshots/output-1.png)
+![CSS Day 02 Output](./screenshots/output-2.png)
