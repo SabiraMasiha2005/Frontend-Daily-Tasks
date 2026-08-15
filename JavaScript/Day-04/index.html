@@ -1,0 +1,141 @@
+<html>
+<head>
+
+	<title> Task </title>
+    
+</head>
+<body>
+
+    <script>
+    
+       <!--Reverse a String-->
+       
+       document.write("<br>"+"<br>"+"Task-1:Reverse a string</h4>"+"<br>"+"<br>")
+       
+       let x="Hello";
+       
+       document.write("Input :"+" "+x+"<br>"+"<br>")
+       document.write("Output :"+" ");
+       
+       for(let i=x.length-1;i>=0;i--)
+       {
+            document.write(x[i]);
+       }
+       
+
+       <!--Palindrome or not-->
+       
+       document.write("<br>"+"<br>"+"Task-2:Find Palindrome or Not"+"<br>"+"<br>")
+       
+       var str="Race";
+       
+       var str1="";
+       
+       document.write("Input :"+" "+str+"<br>"+"<br>")
+       document.write("Output :"+" ");
+       
+            for(var i=str.length-1;i>=0;i--)
+            {
+                document.write(str[i].toLowerCase());
+                str1 = str1 + str[i];
+            }
+            if(str.toLowerCase()==str1.toLowerCase())
+            {
+               document.write("    "+"(Palindrome)"+"<br>");
+            }
+            else
+            {
+               document.write("    "+"(Not Palindrome)"+"<br>");
+            }
+               
+       <!--Vowels-->
+       
+       document.write("<br>"+"<br>"+"Task-3:Print Vowels</h4>"+"<br>"+"<br>")
+       
+       let str2="Hello HI";
+       
+       document.write("Input :"+" "+str2+"<br>"+"<br>")
+       document.write("Output :"+" ");
+       
+       for(let i=0;i<str2.length;i++)
+       {
+       
+            if(str2[i]=="a" || str2[i]=="e" || str2[i]=="i"|| str2[i]=="o" || str2[i]=="u" &&
+                str2[i]=="A" || str2[i]=="E" || str2[i]=="I"|| str2[i]=="O" || str2[i]=="U")
+            {
+                document.write(str2[i])
+            }
+       }
+       
+       
+       
+       <!--Consonants-->
+       
+       document.write("<br>"+"<br>"+"Task-4:Print Consonants</h4>"+"<br>"+"<br>")
+       
+       let str3="Hello";
+       
+       document.write("Input :"+" "+str3+"<br>"+"<br>")
+       document.write("Output :"+" ");
+       
+       for(let i=0;i<str3.length;i++)
+       {
+       
+            if(str3[i]!="a" && str3[i]!="e" && str3[i]!="i" && str3[i]!="o" && str3[i]!="u" &&
+                str3[i]!="A" && str3[i]!="E" && str3[i]!="I" && str3[i]!="O" && str3[i]!="U")
+            {
+                document.write(str3[i])
+            }
+       }
+       
+       <!--Count Vowels and Consonants-->
+       
+       document.write("<br>"+"<br>"+"Task-5:Count Vowels and Consonants"+"<br>"+"<br>")
+       
+       var str4="Hello SALE";
+       var v=0;
+       var c=0;
+       
+       document.write("Input :"+" "+str4+"<br>"+"<br>")
+       document.write("Output :"+" ");
+       
+       
+       for(var i=0;i<str4.length;i++)
+       {
+        if(str4[i]=="a" || str4[i]=="e" || str4[i]=="i" || str4[i]=="o" || str4[i]=="u" || 
+           str4[i]=="A" || str4[i]=="E" || str4[i]=="I" || str4[i]=="O" || str4[i]=="U")
+        {
+            v++
+        }
+        else
+        {
+            c++
+        }
+       }
+       document.write("Vowels =" + " " +v +"     " + "Consonants =" +" " + c)
+       
+       
+       
+       
+       <!--Word first letter caps-->>
+       
+       document.write("<br>"+"<br>"+"Task-6:Capitalize First Letter of Each Word</h4>"+"<br>"+"<br>")
+       
+       var a="Hello world javascript"
+       var b=a.split(" ")
+       
+       document.write("Input :"+" "+a+"<br>"+"<br>")
+       document.write("Output :"+" ");
+       
+       for(var i=0;i<b.length;i++)
+       {
+        
+        document.write(b[i].charAt(0).toUpperCase()+b[i].slice(1)+" ")
+       
+       }
+       
+       
+    </script>
+    
+</body>
+</html>
