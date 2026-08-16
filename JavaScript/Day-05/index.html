@@ -1,0 +1,70 @@
+<html>
+<head>
+
+	<title> Task </title>
+    
+</head>
+<body>
+
+    <script>
+    
+       <!--Convert Numbers to String-->
+       
+       document.write("<br>"+"Task-1:Convert Number to String"+"<br>"+"<br>")
+      
+       const nums=[1,2,3]
+       const num1=nums.map(x => String(x))
+       document.write(num1)
+       console.log(num1)
+       
+       <!--Add index to values-->
+       
+       document.write("<br>"+"<br>"+"Task-2:Add index to values"+"<br>"+"<br>")
+       
+       const arr=['a','b','c']
+       const arr1=arr.map((x,i) => x+i)
+       document.write(arr1)
+       console.log(arr1)
+        
+       <!--Capitalize First Letter Const Words-->
+       
+       document.write("<br>"+"<br>"+"Task-3:Capitalize First Letter Const Words"+"<br>"+"<br>")
+       
+       const words=['apple','banana']
+       const words1=words.map(x => x.charAt(0).toUpperCase()+x.slice(1))
+       document.write(words1)
+       console.log(words1)
+  
+       
+       <!--Map with Conditional Logic const scores-->
+       
+       document.write("<br>"+"<br>"+"Task-4:Map with Conditional Logic const scores"+"<br>"+"<br>")
+       
+       const scores=[90,45,75,30]
+       const scores1=scores.map(function(x)
+       {
+        if(x>=40)
+        {
+            return("Pass")
+        }
+        else
+        {
+            return("Fail")
+        }
+       });
+       document.write(scores1)
+       console.log(scores1)
+       
+       <!--Format numbers with currency symbol-->
+       
+       document.write("<br>"+"<br>"+"Task-5:Format numbers with currency symbol"+"<br>"+"<br>")
+       
+       const prices=[50,100]
+       const prices1=prices.map(x => "$"+x)
+       document.write(prices1)
+       console.log(prices1)
+       
+    </script>
+    
+</body>
+</html>
