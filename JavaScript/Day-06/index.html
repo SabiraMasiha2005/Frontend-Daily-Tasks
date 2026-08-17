@@ -1,0 +1,54 @@
+<html>
+<head>
+
+	<title> Task </title>
+    
+</head>
+<body>
+    
+    <br/>
+    <h4>Form Validation</h4>
+    
+    <form name="frm1" onsubmit="return Validatefrm()">
+    
+    <label>Name:</label>
+        <input type="text" name="name"><br/><br/>
+        
+    <label>Password:</label>
+        <input type="password" name="password"><br/><br/>
+        
+        <input type="submit" value="Register">
+    
+    </form>
+
+    <script>
+    
+    
+    <!--Form Validation-->
+    function Validatefrm()
+    {
+        var name=document.frm1.name.value;
+        var password=document.frm1.password.value;
+        
+        if(name==null || name=="")
+        {   
+            alert("Name can't be blanck")
+            return false;
+        }
+        else if(password.length<6)
+        {
+            alert("Password must be atleast 6 characters")
+            return false;
+        }
+        else
+        {
+  
+          return true;
+        }
+    
+    }
+    
+    </script>
+    
+</body>
+</html>
