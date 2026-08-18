@@ -1,0 +1,56 @@
+<html>
+<head>
+
+	<title> Task </title>
+    
+</head>
+<body>
+
+	<script>
+    
+    <!--Creating a Set-->
+
+       const numbers=new Set([10,20,20,30,40,30,40])
+       console.log(numbers);
+       
+    <!--Add Values to Set-->
+
+       const fruits=new Set()
+       fruits.add("Apple")
+       fruits.add("Mango")
+       fruits.add("Apple")
+       console.log(fruits);
+       
+    <!--Delete a Value Set-->
+
+       fruits.delete("Mango")
+       console.log(fruits);
+       
+    <!--Using has in Set-->
+
+       console.log(fruits.has("Apple"));
+       console.log(fruits.has("Orange"));
+       
+    <!--Get Size in Set-->
+    
+    console.log(fruits.size)
+    
+    <!--Loop through a Set-->
+    
+    const nums=new Set([10,20,30])
+    for(let value of nums )
+    {
+        console.log(value)
+    }
+    
+    <!--Convert Array to Set-->
+    
+    const arr=[1,2,2,3,3,4]
+    const uniqueArr=[...new Set(arr)]
+    console.log(uniqueArr)
+    
+    
+    </script>
+    
+</body>
+</html>
