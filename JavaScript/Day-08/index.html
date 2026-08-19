@@ -1,0 +1,52 @@
+<html>
+<head>
+
+	<title> Task </title>
+    
+</head>
+
+<body>
+	<h3>SBI Customers Details</h3>
+	<p id="demo"></p>
+
+<script>
+
+	class SBI
+	{
+		constructor(name,accountNo,branch,accountType)
+		{
+			this.name=name
+			this.account=accountNo
+			this.branch=branch
+			this.accountType=accountType
+		}
+	}
+	const customer1=new SBI("Masiha",012345678,"Vanagram","Savings Account")
+	const customer2=new SBI("Preethi",212345678,"Thiruverkadu","Current Account")
+	const customer3=new SBI("Prithinka Sree",312345678,"Madravoyal","Savings Account")
+	
+	document.getElementById("demo").innerHTML =
+	"Customer 1<br><br>" +
+	"Name : " + customer1.name + "<br>" +
+	"Account No : " + customer1.account + "<br>" +
+	"Branch : " + customer1.branch + "<br>" +
+	"Type : " + customer1.accountType + "<br><br>" +
+
+	"Customer 2<br><br>" +
+	"Name : " + customer2.name + "<br>" +
+	"Account No : " + customer2.account + "<br>" +
+	"Branch : " + customer2.branch + "<br>" +
+	"Type : " + customer2.accountType + "<br><br>" +
+
+	"Customer 3<br><br>" +
+	"Name : " + customer3.name + "<br>" +
+	"Account No : " + customer3.account + "<br>" +
+	"Branch : " + customer3.branch + "<br>" +
+	"Type : " + customer3.accountType
+
+</script>
+
+</body>
+</html>
+    
+    
