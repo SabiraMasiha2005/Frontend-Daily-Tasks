@@ -1,0 +1,44 @@
+<html>
+<head>
+
+	<title> Task </title>
+    
+</head>
+
+<body>
+
+	<h2 id="one"></h2>
+	<h3 id="two"></h3>
+	
+	<script>
+		
+		
+		<!--Javascript Default Parameter-->
+		function myFunction(x,y=10)
+		{
+			return x+y;
+		}
+		document.getElementById("one").innerHTML=myFunction(5,10);
+		
+		
+		<!--Javascript Rest Parameter-->
+		
+		function sum(...args)
+		{
+			let sum =0;
+			
+			for(let arg of args)sum+=arg;
+				
+			return sum;
+		}
+		let x=sum(4,8,16,25,100,58,35,70);
+		
+		document.getElementById("two").innerHTML=x;
+		
+	
+	</script>
+	
+</body>
+
+</html>
+	
