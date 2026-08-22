@@ -95,9 +95,9 @@ This repository contains the concepts and practical tasks I work on while learni
 - UI development
 
 ---
-
 # Repository Structure
 
+```text
 Frontend-Daily-Tasks/
 │
 ├── HTML/
@@ -108,6 +108,7 @@ Frontend-Daily-Tasks/
 ├── React/
 │
 └── README.md
+```
 
 # Author
 
