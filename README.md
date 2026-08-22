@@ -114,16 +114,15 @@ Frontend-Daily-Tasks/
 
 ## Sabira Masiha M
 
-*BCA Graduate | Aspiring Full Stack Developer*
+*BCA Graduate | Frontend Development Learner*
 
-Bachelor of Computer Applications (BCA) graduate with a strong interest in Full Stack Web Development. Currently developing practical skills in modern web technologies and building responsive, user-friendly web applications through continuous hands-on practice.
+BCA graduate currently learning frontend development through daily practice, coding exercises, and UI implementations. This repository documents my progress as I learn and practice frontend technologies.
 
-- Bachelor of Computer Applications (BCA)
-- Aspiring Full Stack Developer
-- Interested in Full Stack Web Development
-- Learning and practicing modern web technologies
-- Building practical and responsive web applications
-- Continuously improving technical and problem-solving skills
+- BCA Graduate
+- Learning Frontend Development
+- Practicing HTML, CSS, Tailwind CSS, Bootstrap, JavaScript, and React.js
+- Building UI implementations and practice projects
+- Improving coding and problem-solving skills
 
 ## Connect With Me
 
