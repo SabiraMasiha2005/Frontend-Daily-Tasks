@@ -74,8 +74,8 @@ Created a TechZone product page containing:
 
 ## Output
 
-![Output](./screenshots/output-1.png)
 ![Output](./screenshots/output-2.png)
+![Output](./screenshots/output-1.png)
 
 ## Learning Outcome
 
