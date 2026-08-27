@@ -86,7 +86,7 @@ Created a FoodieSpot restaurant menu page containing:
 ## Output
 
 ![Output-1](./screenshots/output-1.png)
-![Output-2](./screenshots/output-1.png)
+![Output-2](./screenshots/output-2.png)
 
 ## Learning Outcome
 
