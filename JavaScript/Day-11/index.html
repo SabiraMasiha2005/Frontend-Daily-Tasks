@@ -1,0 +1,58 @@
+<html>
+<head>
+	<title> Task </title>
+</head>
+<body>
+<script>
+//Sum of Array
+function Array() 
+{
+    let a=[10,14,25,35,40,50];
+
+    let sum=0;
+
+    for(let i=0;i<a.length;i++) 
+	{
+        sum=sum+a[i];
+    }
+    console.log("Sum of Array = "+sum);
+}
+
+
+//Find elements divisible by 7
+function divisible() 
+{
+    let a=[10,14,25,35,40,50];
+
+    console.log("Divisible by 7:");
+
+    for(let i=0;i<a.length;i++)  
+	{
+        if (a[i]%7==0) 
+		{
+            console.log(a[i]);
+        }
+    }
+}
+
+
+//Remove 3rd index and last index
+function Index() 
+{
+    let a=[10,14,25,35,40,50];
+
+    a.splice(3,1);
+    a.splice(a.length-1,1);
+
+    console.log("After removing 3rd index and last index:");
+    console.log(a);
+}
+
+// Function call
+Array();
+divisible();
+Index();
+
+</script>
+</body>
+</html>
