@@ -1,0 +1,59 @@
+<html>
+<head>
+	<title> Task </title>
+</head>
+<body>
+
+<script>
+
+//Swap a Number
+function swap() 
+{
+    let a=10;
+    let b=20;
+
+    console.log("Before Swap:");
+    console.log("a=",a);
+    console.log("b=",b);
+
+    a=a+b;
+    b=a-b;
+    a=a-b;
+
+    console.log("After Swap:");
+    console.log("a =", a);
+    console.log("b =", b);
+}
+swap();
+
+
+//Print Even and Odd Index Values
+function Index() {
+    let a=[10,20,30,40,50];
+
+    console.log("Index Values:");
+
+    for (let i=0;i< a.length;i++) 
+	{
+        if (i%2==0) 
+		{
+            console.log(a[i]);
+        }
+    }
+
+    console.log("Odd Index Values:");
+
+    for (let i=0;i< a.length;i++) 
+	{
+        if (i%2!=0) 
+		{
+            console.log(a[i]);
+        }
+    }
+}
+Index()
+
+
+</script>
+</body>
+</html>
