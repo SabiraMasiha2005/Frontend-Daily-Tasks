@@ -1,0 +1,27 @@
+<html>
+<head>
+	<title>Armstrong Number</title>
+</head>
+<body>
+<script>
+	a=153;
+	temp=a;
+	sum=0;
+	while(temp>0)
+	{
+		digit=temp%10;
+		sum=sum+(digit*digit*digit);
+		temp=Math.floor(temp/10);
+	}
+
+	if(sum==a)
+	{
+		document.write(a+" is an Armstrong Number");
+	}
+	else
+	{
+		document.write(a+" is not an Armstrong Number");
+	}
+</script>
+</body>
+</html>
