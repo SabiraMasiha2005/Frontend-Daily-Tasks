@@ -49,7 +49,7 @@ Performed the following operations:
 
 ## Output
 
-![Output](./screenshots/output.png)
+![Output](./Screenshots/output.png)
 
 ## Learning Outcome
 
