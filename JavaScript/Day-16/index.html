@@ -1,0 +1,54 @@
+<html>
+
+<head>
+
+	<title>Sum and Prime</title>
+
+</head>
+
+<body>
+
+<script>
+
+	//Sum of Digits
+	let a=1234;
+	let sum=0;
+
+	while(a>0)
+	{
+		let digit=a%10;
+		sum=sum+digit;
+		a=Math.floor(a/10);
+	}
+
+	document.write("Sum of Digits = "+sum);
+
+	document.write("<br><br>");
+
+
+	//Prime Number
+	let b=7;
+	let count=0;
+
+	for(let i=1;i<=b;i++)
+	{
+		if(b%i==0)
+		{
+			count++;
+		}
+	}
+
+	if(count==2)
+	{
+		document.write(b+" is a Prime Number");
+	}
+	else
+	{
+		document.write(b+" is not a Prime Number");
+	}
+
+</script>
+
+</body>
+
+</html>
