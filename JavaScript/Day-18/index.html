@@ -1,0 +1,43 @@
+<html>
+<head>
+	<title>BMI Calculator</title>
+</head>
+<body>
+<script>
+
+	let weight=60;
+	let height=1.65;
+
+	let bmi=weight/(height*height);
+
+	document.write("Weight = "+weight+" kg");
+
+	document.write("<br><br>");
+
+	document.write("Height = "+height+" m");
+
+	document.write("<br><br>");
+
+	document.write("BMI = "+bmi.toFixed(2));
+
+	document.write("<br><br>");
+
+	if(bmi<18.5)
+	{
+		document.write("Category = Underweight");
+	}
+	else if(bmi<25)
+	{
+		document.write("Category = Normal Weight");
+	}
+	else if(bmi<30)
+	{
+		document.write("Category = Overweight");
+	}
+	else
+	{
+		document.write("Category = Obese");
+	}
+</script>
+</body>
+</html>
