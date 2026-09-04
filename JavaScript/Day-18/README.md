@@ -53,9 +53,7 @@ Performed the following operations:
 - `document.write()`
 
 ## Output
-
 ![Output](./screenshots/output.png)
 
 ## Learning Outcome
-
 Learned how to perform mathematical calculations in JavaScript and use conditional statements to classify a calculated BMI value into different categories.
