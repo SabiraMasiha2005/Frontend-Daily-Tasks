@@ -57,7 +57,9 @@ Performed the following operations:
 
 ## Output
 
-![Output](./screenshots/output.png)
+![Output-1](./screenshots/output-1.png)
+![Output-2](./screenshots/output-2.png)
+![Output-3](./screenshots/output-3.png)
 
 ## Learning Outcome
 
