@@ -1,0 +1,47 @@
+<html>
+
+<head>
+
+	<title>Movie Ticket Booking</title>
+
+</head>
+
+<body>
+
+<script>
+
+	function booking(movie,tickets)
+	{
+		let price=200;
+		let total=0;
+
+		for(let i=1;i<=tickets;i++)
+		{
+			for(let j=1;j<=1;j++)
+			{
+				total=total+price;
+			}
+		}
+
+		if(movie.toLowerCase().includes("movie"))
+		{
+			return total;
+		}
+		else
+		{
+			return total;
+		}
+	}
+
+	let movie=prompt("Enter Movie Name");
+	let tickets=Number(prompt("Enter Number of Tickets"));
+
+	document.write("Movie Name = "+movie+"<br>");
+	document.write("Number of Tickets = "+tickets+"<br>");
+	document.write("Total Amount = ₹"+booking(movie,tickets));
+
+</script>
+
+</body>
+
+</html>
