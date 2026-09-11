@@ -1,0 +1,37 @@
+<html>
+
+<head>
+
+	<title>Username Validator</title>
+
+</head>
+
+<body>
+
+<script>
+
+	function validate(a)
+	{
+		if(a.length>=5 && a.length<=15 && a.startsWith("user") && !a.includes(" "))
+		{
+			return "Valid Username";
+		}
+		else
+		{
+			return "Invalid Username";
+		}
+	}
+
+	let a=prompt("Enter Username");
+
+	document.write("Username = "+a);
+
+	document.write("<br><br>");
+
+	document.write(validate(a));
+
+</script>
+
+</body>
+
+</html>
