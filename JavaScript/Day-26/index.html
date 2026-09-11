@@ -1,0 +1,45 @@
+<html>
+
+<head>
+
+	<title>Character Frequency</title>
+
+</head>
+
+<body>
+
+<script>
+
+	function frequency(a,b)
+	{
+		let count=0;
+
+		for(let i=0;i<a.length;i++)
+		{
+			if(a.charAt(i)==b)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+	let a=prompt("Enter a String");
+	let b=prompt("Enter a Character");
+
+	document.write("String = "+a);
+
+	document.write("<br><br>");
+
+	document.write("Character = "+b);
+
+	document.write("<br><br>");
+
+	document.write("Frequency = "+frequency(a,b));
+
+</script>
+
+</body>
+
+</html>
