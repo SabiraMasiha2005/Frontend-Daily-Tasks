@@ -1,0 +1,53 @@
+<html>
+
+<head>
+
+	<title>Shopping Cart</title>
+
+</head>
+
+<body>
+
+<script>
+
+	function cart(product,price,quantity)
+	{
+		let total=0;
+
+		for(let i=0;i<product.length;i++)
+		{
+			total=total+(price[i]*quantity[i]);
+		}
+
+		if(product.includes("Laptop"))
+		{
+			total=total-500;
+		}
+
+		return total;
+	}
+
+	let product=["Laptop","Mouse","Keyboard"];
+	let price=[50000,800,1200];
+	let quantity=[1,2,1];
+
+	let total=cart(product,price,quantity);
+
+	document.write("Shopping Cart");
+
+	document.write("<br><br>");
+
+	for(let i=0;i<product.length;i++)
+	{
+		document.write(product[i]+" - ₹"+price[i]+" × "+quantity[i]);
+
+		document.write("<br><br>");
+	}
+
+	document.write("Total Amount = ₹"+total);
+
+</script>
+
+</body>
+
+</html>
