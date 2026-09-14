@@ -1,0 +1,83 @@
+<html>
+
+<head>
+
+	<title>ATM Simulation</title>
+
+</head>
+
+<body>
+
+<script>
+
+	function atm(pin,balance)
+	{
+		let enteredPin=Number(prompt("Enter your PIN"));
+
+		if(enteredPin==pin)
+		{
+			let choice=Number(prompt("1. Check Balance\n2. Withdraw\n3. Deposit"));
+
+			if(choice==1)
+			{
+				document.write("Current Balance = ₹"+balance);
+			}
+			else if(choice==2)
+			{
+				let amount=Number(prompt("Enter Withdrawal Amount"));
+
+				if(amount<=balance && amount>0)
+				{
+					balance=balance-amount;
+
+					document.write("Withdrawal Amount = ₹"+amount);
+
+					document.write("<br><br>");
+
+					document.write("Remaining Balance = ₹"+balance);
+				}
+				else
+				{
+					document.write("Insufficient Balance or Invalid Amount");
+				}
+			}
+			else if(choice==3)
+			{
+				let amount=Number(prompt("Enter Deposit Amount"));
+
+				if(amount>0)
+				{
+					balance=balance+amount;
+
+					document.write("Deposit Amount = ₹"+amount);
+
+					document.write("<br><br>");
+
+					document.write("Updated Balance = ₹"+balance);
+				}
+				else
+				{
+					document.write("Invalid Amount");
+				}
+			}
+			else
+			{
+				document.write("Invalid Choice");
+			}
+		}
+		else
+		{
+			document.write("Incorrect PIN");
+		}
+	}
+
+	let pin=1234;
+	let balance=10000;
+
+	atm(pin,balance);
+
+</script>
+
+</body>
+
+</html>
