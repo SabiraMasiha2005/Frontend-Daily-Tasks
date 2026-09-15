@@ -1,0 +1,81 @@
+<html>
+
+<head>
+
+	<title>Courier Tracking System</title>
+
+</head>
+
+<body>
+
+<script>
+
+	class Courier
+	{
+		constructor(trackingId,customer,location,status)
+		{
+			this.trackingId=trackingId;
+			this.customer=customer;
+			this.location=location;
+			this.status=status;
+		}
+
+		checkTracking(id)
+		{
+			if(this.trackingId.toUpperCase()==id.toUpperCase())
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		updateStatus(newStatus)
+		{
+			this.status=newStatus;
+		}
+
+		display()
+		{
+			document.write("Tracking ID = "+this.trackingId.toUpperCase());
+
+			document.write("<br><br>");
+
+			document.write("Customer Name = "+this.customer);
+
+			document.write("<br><br>");
+
+			document.write("Location = "+this.location);
+
+			document.write("<br><br>");
+
+			document.write("Current Status = "+this.status);
+
+			document.write("<br><br>");
+		}
+	}
+
+	let courier1=new Courier("chn12345","Masiha","Chennai","Out for Delivery");
+
+	let searchId=prompt("Enter Tracking ID");
+
+	if(courier1.checkTracking(searchId))
+	{
+		document.write("Tracking ID Found");
+
+		document.write("<br><br>");
+
+		courier1.display();
+	}
+	else
+	{
+		document.write("Tracking ID Not Found");
+	}
+
+</script>
+
+</body>
+
+</html>
