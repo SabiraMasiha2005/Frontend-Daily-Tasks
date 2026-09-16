@@ -1,0 +1,91 @@
+<html>
+
+<head>
+
+	<title>Quiz Score Analyzer</title>
+
+</head>
+
+<body>
+
+<script>
+
+	class Quiz
+	{
+		constructor(questions,answers)
+		{
+			this.questions=questions;
+			this.answers=answers;
+			this.score=0;
+		}
+
+		checkAnswers()
+		{
+			for(let i=0;i<this.questions.length;i++)
+			{
+				if(this.questions[i].toLowerCase()==this.answers[i].toLowerCase())
+				{
+					this.score++;
+				}
+			}
+		}
+
+		result()
+		{
+			let percentage=(this.score/this.questions.length)*100;
+
+			if(percentage>=80)
+			{
+				return "Excellent";
+			}
+			else if(percentage>=60)
+			{
+				return "Good";
+			}
+			else if(percentage>=40)
+			{
+				return "Average";
+			}
+			else
+			{
+				return "Needs Improvement";
+			}
+		}
+
+		display()
+		{
+			document.write("Total Questions = "+this.questions.length);
+
+			document.write("<br><br>");
+
+			document.write("Correct Answers = "+this.score);
+
+			document.write("<br><br>");
+
+			document.write("Wrong Answers = "+(this.questions.length-this.score));
+
+			document.write("<br><br>");
+
+			document.write("Percentage = "+(this.score/this.questions.length*100)+"%");
+
+			document.write("<br><br>");
+
+			document.write("Result = "+this.result());
+		}
+	}
+
+	let questions=["Java","HTML","CSS","Python","React"];
+
+	let answers=["java","html","javascript","python","react"];
+
+	let quiz1=new Quiz(questions,answers);
+
+	quiz1.checkAnswers();
+
+	quiz1.display();
+
+</script>
+
+</body>
+
+</html>
