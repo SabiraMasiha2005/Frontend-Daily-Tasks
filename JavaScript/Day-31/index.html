@@ -1,0 +1,85 @@
+<html>
+
+<head>
+
+	<title>Seat Reservation System</title>
+
+</head>
+
+<body>
+
+<script>
+
+	class SeatBooking
+	{
+		constructor()
+		{
+			this.seats=[
+				["A1","A2","A3","A4"],
+				["B1","B2","B3","B4"],
+				["C1","C2","C3","C4"]
+			];
+
+			this.booked=["A2","B3"];
+		}
+
+		displaySeats()
+		{
+			for(let i=0;i<this.seats.length;i++)
+			{
+				for(let j=0;j<this.seats[i].length;j++)
+				{
+					document.write(this.seats[i][j]+"&nbsp;&nbsp;");
+				}
+
+				document.write("<br><br>");
+			}
+		}
+
+		bookSeat(seat)
+		{
+			seat=seat.toUpperCase();
+
+			for(let i=0;i<this.seats.length;i++)
+			{
+				for(let j=0;j<this.seats[i].length;j++)
+				{
+					if(this.seats[i][j]==seat)
+					{
+						if(this.booked.includes(seat))
+						{
+							return "Seat "+seat+" is Already Booked";
+						}
+						else
+						{
+							this.booked.push(seat);
+
+							return "Seat "+seat+" Booked Successfully";
+						}
+					}
+				}
+			}
+
+			return "Invalid Seat Number";
+		}
+	}
+
+	let booking1=new SeatBooking();
+
+	document.write("Available Seats");
+
+	document.write("<br><br>");
+
+	booking1.displaySeats();
+
+	let seat=prompt("Enter Seat Number");
+
+	document.write("<br>");
+
+	document.write(booking1.bookSeat(seat));
+
+</script>
+
+</body>
+
+</html>
