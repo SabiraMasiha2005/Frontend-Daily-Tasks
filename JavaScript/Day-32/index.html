@@ -1,0 +1,184 @@
+<html>
+
+<head>
+
+	<title>Flight Booking Form</title>
+
+</head>
+
+<body>
+
+<h2>Flight Booking Form</h2>
+
+<form>
+
+	Name:
+	<input type="text" id="name">
+
+	<br><br>
+
+	Email:
+	<input type="email" id="email">
+
+	<br><br>
+
+	From:
+	<select id="from">
+		<option>Chennai</option>
+		<option>Bangalore</option>
+		<option>Mumbai</option>
+	</select>
+
+	<br><br>
+
+	To:
+	<select id="to">
+		<option>Delhi</option>
+		<option>Hyderabad</option>
+		<option>Kolkata</option>
+	</select>
+
+	<br><br>
+
+	Travel Class:
+	<input type="radio" name="class" value="Economy">Economy
+	<input type="radio" name="class" value="Business">Business
+
+	<br><br>
+
+	Passengers:
+	<input type="number" id="passengers">
+
+	<br><br>
+
+	Extra Baggage:
+	<input type="checkbox" id="baggage"> Yes
+
+	<br><br>
+
+	Travel Date:
+	<input type="date" id="date">
+
+	<br><br>
+
+	<input type="button" value="Book Flight" onclick="bookFlight()">
+
+</form>
+
+<br>
+
+<div id="result"></div>
+
+<script>
+
+	class Flight
+	{
+		constructor(name,email,from,to,travelClass,passengers,baggage,date)
+		{
+			this.name=name;
+			this.email=email;
+			this.from=from;
+			this.to=to;
+			this.travelClass=travelClass;
+			this.passengers=passengers;
+			this.baggage=baggage;
+			this.date=date;
+		}
+
+		calculateFare()
+		{
+			let price=3000;
+
+			if(this.travelClass=="Business")
+			{
+				price=6000;
+			}
+
+			let total=price*this.passengers;
+
+			if(this.baggage)
+			{
+				total=total+(1000*this.passengers);
+			}
+
+			return total;
+		}
+
+		display()
+		{
+			let output="";
+
+			output=output+"Booking Confirmed";
+
+			output=output+"<br><br>";
+
+			output=output+"Passenger Name = "+this.name.toUpperCase();
+
+			output=output+"<br><br>";
+
+			output=output+"Email = "+this.email;
+
+			output=output+"<br><br>";
+
+			output=output+"Route = "+this.from+" to "+this.to;
+
+			output=output+"<br><br>";
+
+			output=output+"Travel Class = "+this.travelClass;
+
+			output=output+"<br><br>";
+
+			output=output+"Passengers = "+this.passengers;
+
+			output=output+"<br><br>";
+
+			output=output+"Travel Date = "+this.date;
+
+			output=output+"<br><br>";
+
+			output=output+"Total Fare = ₹"+this.calculateFare();
+
+			document.getElementById("result").innerHTML=output;
+		}
+	}
+
+	function bookFlight()
+	{
+		let name=document.getElementById("name").value;
+		let email=document.getElementById("email").value;
+		let from=document.getElementById("from").value;
+		let to=document.getElementById("to").value;
+		let passengers=Number(document.getElementById("passengers").value);
+		let date=document.getElementById("date").value;
+
+		let classOption=document.getElementsByName("class");
+
+		let travelClass="";
+
+		for(let i=0;i<classOption.length;i++)
+		{
+			if(classOption[i].checked)
+			{
+				travelClass=classOption[i].value;
+			}
+		}
+
+		let baggage=document.getElementById("baggage").checked;
+
+		if(name!="" && email!="" && passengers>0 && date!="" && travelClass!="")
+		{
+			let flight1=new Flight(name,email,from,to,travelClass,passengers,baggage,date);
+
+			flight1.display();
+		}
+		else
+		{
+			document.getElementById("result").innerHTML="Please fill all details";
+		}
+	}
+
+</script>
+
+</body>
+
+</html>
