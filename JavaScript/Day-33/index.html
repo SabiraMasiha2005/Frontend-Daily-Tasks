@@ -1,0 +1,182 @@
+<html>
+
+<head>
+
+	<title>Hotel Room Booking</title>
+
+</head>
+
+<body>
+
+<h2>Hotel Room Booking Form</h2>
+
+<form>
+
+	Guest Name:
+	<input type="text" id="name">
+
+	<br><br>
+
+	Email:
+	<input type="email" id="email">
+
+	<br><br>
+
+	Room Type:
+	<select id="room">
+		<option value="2000">Standard</option>
+		<option value="3000">Deluxe</option>
+		<option value="5000">Suite</option>
+	</select>
+
+	<br><br>
+
+	Number of Guests:
+	<input type="number" id="guests">
+
+	<br><br>
+
+	Check-in Date:
+	<input type="date" id="checkin">
+
+	<br><br>
+
+	Check-out Date:
+	<input type="date" id="checkout">
+
+	<br><br>
+
+	<input type="checkbox" id="breakfast">
+
+	Breakfast
+
+	<br><br>
+
+	<input type="checkbox" id="bed">
+
+	Extra Bed
+
+	<br><br>
+
+	<input type="button" value="Book Room" onclick="bookRoom()">
+
+</form>
+
+<br>
+
+<div id="result"></div>
+
+<script>
+
+	class Hotel
+	{
+		constructor(name,email,room,guests,checkin,checkout,breakfast,bed)
+		{
+			this.name=name;
+			this.email=email;
+			this.room=room;
+			this.guests=guests;
+			this.checkin=checkin;
+			this.checkout=checkout;
+			this.breakfast=breakfast;
+			this.bed=bed;
+		}
+
+		calculateDays()
+		{
+			let start=new Date(this.checkin);
+			let end=new Date(this.checkout);
+
+			let difference=end-start;
+
+			let days=Math.floor(difference/(1000*60*60*24));
+
+			return days;
+		}
+
+		calculateBill()
+		{
+			let days=this.calculateDays();
+
+			let total=this.room*days;
+
+			if(this.breakfast)
+			{
+				total=total+(400*this.guests*days);
+			}
+
+			if(this.bed)
+			{
+				total=total+(1000*days);
+			}
+
+			return total;
+		}
+
+		display()
+		{
+			let output="";
+
+			output=output+"Booking Confirmed";
+
+			output=output+"<br><br>";
+
+			output=output+"Guest Name = "+this.name.toUpperCase();
+
+			output=output+"<br><br>";
+
+			output=output+"Email = "+this.email;
+
+			output=output+"<br><br>";
+
+			output=output+"Number of Guests = "+this.guests;
+
+			output=output+"<br><br>";
+
+			output=output+"Stay = "+this.calculateDays()+" Days";
+
+			output=output+"<br><br>";
+
+			output=output+"Total Amount = ₹"+this.calculateBill();
+
+			document.getElementById("result").innerHTML=output;
+		}
+	}
+
+	function bookRoom()
+	{
+		let name=document.getElementById("name").value;
+		let email=document.getElementById("email").value;
+		let room=Number(document.getElementById("room").value);
+		let guests=Number(document.getElementById("guests").value);
+		let checkin=document.getElementById("checkin").value;
+		let checkout=document.getElementById("checkout").value;
+
+		let breakfast=document.getElementById("breakfast").checked;
+
+		let bed=document.getElementById("bed").checked;
+
+		if(name!="" && email!="" && guests>0 && checkin!="" && checkout!="")
+		{
+			let hotel1=new Hotel(name,email,room,guests,checkin,checkout,breakfast,bed);
+
+			if(hotel1.calculateDays()>0)
+			{
+				hotel1.display();
+			}
+			else
+			{
+				document.getElementById("result").innerHTML="Invalid Check-in or Check-out Date";
+			}
+		}
+		else
+		{
+			document.getElementById("result").innerHTML="Please fill all details";
+		}
+	}
+
+</script>
+
+</body>
+
+</html>
