@@ -1,0 +1,122 @@
+<html>
+
+<head>
+
+	<title>Scientific Calculator</title>
+
+</head>
+
+<body>
+
+<h2>Scientific Calculator</h2>
+
+<input type="number" id="number" placeholder="Enter Number">
+
+<br><br>
+
+<button onclick="calculate('square')">x²</button>
+
+<button onclick="calculate('sqrt')">√</button>
+
+<button onclick="calculate('power')">x³</button>
+
+<button onclick="calculate('sin')">Sin</button>
+
+<button onclick="calculate('cos')">Cos</button>
+
+<button onclick="calculate('tan')">Tan</button>
+
+<br><br>
+
+<button onclick="calculate('log')">Log</button>
+
+<button onclick="calculate('abs')">Absolute</button>
+
+<button onclick="calculate('round')">Round</button>
+
+<button onclick="calculate('floor')">Floor</button>
+
+<button onclick="calculate('ceil')">Ceil</button>
+
+<br><br>
+
+<div id="result"></div>
+
+<script>
+
+	class Calculator
+	{
+		constructor(number)
+		{
+			this.number=number;
+		}
+
+		calculate(type)
+		{
+			let result;
+
+			if(type=="square")
+			{
+				result=Math.pow(this.number,2);
+			}
+			else if(type=="sqrt")
+			{
+				result=Math.sqrt(this.number);
+			}
+			else if(type=="power")
+			{
+				result=Math.pow(this.number,3);
+			}
+			else if(type=="sin")
+			{
+				result=Math.sin(this.number*Math.PI/180);
+			}
+			else if(type=="cos")
+			{
+				result=Math.cos(this.number*Math.PI/180);
+			}
+			else if(type=="tan")
+			{
+				result=Math.tan(this.number*Math.PI/180);
+			}
+			else if(type=="log")
+			{
+				result=Math.log10(this.number);
+			}
+			else if(type=="abs")
+			{
+				result=Math.abs(this.number);
+			}
+			else if(type=="round")
+			{
+				result=Math.round(this.number);
+			}
+			else if(type=="floor")
+			{
+				result=Math.floor(this.number);
+			}
+			else if(type=="ceil")
+			{
+				result=Math.ceil(this.number);
+			}
+
+			return result;
+		}
+	}
+
+	function calculate(type)
+	{
+		let number=Number(document.getElementById("number").value);
+
+		let calculator1=new Calculator(number);
+
+		let answer=calculator1.calculate(type);
+
+		document.getElementById("result").innerHTML="Result = "+answer;
+	}
+
+</script>
+
+</body>
+
+</html>
