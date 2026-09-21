@@ -1,0 +1,152 @@
+<html>
+
+<head>
+
+	<title>Text Statistics Analyzer</title>
+
+</head>
+
+<body>
+
+<h2>Text Statistics Analyzer</h2>
+
+<div id="result"></div>
+
+<script>
+
+	class TextAnalyzer
+	{
+		constructor(text)
+		{
+			this.text=text;
+		}
+
+		analyze()
+		{
+			let text=this.text;
+
+			let lowerText=text.toLowerCase();
+
+			let characters=0;
+
+			let words=0;
+
+			let spaces=0;
+
+			let vowels=0;
+
+			let consonants=0;
+
+			let digits=0;
+
+			let special=0;
+
+			let longestWord="";
+
+			let currentWord="";
+
+			for(let i=0;i<text.length;i++)
+			{
+				let character=text.charAt(i);
+
+				let lowerCharacter=lowerText.charAt(i);
+
+				if(character!=" ")
+				{
+					characters++;
+				}
+
+				if(character==" ")
+				{
+					spaces++;
+
+					if(currentWord.length>0)
+					{
+						words++;
+
+						if(currentWord.length>longestWord.length)
+						{
+							longestWord=currentWord;
+						}
+
+						currentWord="";
+					}
+				}
+				else
+				{
+					currentWord=currentWord+character;
+				}
+
+				if("aeiou".includes(lowerCharacter))
+				{
+					vowels++;
+				}
+				else if(
+					(lowerCharacter>="a" && lowerCharacter<="z")
+				)
+				{
+					consonants++;
+				}
+				else if(
+					lowerCharacter>="0" && lowerCharacter<="9"
+				)
+				{
+					digits++;
+				}
+				else if(character!=" ")
+				{
+					special++;
+				}
+			}
+
+			if(currentWord.length>0)
+			{
+				words++;
+
+				if(currentWord.length>longestWord.length)
+				{
+					longestWord=currentWord;
+				}
+			}
+
+			let output="";
+
+			output=output+"Text Statistics Analyzer";
+
+			output=output+"<br><br>";
+
+			output=output+"Text = "+text;
+
+			output=output+"<br><br>";
+
+			output=output+"Total Characters = "+characters;
+
+			output=output+"<br>Total Words = "+words;
+
+			output=output+"<br>Total Spaces = "+spaces;
+
+			output=output+"<br>Total Vowels = "+vowels;
+
+			output=output+"<br>Total Consonants = "+consonants;
+
+			output=output+"<br>Total Digits = "+digits;
+
+			output=output+"<br>Special Characters = "+special;
+
+			output=output+"<br>Longest Word = "+longestWord;
+
+			return output;
+		}
+	}
+
+	let text=prompt("Enter a Sentence");
+
+	let analyzer1=new TextAnalyzer(text);
+
+	document.getElementById("result").innerHTML=analyzer1.analyze();
+
+</script>
+
+</body>
+
+</html>
