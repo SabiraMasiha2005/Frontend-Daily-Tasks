@@ -1,0 +1,370 @@
+<html>
+
+<head>
+
+	<title>Taste House</title>
+
+	<style>
+
+		*
+		{
+			margin:0;
+			padding:0;
+			box-sizing:border-box;
+		}
+
+		body
+		{
+			font-family:Arial,sans-serif;
+			background:#fff8f0;
+			color:#333;
+		}
+
+		.hero
+		{
+			background:#6b3e26;
+			color:white;
+			text-align:center;
+			padding:60px 20px;
+		}
+
+		.hero h1
+		{
+			font-size:45px;
+			margin-bottom:12px;
+		}
+
+		.hero p
+		{
+			font-size:18px;
+			margin-bottom:25px;
+		}
+
+		.hero button
+		{
+			background:#f4b860;
+			color:#4b2b1c;
+			border:none;
+			padding:12px 28px;
+			border-radius:25px;
+			cursor:pointer;
+			font-size:16px;
+		}
+
+		.hero button:hover
+		{
+			background:#ffffff;
+		}
+
+		.intro
+		{
+			width:85%;
+			margin:50px auto;
+			min-height:280px;
+			background:white;
+			border-radius:15px;
+			overflow:hidden;
+		}
+
+		.intro img
+		{
+			width:42%;
+			height:280px;
+			object-fit:cover;
+			float:left;
+		}
+
+		.intro-content
+		{
+			width:55%;
+			padding:55px 30px;
+			float:right;
+		}
+
+		.intro-content h2
+		{
+			color:#6b3e26;
+			font-size:30px;
+			margin-bottom:15px;
+		}
+
+		.intro-content p
+		{
+			line-height:1.7;
+			color:#666;
+		}
+
+		.menu
+		{
+			width:90%;
+			margin:50px auto;
+			text-align:center;
+		}
+
+		.menu h2
+		{
+			color:#6b3e26;
+			font-size:32px;
+			margin-bottom:30px;
+		}
+
+		.food-card
+		{
+			display:inline-block;
+			vertical-align:top;
+			width:28%;
+			margin:15px;
+			background:white;
+			border:1px solid #ead8c8;
+			border-radius:15px;
+			overflow:hidden;
+			transition:0.3s;
+		}
+
+		.food-card:hover
+		{
+			transform:translateY(-8px);
+			border-color:#c88752;
+		}
+
+		.food-card img
+		{
+			width:100%;
+			height:180px;
+			object-fit:cover;
+		}
+
+		.food-card-content
+		{
+			padding:20px;
+		}
+
+		.food-card h3
+		{
+			color:#6b3e26;
+			margin-bottom:10px;
+		}
+
+		.food-card p
+		{
+			color:#777;
+			margin-bottom:12px;
+		}
+
+		.price
+		{
+			color:#c06b32;
+			font-size:20px;
+			font-weight:bold;
+		}
+
+		.features
+		{
+			background:#f4e5d5;
+			text-align:center;
+			padding:45px 20px;
+			margin-top:50px;
+		}
+
+		.features h2
+		{
+			color:#6b3e26;
+			margin-bottom:25px;
+		}
+
+		.feature
+		{
+			display:inline-block;
+			width:25%;
+			margin:10px;
+			vertical-align:top;
+		}
+
+		.feature h3
+		{
+			color:#6b3e26;
+			margin-bottom:8px;
+		}
+
+		.feature p
+		{
+			color:#666;
+		}
+
+		.order
+		{
+			text-align:center;
+			padding:50px 20px;
+		}
+
+		.order h2
+		{
+			color:#6b3e26;
+			margin-bottom:20px;
+		}
+
+		.order button
+		{
+			background:#6b3e26;
+			color:white;
+			border:none;
+			padding:13px 30px;
+			border-radius:25px;
+			cursor:pointer;
+			font-size:16px;
+		}
+
+		.order button:hover
+		{
+			background:#c06b32;
+		}
+
+		.footer
+		{
+			background:#3e2417;
+			color:white;
+			text-align:center;
+			padding:20px;
+		}
+
+	</style>
+
+</head>
+
+<body>
+
+	<section class="hero">
+
+		<h1>Taste House</h1>
+
+		<p>Delicious Food, Happy Moments</p>
+
+	</section>
+
+
+	<section class="intro">
+
+		<img src="./images/restaurant.jpeg" alt="Restaurant">
+
+		<div class="intro-content">
+
+			<h2>Welcome to Taste House</h2>
+
+			<p>
+				Enjoy delicious food prepared with fresh
+				ingredients and homemade flavors. Every dish
+				is made with care to give you a memorable
+				dining experience.
+			</p>
+
+		</div>
+
+	</section>
+
+
+	<section class="menu">
+
+		<h2>Our Special Menu</h2>
+
+		<div class="food-card">
+
+			<img src="./images/pizza.jpeg" alt="Pizza">
+
+			<div class="food-card-content">
+
+				<h3>Classic Pizza</h3>
+
+				<p>Fresh vegetables and melted cheese.</p>
+
+				<span class="price">₹299</span>
+
+			</div>
+
+		</div>
+
+
+		<div class="food-card">
+
+			<img src="./images/burger.jpeg" alt="Burger">
+
+			<div class="food-card-content">
+
+				<h3>Cheese Burger</h3>
+
+				<p>Juicy patty with fresh vegetables.</p>
+
+				<span class="price">₹199</span>
+
+			</div>
+
+		</div>
+
+
+		<div class="food-card">
+
+			<img src="./images/pasta.jpeg" alt="Pasta">
+
+			<div class="food-card-content">
+
+				<h3>Creamy Pasta</h3>
+
+				<p>Rich creamy sauce with herbs.</p>
+
+				<span class="price">₹249</span>
+
+			</div>
+
+		</div>
+
+	</section>
+
+
+	<section class="features">
+
+		<h2>Why Choose Us?</h2>
+
+		<div class="feature">
+
+			<h3>Fresh Ingredients</h3>
+
+			<p>We use fresh ingredients every day.</p>
+
+		</div>
+
+		<div class="feature">
+
+			<h3>Hygienic Kitchen</h3>
+
+			<p>Clean and hygienic food preparation.</p>
+
+		</div>
+
+		<div class="feature">
+
+			<h3>Fast Service</h3>
+
+			<p>Quick service with quality food.</p>
+
+		</div>
+
+	</section>
+
+
+	<section class="order">
+
+		<h2>Ready to Taste Something Delicious?</h2>
+
+		<button>Order Now</button>
+
+	</section>
+
+
+	<footer class="footer">
+
+		<p>Taste House © 2026</p>
+
+	</footer>
+
+</body>
+
+</html>
