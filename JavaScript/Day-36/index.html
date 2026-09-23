@@ -1,0 +1,357 @@
+<html>
+
+<head>
+
+	<title>Inventory Management System</title>
+
+</head>
+
+<body>
+
+	<h2>Inventory Management System</h2>
+
+	<div id="result"></div>
+
+<script>
+
+	class Inventory
+	{
+		constructor()
+		{
+			this.products=[
+				{
+					id:101,
+					name:"Laptop",
+					category:"Electronics",
+					price:65000,
+					stock:12
+				},
+				{
+					id:102,
+					name:"Keyboard",
+					category:"Accessories",
+					price:2500,
+					stock:3
+				},
+				{
+					id:103,
+					name:"Mouse",
+					category:"Accessories",
+					price:1200,
+					stock:2
+				},
+				{
+					id:104,
+					name:"Monitor",
+					category:"Electronics",
+					price:18000,
+					stock:8
+				},
+				{
+					id:105,
+					name:"Headphones",
+					category:"Accessories",
+					price:3500,
+					stock:15
+				},
+				{
+					id:106,
+					name:"Tablet",
+					category:"Electronics",
+					price:28000,
+					stock:6
+				}
+			];
+
+			this.sales=[];
+		}
+
+
+		searchProduct(name)
+		{
+			let products=this.products.filter(
+				product =>
+				product.name.toLowerCase().includes(name.toLowerCase())
+			);
+
+			return products;
+		}
+
+
+		filterCategory(category)
+		{
+			return this.products.filter(
+				product =>
+				product.category.toLowerCase()==category.toLowerCase()
+			);
+		}
+
+
+		getLowStock()
+		{
+			return this.products.filter(
+				product => product.stock<=5
+			);
+		}
+
+
+		addStock(id,quantity)
+		{
+			let product=this.products.find(
+				product => product.id==id
+			);
+
+			if(product)
+			{
+				product.stock+=quantity;
+
+				return "Stock Added Successfully";
+			}
+
+			return "Product Not Found";
+		}
+
+
+		removeStock(id,quantity)
+		{
+			let product=this.products.find(
+				product => product.id==id
+			);
+
+			if(!product)
+			{
+				return "Product Not Found";
+			}
+
+			if(product.stock<quantity)
+			{
+				return "Insufficient Stock";
+			}
+
+			product.stock-=quantity;
+
+			return "Stock Removed Successfully";
+		}
+
+
+		sellProduct(id,quantity)
+		{
+			let product=this.products.find(
+				product => product.id==id
+			);
+
+			if(!product)
+			{
+				return "Product Not Found";
+			}
+
+			if(product.stock<quantity)
+			{
+				return "Insufficient Stock";
+			}
+
+			product.stock-=quantity;
+
+			let amount=product.price*quantity;
+
+			this.sales.push(
+			{
+				productId:id,
+				productName:product.name,
+				quantity:quantity,
+				amount:amount
+			});
+
+			return "Sale Completed Successfully";
+		}
+
+
+		getTotalStock()
+		{
+			return this.products.reduce(
+				(total,product) =>
+				total+product.stock,
+				0
+			);
+		}
+
+
+		getInventoryValue()
+		{
+			return this.products.reduce(
+				(total,product) =>
+				total+(product.price*product.stock),
+				0
+			);
+		}
+
+
+		getTotalSales()
+		{
+			return this.sales.reduce(
+				(total,sale) =>
+				total+sale.amount,
+				0
+			);
+		}
+
+
+		getHighestPrice()
+		{
+			return [...this.products].sort(
+				(a,b) => b.price-a.price
+			)[0];
+		}
+
+
+		getLowestStock()
+		{
+			return [...this.products].sort(
+				(a,b) => a.stock-b.stock
+			)[0];
+		}
+
+
+		getCategories()
+		{
+			let categories=[...new Set(
+				this.products.map(
+					product => product.category
+				)
+			)];
+
+			return categories;
+		}
+
+
+		getCategoryStock(category)
+		{
+			let products=this.filterCategory(category);
+
+			return products.reduce(
+				(total,product) =>
+				total+product.stock,
+				0
+			);
+		}
+
+
+		checkStock()
+		{
+			return this.products.every(
+				product => product.stock>=0
+			);
+		}
+
+
+		hasLowStock()
+		{
+			return this.products.some(
+				product => product.stock<=5
+			);
+		}
+
+
+		getReport()
+		{
+			let highestPrice=this.getHighestPrice();
+
+			let lowestStock=this.getLowestStock();
+
+			let categories=this.getCategories();
+
+			let categoryReport="";
+
+			for(let i=0;i<categories.length;i++)
+			{
+				categoryReport+=
+				categories[i]+" : "+
+				this.getCategoryStock(categories[i])+
+				"<br>";
+			}
+
+			return `
+				<h3>========== INVENTORY REPORT ==========</h3>
+
+				Total Products : ${this.products.length}<br>
+
+				Total Stock Units : ${this.getTotalStock()}<br>
+
+				Inventory Value : ₹${this.getInventoryValue()}<br><br>
+
+				<b>Low Stock Products</b><br>
+				${this.getLowStock()
+					.map(product =>
+						product.name+" : "+product.stock
+					)
+					.join("<br>")}
+
+				<br><br>
+
+				<b>Highest Priced Product</b><br>
+
+				${highestPrice.name} :
+				₹${highestPrice.price}
+
+				<br><br>
+
+				<b>Lowest Stock Product</b><br>
+
+				${lowestStock.name} :
+				${lowestStock.stock} units
+
+				<br><br>
+
+				<b>Category Wise Stock</b><br>
+
+				${categoryReport}
+
+				<br>
+
+				Total Sales : ₹${this.getTotalSales()}<br>
+
+				Stock Validation :
+				${this.checkStock() ? "Valid" : "Invalid"}
+
+				<br>
+
+				Low Stock Available :
+				${this.hasLowStock() ? "Yes" : "No"}
+			`;
+		}
+	}
+
+
+	let inventory=new Inventory();
+
+
+	// Search Product
+
+	console.log(
+		inventory.searchProduct("mouse")
+	);
+
+
+	// Add Stock
+
+	console.log(
+		inventory.addStock(102,5)
+	);
+
+
+	console.log(
+		inventory.removeStock(103,1)
+	);
+
+	console.log(
+		inventory.sellProduct(101,2)
+	);
+
+	document.getElementById("result").innerHTML=
+	inventory.getReport();
+
+</script>
+
+</body>
+
+</html>
