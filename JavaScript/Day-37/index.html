@@ -1,0 +1,179 @@
+<html>
+
+<head>
+
+	<title>Smart Queue Management System</title>
+
+</head>
+
+<body>
+
+	<h2>Smart Queue Management System</h2>
+
+	<div id="result"></div>
+
+<script>
+
+	class Queue
+	{
+		constructor()
+		{
+			this.normalQueue=[];
+			this.priorityQueue=[];
+			this.tokenNumber=1;
+			this.currentCustomer="No Customer";
+		}
+
+		addCustomer(name,priority)
+		{
+			let token="";
+
+			if(priority=="Yes")
+			{
+				token="P"+this.tokenNumber;
+
+				this.priorityQueue.push(
+				{
+					name:name,
+					token:token
+				});
+			}
+			else
+			{
+				token="A"+this.tokenNumber;
+
+				this.normalQueue.push(
+				{
+					name:name,
+					token:token
+				});
+			}
+
+			this.tokenNumber++;
+
+			return token;
+		}
+
+		callNext()
+		{
+			let customer;
+
+			if(this.priorityQueue.length>0)
+			{
+				customer=this.priorityQueue.shift();
+			}
+			else if(this.normalQueue.length>0)
+			{
+				customer=this.normalQueue.shift();
+			}
+			else
+			{
+				return "No Customers Waiting";
+			}
+
+			this.currentCustomer=
+			customer.token+" - "+customer.name;
+
+			return "Now Serving: "+this.currentCustomer;
+		}
+
+		showQueue()
+		{
+			let output="";
+
+			if(this.priorityQueue.length>0)
+			{
+				output=output+"<b>Priority Queue</b><br>";
+
+				for(let i=0;i<this.priorityQueue.length;i++)
+				{
+					output=output+
+					this.priorityQueue[i].token+
+					" - "+
+					this.priorityQueue[i].name+
+					"<br>";
+				}
+			}
+
+			if(this.normalQueue.length>0)
+			{
+				output=output+"<br><b>Normal Queue</b><br>";
+
+				for(let i=0;i<this.normalQueue.length;i++)
+				{
+					output=output+
+					this.normalQueue[i].token+
+					" - "+
+					this.normalQueue[i].name+
+					"<br>";
+				}
+			}
+
+			if(output=="")
+			{
+				output="No Customers Waiting";
+			}
+
+			return output;
+		}
+
+		getWaitingCount()
+		{
+			return this.priorityQueue.length+
+			this.normalQueue.length;
+		}
+	}
+
+
+	let queue1=new Queue();
+
+
+	queue1.addCustomer("Masiha","No");
+
+	queue1.addCustomer("Arun","Yes");
+
+	queue1.addCustomer("Sherin","No");
+
+	queue1.addCustomer("Nabil","Yes");
+
+
+	let output="";
+
+
+	output=output+"<h3>Customers Added</h3>";
+
+	output=output+"A1 - Masiha<br>";
+
+	output=output+"P2 - Arun<br>";
+
+	output=output+"A3 - Sherin<br>";
+
+	output=output+"P4 - Nabil<br><br>";
+
+
+	output=output+"<h3>Waiting Queue</h3>";
+
+	output=output+queue1.showQueue();
+
+
+	output=output+"<br><br>";
+
+	output=output+"<h3>Calling Next Customer</h3>";
+
+	output=output+queue1.callNext();
+
+
+	output=output+"<br><br>";
+
+	output=output+"Waiting Customers = ";
+
+	output=output+queue1.getWaitingCount();
+
+
+	document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
