@@ -1,0 +1,196 @@
+<html>
+
+<head>
+
+	<title>Smart Parking Payment System</title>
+
+</head>
+
+<body>
+
+	<h2>Smart Parking Payment System</h2>
+
+	<div id="result"></div>
+
+<script>
+
+	class Parking
+	{
+		constructor()
+		{
+			this.vehicles=[];
+			this.rate=
+			{
+				Bike:10,
+				Car:20,
+				Van:30
+			};
+		}
+
+
+		vehicleEntry(number,type,entryTime)
+		{
+			for(let i=0;i<this.vehicles.length;i++)
+			{
+				if(this.vehicles[i].number==number)
+				{
+					return "Vehicle Already Inside";
+				}
+			}
+
+			this.vehicles.push(
+			{
+				number:number,
+				type:type,
+				entryTime:entryTime
+			});
+
+			return "Vehicle Entry Successful";
+		}
+
+
+		vehicleExit(number,exitTime)
+		{
+			let vehicle=null;
+
+			for(let i=0;i<this.vehicles.length;i++)
+			{
+				if(this.vehicles[i].number==number)
+				{
+					vehicle=this.vehicles[i];
+					break;
+				}
+			}
+
+			if(vehicle==null)
+			{
+				return "Vehicle Not Found";
+			}
+
+			if(exitTime<vehicle.entryTime)
+			{
+				return "Invalid Time";
+			}
+
+			let hours=exitTime-vehicle.entryTime;
+
+			if(hours==0)
+			{
+				hours=1;
+			}
+
+
+			let rate=this.rate[vehicle.type];
+
+			let fee=hours*rate;
+
+			let discount=0;
+
+
+			if(hours>10)
+			{
+				discount=fee*20/100;
+			}
+			else if(hours>5)
+			{
+				discount=fee*10/100;
+			}
+
+
+			let finalFee=fee-discount;
+
+
+			for(let i=0;i<this.vehicles.length;i++)
+			{
+				if(this.vehicles[i].number==number)
+				{
+					this.vehicles.splice(i,1);
+					break;
+				}
+			}
+
+			return `
+				<h3>========== PARKING RECEIPT ==========</h3>
+
+				Vehicle Number : ${vehicle.number}<br>
+
+				Vehicle Type : ${vehicle.type}<br><br>
+
+				Entry Time : ${vehicle.entryTime}:00<br>
+
+				Exit Time : ${exitTime}:00<br>
+
+				Parking Hours : ${hours} Hours<br>
+
+				Original Fee : ₹${fee}<br>
+
+				Discount : ₹${discount}<br>
+
+				<b>Parking Fee : ₹${finalFee}</b><br><br>
+
+				Status : Payment Completed
+			`;
+		}
+
+		showVehicles()
+		{
+			let output="<h3>Vehicles Inside</h3>";
+
+
+			if(this.vehicles.length==0)
+			{
+				return output+"No Vehicles Inside";
+			}
+
+
+			for(let i=0;i<this.vehicles.length;i++)
+			{
+				output=output+
+				this.vehicles[i].number+
+				" - "+
+				this.vehicles[i].type+
+				" - Entry: "+
+				this.vehicles[i].entryTime+
+				":00<br>";
+			}
+
+
+			return output;
+		}
+	}
+
+	let parking1=new Parking();
+
+	console.log(
+		parking1.vehicleEntry(
+			"TN01AB1234",
+			"Car",
+			10
+		)
+	);
+
+
+	console.log(
+		parking1.vehicleEntry(
+			"TN02CD5678",
+			"Bike",
+			11
+		)
+	);
+
+
+	let output=parking1.vehicleExit(
+		"TN01AB1234",
+		16
+	);
+
+	document.getElementById("result").innerHTML=
+	output+
+	"<br><br>"+
+	parking1.showVehicles();
+
+</script>
+
+</body>
+
+</html>
