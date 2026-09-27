@@ -1,0 +1,104 @@
+<html>
+<head>
+<title>Smart Attendance Management System</title>
+</head>
+
+<body>
+
+<h2>Smart Attendance Management System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class Attendance
+{
+	constructor()
+	{
+		this.students=[
+			{rollNo:101,name:"Masiha",present:20,total:20},
+			{rollNo:102,name:"Arun",present:18,total:20},
+			{rollNo:103,name:"Sherin",present:12,total:20},
+			{rollNo:104,name:"Nabil",present:19,total:20},
+			{rollNo:105,name:"Priya",present:14,total:20}
+		];
+	}
+
+	showStudents()
+	{
+		let output="";
+
+		for(let i=0;i<this.students.length;i++)
+		{
+			let student=this.students[i];
+
+			let percentage=(student.present/student.total)*100;
+
+			output=output+student.rollNo+" - "+student.name+" - "+percentage+"%<br>";
+		}
+
+		return output;
+	}
+
+	getPresent()
+	{
+		let present=0;
+
+		for(let i=0;i<this.students.length;i++)
+		{
+			present=present+this.students[i].present;
+		}
+
+		return present;
+	}
+
+	getAbsent()
+	{
+		let absent=0;
+
+		for(let i=0;i<this.students.length;i++)
+		{
+			absent=absent+(this.students[i].total-this.students[i].present);
+		}
+
+		return absent;
+	}
+
+	getLowAttendance()
+	{
+		let output="";
+
+		for(let i=0;i<this.students.length;i++)
+		{
+			let percentage=(this.students[i].present/this.students[i].total)*100;
+
+			if(percentage<75)
+			{
+				output=output+this.students[i].name+" - "+percentage+"%<br>";
+			}
+		}
+
+		return output;
+	}
+}
+
+let attendance1=new Attendance();
+
+let output="<h3>Attendance Report</h3>";
+
+output=output+attendance1.showStudents();
+
+output=output+"<br>Total Present = "+attendance1.getPresent();
+
+output=output+"<br>Total Absent = "+attendance1.getAbsent();
+
+output=output+"<br><br><b>Low Attendance</b><br>";
+
+output=output+attendance1.getLowAttendance();
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+</html>
