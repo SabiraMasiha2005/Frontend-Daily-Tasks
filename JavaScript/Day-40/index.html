@@ -1,0 +1,140 @@
+<html>
+
+<head>
+<title>Smart File Organizer</title>
+</head>
+
+<body>
+
+<h2>Smart File Organizer</h2>
+
+<div id="result"></div>
+
+<script>
+
+class FileOrganizer
+{
+	constructor()
+	{
+		this.files=[
+			"photo.jpg",
+			"resume.pdf",
+			"index.html",
+			"style.css",
+			"app.js",
+			"movie.mp4",
+			"song.mp3",
+			"notes.txt",
+			"data.xlsx"
+		];
+	}
+
+	getCategory(file)
+	{
+		let extension=file.split(".").pop().toLowerCase();
+
+		if(extension=="jpg" || extension=="png" || extension=="jpeg")
+		{
+			return "Images";
+		}
+		else if(extension=="pdf" || extension=="txt" || extension=="docx" || extension=="xlsx")
+		{
+			return "Documents";
+		}
+		else if(extension=="html" || extension=="css" || extension=="js")
+		{
+			return "Web Files";
+		}
+		else if(extension=="mp4" || extension=="mkv")
+		{
+			return "Videos";
+		}
+		else if(extension=="mp3" || extension=="wav")
+		{
+			return "Audio";
+		}
+		else
+		{
+			return "Others";
+		}
+	}
+
+	showFiles()
+	{
+		let output="";
+		let images="";
+		let documents="";
+		let webFiles="";
+		let videos="";
+		let audio="";
+		let others="";
+
+		for(let i=0;i<this.files.length;i++)
+		{
+			let category=this.getCategory(this.files[i]);
+
+			if(category=="Images")
+			{
+				images=images+this.files[i]+"<br>";
+			}
+			else if(category=="Documents")
+			{
+				documents=documents+this.files[i]+"<br>";
+			}
+			else if(category=="Web Files")
+			{
+				webFiles=webFiles+this.files[i]+"<br>";
+			}
+			else if(category=="Videos")
+			{
+				videos=videos+this.files[i]+"<br>";
+			}
+			else if(category=="Audio")
+			{
+				audio=audio+this.files[i]+"<br>";
+			}
+			else
+			{
+				others=others+this.files[i]+"<br>";
+			}
+		}
+
+		output=output+"<b>Images</b><br>"+images+"<br>";
+
+		output=output+"<b>Documents</b><br>"+documents+"<br>";
+
+		output=output+"<b>Web Files</b><br>"+webFiles+"<br>";
+
+		output=output+"<b>Videos</b><br>"+videos+"<br>";
+
+		output=output+"<b>Audio</b><br>"+audio+"<br>";
+
+		if(others!="")
+		{
+			output=output+"<b>Others</b><br>"+others+"<br>";
+		}
+
+		return output;
+	}
+
+	getTotalFiles()
+	{
+		return this.files.length;
+	}
+}
+
+let organizer1=new FileOrganizer();
+
+let output="<h3>========== FILE ORGANIZER ==========</h3>";
+
+output=output+organizer1.showFiles();
+
+output=output+"<b>Total Files : </b>"+organizer1.getTotalFiles();
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
