@@ -1,0 +1,125 @@
+<html>
+
+<head>
+<title>Smart Meeting Scheduler</title>
+</head>
+
+<body>
+
+<h2>Smart Meeting Scheduler</h2>
+
+<div id="result"></div>
+
+<script>
+
+class MeetingScheduler
+{
+	constructor()
+	{
+		this.meetings=[
+			{
+				title:"Team Meeting",
+				start:10,
+				end:11
+			},
+			{
+				title:"Client Call",
+				start:11,
+				end:12
+			},
+			{
+				title:"Project Discussion",
+				start:10,
+				end:11
+			},
+			{
+				title:"Design Review",
+				start:2,
+				end:3
+			}
+		];
+	}
+
+	showMeetings()
+	{
+		let output="";
+
+		for(let i=0;i<this.meetings.length;i++)
+		{
+			output=output+
+			this.meetings[i].title+
+			" - "+
+			this.meetings[i].start+
+			":00 to "+
+			this.meetings[i].end+
+			":00<br>";
+		}
+
+		return output;
+	}
+
+	findConflicts()
+	{
+		let output="";
+
+		for(let i=0;i<this.meetings.length;i++)
+		{
+			for(let j=i+1;j<this.meetings.length;j++)
+			{
+				if(
+					this.meetings[i].start<this.meetings[j].end &&
+					this.meetings[j].start<this.meetings[i].end
+				)
+				{
+					output=output+
+					this.meetings[i].title+
+					" & "+
+					this.meetings[j].title+
+					"<br>";
+				}
+			}
+		}
+
+		if(output=="")
+		{
+			output="No Conflicting Meetings";
+		}
+
+		return output;
+	}
+
+	getTotalMeetings()
+	{
+		return this.meetings.length;
+	}
+}
+
+
+let scheduler1=new MeetingScheduler();
+
+
+let output="<h3>========== MEETING SCHEDULE ==========</h3>";
+
+
+output=output+scheduler1.showMeetings();
+
+
+output=output+
+"<br><b>Conflicting Meetings</b><br>";
+
+
+output=output+scheduler1.findConflicts();
+
+
+output=output+
+"<br><b>Total Meetings : </b>"+
+scheduler1.getTotalMeetings();
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
