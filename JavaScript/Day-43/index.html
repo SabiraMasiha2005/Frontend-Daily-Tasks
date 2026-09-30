@@ -1,0 +1,194 @@
+<html>
+
+<head>
+
+	<title>Smart Car Rental System</title>
+
+</head>
+
+<body>
+
+	<h2>Smart Car Rental System</h2>
+
+	<div id="result"></div>
+
+<script>
+
+	class CarRental
+	{
+		constructor()
+		{
+			this.cars=[
+				{
+					id:101,
+					model:"Swift",
+					type:"Hatchback",
+					price:1200,
+					available:true
+				},
+				{
+					id:102,
+					model:"City",
+					type:"Sedan",
+					price:1800,
+					available:true
+				},
+				{
+					id:103,
+					model:"Creta",
+					type:"SUV",
+					price:2500,
+					available:false
+				},
+				{
+					id:104,
+					model:"Innova",
+					type:"MUV",
+					price:3000,
+					available:true
+				}
+			];
+		}
+
+		showCars()
+		{
+			let output="";
+
+			for(let i=0;i<this.cars.length;i++)
+			{
+				let status=this.cars[i].available ?
+				"Available" : "Rented";
+
+				output=output+
+				this.cars[i].id+" - "+
+				this.cars[i].model+" - "+
+				this.cars[i].type+" - ₹"+
+				this.cars[i].price+" / Day - "+
+				status+"<br>";
+			}
+
+			return output;
+		}
+
+		searchCar(model)
+		{
+			for(let i=0;i<this.cars.length;i++)
+			{
+				if(this.cars[i].model.toLowerCase()==model.toLowerCase())
+				{
+					return this.cars[i];
+				}
+			}
+
+			return null;
+		}
+
+		rentCar(id,days)
+		{
+			let car=null;
+
+			for(let i=0;i<this.cars.length;i++)
+			{
+				if(this.cars[i].id==id)
+				{
+					car=this.cars[i];
+					break;
+				}
+			}
+
+			if(car==null)
+			{
+				return "Car Not Found";
+			}
+
+			if(!car.available)
+			{
+				return "Car Already Rented";
+			}
+
+			let amount=car.price*days;
+
+			car.available=false;
+
+			return `
+				<h3>========== RENTAL RECEIPT ==========</h3>
+
+				Car Model : ${car.model}<br>
+
+				Car Type : ${car.type}<br>
+
+				Rental Days : ${days}<br>
+
+				Price Per Day : ₹${car.price}<br>
+
+				<b>Total Amount : ₹${amount}</b><br><br>
+
+				Status : Rental Successful
+			`;
+		}
+
+		returnCar(id)
+		{
+			for(let i=0;i<this.cars.length;i++)
+			{
+				if(this.cars[i].id==id)
+				{
+					if(this.cars[i].available)
+					{
+						return "Car is Already Available";
+					}
+
+					this.cars[i].available=true;
+
+					return "Car Returned Successfully";
+				}
+			}
+
+			return "Car Not Found";
+		}
+
+		getAvailableCars()
+		{
+			let count=0;
+
+			for(let i=0;i<this.cars.length;i++)
+			{
+				if(this.cars[i].available)
+				{
+					count++;
+				}
+			}
+
+			return count;
+		}
+	}
+
+	let rental1=new CarRental();
+
+	let output="<h3>========== CAR RENTAL SYSTEM ==========</h3>";
+
+	output=output+"<b>Cars</b><br><br>";
+
+	output=output+rental1.showCars();
+
+	output=output+"<br><b>Available Cars : </b>";
+
+	output=output+rental1.getAvailableCars();
+
+	output=output+"<br><br>";
+
+	output=output+rental1.rentCar(102,3);
+
+	output=output+"<br><br>";
+
+	output=output+"Available Cars After Rental : ";
+
+	output=output+rental1.getAvailableCars();
+
+	document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
