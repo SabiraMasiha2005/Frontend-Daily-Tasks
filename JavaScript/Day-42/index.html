@@ -1,551 +1,158 @@
 <html>
 
 <head>
-
-<title>CodeAcademy - Learn & Grow</title>
-
-<style>
-
-*
-{
-	margin:0;
-	padding:0;
-	box-sizing:border-box;
-}
-
-body
-{
-	font-family:Arial,sans-serif;
-	background:#f5f8fc;
-	color:#222;
-}
-
-.header
-{
-	background:white;
-	padding:22px 7%;
-	border-bottom:1px solid #e1e7ee;
-}
-
-.logo
-{
-	display:inline-block;
-	width:45%;
-	font-size:25px;
-	font-weight:bold;
-	color:#2468b5;
-}
-
-.nav
-{
-	display:inline-block;
-	width:50%;
-	text-align:right;
-}
-
-.nav a
-{
-	display:inline-block;
-	margin-left:25px;
-	text-decoration:none;
-	color:#444;
-	font-weight:bold;
-	transition:0.3s;
-}
-
-.nav a:hover
-{
-	color:#2468b5;
-}
-
-.hero
-{
-	background:#e8f3ff;
-	padding:80px 10%;
-}
-
-.hero-content
-{
-	display:inline-block;
-	width:55%;
-	vertical-align:middle;
-}
-
-.hero h1
-{
-	font-size:48px;
-	color:#174d80;
-	margin-bottom:18px;
-}
-
-.hero p
-{
-	font-size:19px;
-	line-height:1.7;
-	margin-bottom:25px;
-}
-
-.button
-{
-	display:inline-block;
-	background:#2468b5;
-	color:white;
-	padding:14px 28px;
-	border-radius:8px;
-	text-decoration:none;
-	transition:0.3s;
-}
-
-.button:hover
-{
-	background:#174d80;
-	transform:translateY(-3px);
-}
-
-.hero-image
-{
-	display:inline-block;
-	width:40%;
-	vertical-align:middle;
-	text-align:center;
-}
-
-.hero-image img
-{
-	width:80%;
-	border-radius:15px;
-}
-
-.courses
-{
-	padding:60px 7%;
-	text-align:center;
-	background:white;
-}
-
-.section-title
-{
-	font-size:32px;
-	color:#174d80;
-	margin-bottom:35px;
-}
-
-.course-card
-{
-	display:inline-block;
-	width:28%;
-	margin:15px;
-	padding:25px;
-	background:#f5f8fc;
-	border:1px solid #dce5ee;
-	border-radius:15px;
-	vertical-align:top;
-	transition:0.3s;
-}
-
-.course-card:hover
-{
-	transform:translateY(-8px);
-	border-color:#2468b5;
-}
-
-.course-card img
-{
-	width:100%;
-	height:150px;
-	object-fit:cover;
-	border-radius:10px;
-	margin-bottom:18px;
-}
-
-.course-card h3
-{
-	color:#2468b5;
-	font-size:22px;
-	margin-bottom:12px;
-}
-
-.course-card p
-{
-	line-height:1.6;
-	margin-bottom:15px;
-}
-
-.duration
-{
-	display:block;
-	color:#666;
-	margin-bottom:18px;
-}
-
-.small-button
-{
-	display:inline-block;
-	padding:10px 20px;
-	background:#2468b5;
-	color:white;
-	text-decoration:none;
-	border-radius:6px;
-	transition:0.3s;
-}
-
-.small-button:hover
-{
-	background:#174d80;
-}
-
-.stats
-{
-	padding:55px 7%;
-	text-align:center;
-	background:#174d80;
-	color:white;
-}
-
-.stat
-{
-	display:inline-block;
-	width:25%;
-	vertical-align:top;
-}
-
-.stat h2
-{
-	font-size:32px;
-	margin-bottom:8px;
-}
-
-.stat p
-{
-	font-size:16px;
-}
-
-.about
-{
-	padding:60px 10%;
-	text-align:center;
-	background:white;
-}
-
-.about p
-{
-	width:70%;
-	margin:auto;
-	line-height:1.8;
-	font-size:17px;
-}
-
-.review
-{
-	padding:60px 10%;
-	text-align:center;
-	background:#e8f3ff;
-}
-
-.review-box
-{
-	display:inline-block;
-	width:60%;
-	padding:30px;
-	background:white;
-	border-radius:15px;
-	border:1px solid #dce5ee;
-}
-
-.review-box p
-{
-	font-size:20px;
-	font-style:italic;
-	line-height:1.7;
-	margin-bottom:15px;
-}
-
-.footer
-{
-	background:#102f4d;
-	color:white;
-	text-align:center;
-	padding:25px;
-}
-
-@media(max-width:800px)
-{
-	.logo
-	{
-		width:100%;
-		text-align:center;
-		margin-bottom:15px;
-	}
-
-	.nav
-	{
-		width:100%;
-		text-align:center;
-	}
-
-	.nav a
-	{
-		margin:8px;
-	}
-
-	.hero
-	{
-		text-align:center;
-	}
-
-	.hero-content
-	{
-		width:100%;
-	}
-
-	.hero-image
-	{
-		width:100%;
-		margin-top:30px;
-	}
-
-	.course-card
-	{
-		width:80%;
-	}
-
-	.stat
-	{
-		width:45%;
-		margin:15px;
-	}
-
-	.review-box
-	{
-		width:90%;
-	}
-
-	.about p
-	{
-		width:90%;
-	}
-}
-
-</style>
-
+<title>Order Tracking System</title>
 </head>
-
 
 <body>
 
+<h2>Order Tracking System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class OrderTracking
+{
+	constructor()
+	{
+		this.orders=[
+			{
+				id:"ORD101",
+				name:"Masiha",
+				status:"Processing"
+			},
+			{
+				id:"ORD102",
+				name:"Arun",
+				status:"Shipped"
+			},
+			{
+				id:"ORD103",
+				name:"Sherin",
+				status:"Out for Delivery"
+			},
+			{
+				id:"ORD104",
+				name:"Nabil",
+				status:"Delivered"
+			}
+		];
+	}
+
+	showOrders()
+	{
+		let output="";
+
+		for(let i=0;i<this.orders.length;i++)
+		{
+			output=output+
+			this.orders[i].id+
+			" - "+
+			this.orders[i].name+
+			" - "+
+			this.orders[i].status+
+			"<br>";
+		}
 
-<header class="header">
+		return output;
+	}
 
-	<div class="logo">
-		CODEACADEMY
-	</div>
+	updateStatus(orderId,newStatus)
+	{
+		for(let i=0;i<this.orders.length;i++)
+		{
+			if(this.orders[i].id==orderId)
+			{
+				this.orders[i].status=newStatus;
 
-	<nav class="nav">
+				return "Order "+orderId+" status updated successfully.";
+			}
+		}
 
-		<a href="#">Home</a>
+		return "Order Not Found";
+	}
 
-		<a href="#">Courses</a>
+	countStatus(status)
+	{
+		let count=0;
 
-		<a href="#">About</a>
+		for(let i=0;i<this.orders.length;i++)
+		{
+			if(this.orders[i].status==status)
+			{
+				count++;
+			}
+		}
 
-		<a href="#">Contact</a>
+		return count;
+	}
 
-	</nav>
+	getTotalOrders()
+	{
+		return this.orders.length;
+	}
+}
 
-</header>
 
+let tracking1=new OrderTracking();
 
-<section class="hero">
 
-	<div class="hero-content">
+let updateMessage=
+tracking1.updateStatus(
+	"ORD101",
+	"Shipped"
+);
 
-		<h1>Learn. Build. Grow.</h1>
 
-		<p>
-			Master Full Stack Development with
-			practical projects and real-world skills.
-		</p>
+let output="<h3>========== ORDER TRACKING ==========</h3>";
 
-		<a href="#" class="button">
-			Start Learning
-		</a>
 
-	</div>
+output=output+
+tracking1.showOrders();
 
 
-	<div class="hero-image">
+output=output+
+"<br>--------------------------------<br><br>";
 
-		<img
-			src="./images/banner.png"
-			alt="Coding"
-		>
 
-	</div>
+output=output+
+updateMessage+
+"<br><br>";
 
-</section>
 
+output=output+
+"Total Orders : "+
+tracking1.getTotalOrders()+
+"<br>";
 
-<section class="courses">
 
-	<h2 class="section-title">
-		Popular Courses
-	</h2>
+output=output+
+"Processing : "+
+tracking1.countStatus("Processing")+
+"<br>";
 
 
-	<div class="course-card">
+output=output+
+"Shipped : "+
+tracking1.countStatus("Shipped")+
+"<br>";
 
-		<img
-			src="./images/Course-1.png"
-			alt="Java Full Stack"
-		>
 
-		<h3>Java Full Stack</h3>
+output=output+
+"Out for Delivery : "+
+tracking1.countStatus("Out for Delivery")+
+"<br>";
 
-		<p>
-			Learn Java, Spring Boot and MySQL
-			with practical projects.
-		</p>
 
-		<span class="duration">
-			12 Weeks
-		</span>
+output=output+
+"Delivered : "+
+tracking1.countStatus("Delivered");
 
-		<a href="#" class="small-button">
-			View Course
-		</a>
 
-	</div>
+document.getElementById("result").innerHTML=output;
 
-
-	<div class="course-card">
-
-		<img
-			src="./images/Course-2.png"
-			alt="Frontend Development"
-		>
-
-		<h3>Frontend Development</h3>
-
-		<p>
-			Learn HTML, CSS, JavaScript and
-			React through projects.
-		</p>
-
-		<span class="duration">
-			10 Weeks
-		</span>
-
-		<a href="#" class="small-button">
-			View Course
-		</a>
-
-	</div>
-
-
-	<div class="course-card">
-
-		<img
-			src="./images/Course-3.png"
-			alt="Python Development"
-		>
-
-		<h3>Python Development</h3>
-
-		<p>
-			Learn Python, APIs and automation
-			with real-world examples.
-		</p>
-
-		<span class="duration">
-			8 Weeks
-		</span>
-
-		<a href="#" class="small-button">
-			View Course
-		</a>
-
-	</div>
-
-</section>
-
-
-<section class="stats">
-
-	<div class="stat">
-
-		<h2>100+</h2>
-
-		<p>Courses</p>
-
-	</div>
-
-
-	<div class="stat">
-
-		<h2>50+</h2>
-
-		<p>Mentors</p>
-
-	</div>
-
-
-	<div class="stat">
-
-		<h2>10K+</h2>
-
-		<p>Students</p>
-
-	</div>
-
-</section>
-
-
-<section class="about">
-
-	<h2 class="section-title">
-		Why Choose Us?
-	</h2>
-
-	<p>
-		Build practical skills through structured
-		learning, hands-on projects and real-world
-		development experience.
-	</p>
-
-</section>
-
-
-<section class="review">
-
-	<h2 class="section-title">
-		What Students Say
-	</h2>
-
-
-	<div class="review-box">
-
-		<p>
-			"Practical projects made learning
-			much easier."
-		</p>
-
-		<strong>
-			— Student
-		</strong>
-
-	</div>
-
-</section>
-
-
-<footer class="footer">
-
-	<p>
-		© 2026 CodeAcademy. All Rights Reserved.
-	</p>
-
-</footer>
-
+</script>
 
 </body>
 
