@@ -1,0 +1,190 @@
+<html>
+
+<head>
+<title>Smart Subscription Manager</title>
+</head>
+
+<body>
+
+<h2>Smart Subscription Manager</h2>
+
+<div id="result"></div>
+
+<script>
+
+class SubscriptionManager
+{
+	constructor()
+	{
+		this.subscriptions=[
+			{
+				name:"Netflix",
+				price:649,
+				status:"Active"
+			},
+			{
+				name:"Spotify",
+				price:119,
+				status:"Active"
+			},
+			{
+				name:"Amazon Prime",
+				price:299,
+				status:"Expired"
+			},
+			{
+				name:"YouTube",
+				price:129,
+				status:"Active"
+			}
+		];
+	}
+
+	showSubscriptions()
+	{
+		let output="";
+
+		for(let i=0;i<this.subscriptions.length;i++)
+		{
+			output=output+
+			this.subscriptions[i].name+
+			" - ₹"+
+			this.subscriptions[i].price+
+			" - "+
+			this.subscriptions[i].status+
+			"<br>";
+		}
+
+		return output;
+	}
+
+	countStatus(status)
+	{
+		let count=0;
+
+		for(let i=0;i<this.subscriptions.length;i++)
+		{
+			if(this.subscriptions[i].status==status)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+	getMonthlyCost()
+	{
+		let total=0;
+
+		for(let i=0;i<this.subscriptions.length;i++)
+		{
+			if(this.subscriptions[i].status=="Active")
+			{
+				total=total+this.subscriptions[i].price;
+			}
+		}
+
+		return total;
+	}
+
+	getMostExpensive()
+	{
+		let expensive=this.subscriptions[0];
+
+		for(let i=1;i<this.subscriptions.length;i++)
+		{
+			if(this.subscriptions[i].price>expensive.price)
+			{
+				expensive=this.subscriptions[i];
+			}
+		}
+
+		return expensive;
+	}
+
+	cancelSubscription(name)
+	{
+		for(let i=0;i<this.subscriptions.length;i++)
+		{
+			if(this.subscriptions[i].name==name)
+			{
+				if(this.subscriptions[i].status=="Cancelled")
+				{
+					return "Subscription Already Cancelled";
+				}
+
+				this.subscriptions[i].status="Cancelled";
+
+				return name+" subscription cancelled successfully.";
+			}
+		}
+
+		return "Subscription Not Found";
+	}
+}
+
+
+let manager1=new SubscriptionManager();
+
+
+let message=
+manager1.cancelSubscription("Spotify");
+
+
+let expensive=
+manager1.getMostExpensive();
+
+
+let output="<h3>========== SUBSCRIPTION MANAGER ==========</h3>";
+
+
+output=output+manager1.showSubscriptions();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+"Active Subscriptions : "+
+manager1.countStatus("Active")+
+"<br>";
+
+
+output=output+
+"Expired Subscriptions : "+
+manager1.countStatus("Expired")+
+"<br>";
+
+
+output=output+
+"Cancelled Subscriptions : "+
+manager1.countStatus("Cancelled")+
+"<br>";
+
+
+output=output+
+"Monthly Cost : ₹"+
+manager1.getMonthlyCost()+
+"<br>";
+
+
+output=output+
+"Most Expensive : "+
+expensive.name+
+" - ₹"+
+expensive.price+
+"<br><br>";
+
+
+output=output+message;
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
