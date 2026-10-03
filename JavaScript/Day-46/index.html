@@ -1,0 +1,312 @@
+<html>
+
+<head>
+<title>Smart Car Rental Management System</title>
+</head>
+
+<body>
+
+<h2>Smart Car Rental Management System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class CarRental
+{
+	constructor()
+	{
+		this.cars=[
+			{
+				id:101,
+				name:"Swift",
+				type:"Hatchback",
+				price:1200,
+				available:true
+			},
+			{
+				id:102,
+				name:"City",
+				type:"Sedan",
+				price:1800,
+				available:true
+			},
+			{
+				id:103,
+				name:"Creta",
+				type:"SUV",
+				price:2500,
+				available:false
+			},
+			{
+				id:104,
+				name:"Innova",
+				type:"MPV",
+				price:3000,
+				available:true
+			},
+			{
+				id:105,
+				name:"Thar",
+				type:"SUV",
+				price:2800,
+				available:true
+			}
+		];
+
+		this.revenue=0;
+	}
+
+
+	showCars()
+	{
+		let output="";
+
+		for(let i=0;i<this.cars.length;i++)
+		{
+			let status="";
+
+			if(this.cars[i].available)
+			{
+				status="Available";
+			}
+			else
+			{
+				status="Rented";
+			}
+
+			output=output+
+			this.cars[i].id+
+			" - "+
+			this.cars[i].name+
+			" - "+
+			this.cars[i].type+
+			" - ₹"+
+			this.cars[i].price+
+			"/day - "+
+			status+
+			"<br>";
+		}
+
+		return output;
+	}
+
+
+	rentCar(id,days)
+	{
+		let car=null;
+
+		for(let i=0;i<this.cars.length;i++)
+		{
+			if(this.cars[i].id==id)
+			{
+				car=this.cars[i];
+				break;
+			}
+		}
+
+		if(car==null)
+		{
+			return "Car Not Found";
+		}
+
+		if(car.available==false)
+		{
+			return "Car Not Available";
+		}
+
+		let amount=car.price*days;
+
+		let discount=0;
+
+		if(days>=10)
+		{
+			discount=amount*15/100;
+		}
+		else if(days>=5)
+		{
+			discount=amount*10/100;
+		}
+
+		let finalAmount=amount-discount;
+
+		car.available=false;
+
+		this.revenue=this.revenue+finalAmount;
+
+		return `
+			<h3>========== RENTAL RECEIPT ==========</h3>
+
+			Car ID : ${car.id}<br>
+
+			Car Name : ${car.name}<br>
+
+			Car Type : ${car.type}<br>
+
+			Rental Days : ${days}<br>
+
+			Original Amount : ₹${amount}<br>
+
+			Discount : ₹${discount}<br>
+
+			<b>Final Amount : ₹${finalAmount}</b><br><br>
+
+			Status : Rental Successful
+		`;
+	}
+
+
+	returnCar(id)
+	{
+		for(let i=0;i<this.cars.length;i++)
+		{
+			if(this.cars[i].id==id)
+			{
+				if(this.cars[i].available)
+				{
+					return "Car is Already Available";
+				}
+
+				this.cars[i].available=true;
+
+				return this.cars[i].name+
+				" returned successfully.";
+			}
+		}
+
+		return "Car Not Found";
+	}
+
+
+	getAvailableCars()
+	{
+		let output="";
+
+		for(let i=0;i<this.cars.length;i++)
+		{
+			if(this.cars[i].available)
+			{
+				output=output+
+				this.cars[i].name+
+				" - ₹"+
+				this.cars[i].price+
+				"/day<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="No Cars Available";
+		}
+
+		return output;
+	}
+
+
+	getRentedCount()
+	{
+		let count=0;
+
+		for(let i=0;i<this.cars.length;i++)
+		{
+			if(this.cars[i].available==false)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+
+	getMostExpensiveCar()
+	{
+		let expensive=this.cars[0];
+
+		for(let i=1;i<this.cars.length;i++)
+		{
+			if(this.cars[i].price>expensive.price)
+			{
+				expensive=this.cars[i];
+			}
+		}
+
+		return expensive;
+	}
+
+
+	getTotalRevenue()
+	{
+		return this.revenue;
+	}
+}
+
+
+let rental1=new CarRental();
+
+
+let rentalMessage=
+rental1.rentCar(102,6);
+
+
+let expensive=
+rental1.getMostExpensiveCar();
+
+
+let output=
+"<h3>========== CAR RENTAL REPORT ==========</h3>";
+
+
+output=output+
+"<b>All Cars</b><br><br>";
+
+
+output=output+
+rental1.showCars();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+rentalMessage;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Available Cars</b><br><br>";
+
+
+output=output+
+rental1.getAvailableCars();
+
+
+output=output+
+"<br>Rented Cars : "+
+rental1.getRentedCount();
+
+
+output=output+
+"<br>Total Revenue : ₹"+
+rental1.getTotalRevenue();
+
+
+output=output+
+"<br><br>Most Expensive Car : "+
+expensive.name+
+" - ₹"+
+expensive.price+
+"/day";
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
