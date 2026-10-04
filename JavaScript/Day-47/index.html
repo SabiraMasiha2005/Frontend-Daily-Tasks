@@ -1,0 +1,304 @@
+<html>
+
+<head>
+<title>Smart Hospital Patient Management System</title>
+</head>
+
+<body>
+
+<h2>Smart Hospital Patient Management System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class Hospital
+{
+	constructor()
+	{
+		this.patients=[
+			{
+				id:101,
+				name:"Masiha",
+				age:21,
+				department:"General",
+				fee:500,
+				status:"Admitted"
+			},
+			{
+				id:102,
+				name:"Arun",
+				age:35,
+				department:"Cardiology",
+				fee:1200,
+				status:"Admitted"
+			},
+			{
+				id:103,
+				name:"Sherin",
+				age:62,
+				department:"Orthopedics",
+				fee:1000,
+				status:"Discharged"
+			},
+			{
+				id:104,
+				name:"Nabil",
+				age:45,
+				department:"Neurology",
+				fee:1500,
+				status:"Admitted"
+			},
+			{
+				id:105,
+				name:"Priya",
+				age:68,
+				department:"General",
+				fee:500,
+				status:"Discharged"
+			}
+		];
+	}
+
+
+	showPatients()
+	{
+		let output="";
+
+		for(let i=0;i<this.patients.length;i++)
+		{
+			output=output+
+			this.patients[i].id+
+			" - "+
+			this.patients[i].name+
+			" - Age: "+
+			this.patients[i].age+
+			" - "+
+			this.patients[i].department+
+			" - ₹"+
+			this.patients[i].fee+
+			" - "+
+			this.patients[i].status+
+			"<br>";
+		}
+
+		return output;
+	}
+
+
+	admitPatient(id)
+	{
+		for(let i=0;i<this.patients.length;i++)
+		{
+			if(this.patients[i].id==id)
+			{
+				if(this.patients[i].status=="Admitted")
+				{
+					return "Patient Already Admitted";
+				}
+
+				if(this.patients[i].status=="Discharged")
+				{
+					this.patients[i].status="Admitted";
+
+					return "Patient Admitted Successfully";
+				}
+			}
+		}
+
+		return "Patient Not Found";
+	}
+
+
+	dischargePatient(id)
+	{
+		for(let i=0;i<this.patients.length;i++)
+		{
+			if(this.patients[i].id==id)
+			{
+				if(this.patients[i].status=="Discharged")
+				{
+					return "Patient Already Discharged";
+				}
+
+				this.patients[i].status="Discharged";
+
+				return "Patient Discharged Successfully";
+			}
+		}
+
+		return "Patient Not Found";
+	}
+
+
+	getAdmittedPatients()
+	{
+		let output="";
+
+		for(let i=0;i<this.patients.length;i++)
+		{
+			if(this.patients[i].status=="Admitted")
+			{
+				output=output+
+				this.patients[i].name+
+				" - "+
+				this.patients[i].department+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="No Admitted Patients";
+		}
+
+		return output;
+	}
+
+
+	getDepartmentCount(department)
+	{
+		let count=0;
+
+		for(let i=0;i<this.patients.length;i++)
+		{
+			if(
+				this.patients[i].department.toLowerCase()==
+				department.toLowerCase()
+			)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+
+	getTotalPatients()
+	{
+		return this.patients.length;
+	}
+
+
+	getTotalFees()
+	{
+		let total=0;
+
+		for(let i=0;i<this.patients.length;i++)
+		{
+			if(this.patients[i].status=="Admitted")
+			{
+				let fee=this.patients[i].fee;
+
+				if(this.patients[i].age>=60)
+				{
+					fee=fee-(fee*10/100);
+				}
+
+				total=total+fee;
+			}
+		}
+
+		return total;
+	}
+
+
+	getOldestPatient()
+	{
+		let oldest=this.patients[0];
+
+		for(let i=1;i<this.patients.length;i++)
+		{
+			if(this.patients[i].age>oldest.age)
+			{
+				oldest=this.patients[i];
+			}
+		}
+
+		return oldest;
+	}
+}
+
+
+let hospital1=new Hospital();
+
+
+let admitMessage=
+hospital1.admitPatient(103);
+
+
+let dischargeMessage=
+hospital1.dischargePatient(102);
+
+
+let oldest=
+hospital1.getOldestPatient();
+
+
+let output=
+"<h3>========== HOSPITAL PATIENT REPORT ==========</h3>";
+
+
+output=output+
+"<b>All Patients</b><br><br>";
+
+
+output=output+
+hospital1.showPatients();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+"Admit Status : "+
+admitMessage+
+"<br>";
+
+
+output=output+
+"Discharge Status : "+
+dischargeMessage+
+"<br><br>";
+
+
+output=output+
+"<b>Admitted Patients</b><br><br>";
+
+
+output=output+
+hospital1.getAdmittedPatients();
+
+
+output=output+
+"<br><b>General Department Patients : </b>"+
+hospital1.getDepartmentCount("General");
+
+
+output=output+
+"<br><b>Total Patients : </b>"+
+hospital1.getTotalPatients();
+
+
+output=output+
+"<br><b>Total Consultation Fees : ₹</b>"+
+hospital1.getTotalFees();
+
+
+output=output+
+"<br><br><b>Oldest Patient : </b>"+
+oldest.name+
+" - "+
+oldest.age+
+" Years";
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
