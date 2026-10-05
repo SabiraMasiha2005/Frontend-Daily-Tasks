@@ -1,0 +1,350 @@
+<html>
+
+<head>
+<title>Smart Library Management System</title>
+</head>
+
+<body>
+
+<h2>Smart Library Management System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class Library
+{
+	constructor()
+	{
+		this.books=[
+			{
+				id:101,
+				name:"Java Programming",
+				price:650,
+				available:true,
+				student:""
+			},
+			{
+				id:102,
+				name:"JavaScript Basics",
+				price:550,
+				available:false,
+				student:"Arun"
+			},
+			{
+				id:103,
+				name:"React Development",
+				price:750,
+				available:true,
+				student:""
+			},
+			{
+				id:104,
+				name:"Python Programming",
+				price:600,
+				available:true,
+				student:""
+			},
+			{
+				id:105,
+				name:"Database Management",
+				price:800,
+				available:true,
+				student:""
+			}
+		];
+	}
+
+
+	showBooks()
+	{
+		let output="";
+
+		for(let i=0;i<this.books.length;i++)
+		{
+			let status="";
+
+			if(this.books[i].available)
+			{
+				status="Available";
+			}
+			else
+			{
+				status="Issued";
+			}
+
+			output=output+
+			this.books[i].id+
+			" - "+
+			this.books[i].name+
+			" - ₹"+
+			this.books[i].price+
+			" - "+
+			status+
+			"<br>";
+		}
+
+		return output;
+	}
+
+
+	issueBook(bookId,studentName)
+	{
+		let book=null;
+
+		for(let i=0;i<this.books.length;i++)
+		{
+			if(this.books[i].id==bookId)
+			{
+				book=this.books[i];
+				break;
+			}
+		}
+
+		if(book==null)
+		{
+			return "Book Not Found";
+		}
+
+		if(book.available==false)
+		{
+			return "Book Already Issued";
+		}
+
+		book.available=false;
+
+		book.student=studentName;
+
+		return `
+			<h3>========== BOOK ISSUE RECEIPT ==========</h3>
+
+			Book ID : ${book.id}<br>
+
+			Book Name : ${book.name}<br>
+
+			Student : ${book.student}<br><br>
+
+			Status : Book Issued Successfully
+		`;
+	}
+
+
+	returnBook(bookId)
+	{
+		for(let i=0;i<this.books.length;i++)
+		{
+			if(this.books[i].id==bookId)
+			{
+				if(this.books[i].available)
+				{
+					return "Book is Already Available";
+				}
+
+				this.books[i].available=true;
+
+				this.books[i].student="";
+
+				return this.books[i].name+
+				" returned successfully.";
+			}
+		}
+
+		return "Book Not Found";
+	}
+
+
+	getAvailableBooks()
+	{
+		let output="";
+
+		for(let i=0;i<this.books.length;i++)
+		{
+			if(this.books[i].available)
+			{
+				output=output+
+				this.books[i].id+
+				" - "+
+				this.books[i].name+
+				" - ₹"+
+				this.books[i].price+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="No Books Available";
+		}
+
+		return output;
+	}
+
+
+	getIssuedBooks()
+	{
+		let output="";
+
+		for(let i=0;i<this.books.length;i++)
+		{
+			if(this.books[i].available==false)
+			{
+				output=output+
+				this.books[i].id+
+				" - "+
+				this.books[i].name+
+				" - "+
+				this.books[i].student+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="No Books Issued";
+		}
+
+		return output;
+	}
+
+
+	getIssuedCount()
+	{
+		let count=0;
+
+		for(let i=0;i<this.books.length;i++)
+		{
+			if(this.books[i].available==false)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+
+	getMostExpensiveBook()
+	{
+		let expensive=this.books[0];
+
+		for(let i=1;i<this.books.length;i++)
+		{
+			if(this.books[i].price>expensive.price)
+			{
+				expensive=this.books[i];
+			}
+		}
+
+		return expensive;
+	}
+
+
+	searchBook(keyword)
+	{
+		let output="";
+
+		for(let i=0;i<this.books.length;i++)
+		{
+			if(this.books[i].name.toLowerCase().includes(keyword.toLowerCase()))
+			{
+				output=output+
+				this.books[i].id+
+				" - "+
+				this.books[i].name+
+				" - ₹"+
+				this.books[i].price+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="Book Not Found";
+		}
+
+		return output;
+	}
+}
+
+
+let library1=new Library();
+
+
+let issueMessage=
+library1.issueBook(103,"Masiha");
+
+
+let expensive=
+library1.getMostExpensiveBook();
+
+
+let output=
+"<h3>========== LIBRARY REPORT ==========</h3>";
+
+
+output=output+
+"<b>All Books</b><br><br>";
+
+
+output=output+
+library1.showBooks();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+issueMessage;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Available Books</b><br><br>";
+
+
+output=output+
+library1.getAvailableBooks();
+
+
+output=output+
+"<br><b>Issued Books</b><br><br>";
+
+
+output=output+
+library1.getIssuedBooks();
+
+
+output=output+
+"<br>Issued Books : "+
+library1.getIssuedCount();
+
+
+output=output+
+"<br><br><b>Most Expensive Book</b><br>";
+
+
+output=output+
+expensive.name+
+" - ₹"+
+expensive.price;
+
+
+output=output+
+"<br><br><b>Search Result : Java</b><br>";
+
+
+output=output+
+library1.searchBook("Java");
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
