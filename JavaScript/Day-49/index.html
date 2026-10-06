@@ -1,0 +1,372 @@
+<html>
+
+<head>
+<title>Smart Employee Payroll System</title>
+</head>
+
+<body>
+
+<h2>Smart Employee Payroll System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class Payroll
+{
+	constructor()
+	{
+		this.employees=[
+			{
+				id:101,
+				name:"Masiha",
+				role:"Developer",
+				salary:45000
+			},
+			{
+				id:102,
+				name:"Arun",
+				role:"Tester",
+				salary:35000
+			},
+			{
+				id:103,
+				name:"Sherin",
+				role:"Designer",
+				salary:40000
+			},
+			{
+				id:104,
+				name:"Nabil",
+				role:"Developer",
+				salary:55000
+			},
+			{
+				id:105,
+				name:"Priya",
+				role:"HR",
+				salary:30000
+			}
+		];
+	}
+
+
+	showEmployees()
+	{
+		let output="";
+
+		for(let i=0;i<this.employees.length;i++)
+		{
+			output=output+
+			this.employees[i].id+
+			" - "+
+			this.employees[i].name+
+			" - "+
+			this.employees[i].role+
+			" - ₹"+
+			this.employees[i].salary+
+			"<br>";
+		}
+
+		return output;
+	}
+
+
+	calculateSalary(id)
+	{
+		let employee=null;
+
+		for(let i=0;i<this.employees.length;i++)
+		{
+			if(this.employees[i].id==id)
+			{
+				employee=this.employees[i];
+				break;
+			}
+		}
+
+		if(employee==null)
+		{
+			return "Employee Not Found";
+		}
+
+		let hra=employee.salary*20/100;
+
+		let da=employee.salary*10/100;
+
+		let bonus=0;
+
+		if(employee.role=="Developer")
+		{
+			bonus=5000;
+		}
+		else if(employee.role=="Tester")
+		{
+			bonus=3000;
+		}
+		else if(employee.role=="Designer")
+		{
+			bonus=4000;
+		}
+		else if(employee.role=="HR")
+		{
+			bonus=2000;
+		}
+
+		let totalSalary=
+		employee.salary+
+		hra+
+		da+
+		bonus;
+
+		return `
+			<h3>========== SALARY DETAILS ==========</h3>
+
+			Employee : ${employee.name}<br>
+
+			Role : ${employee.role}<br>
+
+			Basic Salary : ₹${employee.salary}<br>
+
+			HRA : ₹${hra}<br>
+
+			DA : ₹${da}<br>
+
+			Bonus : ₹${bonus}<br><br>
+
+			<b>Total Salary : ₹${totalSalary}</b>
+		`;
+	}
+
+
+	getHighestSalary()
+	{
+		let highest=this.employees[0];
+
+		for(let i=1;i<this.employees.length;i++)
+		{
+			let currentSalary=
+			this.getTotalSalary(this.employees[i]);
+
+			let highestSalary=
+			this.getTotalSalary(highest);
+
+			if(currentSalary>highestSalary)
+			{
+				highest=this.employees[i];
+			}
+		}
+
+		return highest;
+	}
+
+
+	getTotalSalary(employee)
+	{
+		let hra=employee.salary*20/100;
+
+		let da=employee.salary*10/100;
+
+		let bonus=0;
+
+		if(employee.role=="Developer")
+		{
+			bonus=5000;
+		}
+		else if(employee.role=="Tester")
+		{
+			bonus=3000;
+		}
+		else if(employee.role=="Designer")
+		{
+			bonus=4000;
+		}
+		else if(employee.role=="HR")
+		{
+			bonus=2000;
+		}
+
+		return employee.salary+hra+da+bonus;
+	}
+
+
+	getDepartmentCount(role)
+	{
+		let count=0;
+
+		for(let i=0;i<this.employees.length;i++)
+		{
+			if(this.employees[i].role==role)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+
+	searchEmployee(name)
+	{
+		let output="";
+
+		for(let i=0;i<this.employees.length;i++)
+		{
+			if(
+				this.employees[i].name.toLowerCase()
+				.includes(name.toLowerCase())
+			)
+			{
+				output=output+
+				this.employees[i].id+
+				" - "+
+				this.employees[i].name+
+				" - "+
+				this.employees[i].role+
+				" - ₹"+
+				this.employees[i].salary+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="Employee Not Found";
+		}
+
+		return output;
+	}
+
+
+	promoteEmployee(id,newRole)
+	{
+		for(let i=0;i<this.employees.length;i++)
+		{
+			if(this.employees[i].id==id)
+			{
+				this.employees[i].role=newRole;
+
+				this.employees[i].salary=
+				this.employees[i].salary+5000;
+
+				return this.employees[i].name+
+				" promoted to "+
+				newRole+
+				".";
+			}
+		}
+
+		return "Employee Not Found";
+	}
+}
+
+
+let payroll1=new Payroll();
+
+
+let salaryMessage=
+payroll1.calculateSalary(101);
+
+
+let highest=
+payroll1.getHighestSalary();
+
+
+let promotionMessage=
+payroll1.promoteEmployee(
+	101,
+	"Senior Developer"
+);
+
+
+let output=
+"<h3>========== EMPLOYEE PAYROLL REPORT ==========</h3>";
+
+
+output=output+
+"<b>All Employees</b><br><br>";
+
+
+output=output+
+payroll1.showEmployees();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+salaryMessage;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Highest Salary</b><br><br>";
+
+
+output=output+
+highest.name+
+" - "+
+highest.role+
+" - ₹"+
+payroll1.getTotalSalary(highest);
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"Developers : "+
+payroll1.getDepartmentCount("Developer")+
+"<br>";
+
+
+output=output+
+"Testers : "+
+payroll1.getDepartmentCount("Tester")+
+"<br>";
+
+
+output=output+
+"Designers : "+
+payroll1.getDepartmentCount("Designer")+
+"<br>";
+
+
+output=output+
+"HR : "+
+payroll1.getDepartmentCount("HR")+
+"<br><br>";
+
+
+output=output+
+"<b>Search Result</b><br><br>";
+
+
+output=output+
+payroll1.searchEmployee("Masiha");
+
+
+output=output+
+"<br>";
+
+
+output=output+
+"<b>Promotion</b><br><br>";
+
+
+output=output+
+promotionMessage;
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
