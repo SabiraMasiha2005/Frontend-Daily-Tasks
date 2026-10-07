@@ -1,0 +1,360 @@
+<html>
+
+<head>
+<title>Smart Train Ticket Booking System</title>
+</head>
+
+<body>
+
+<h2>Smart Train Ticket Booking System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class TrainBooking
+{
+	constructor()
+	{
+		this.trains=[
+			{
+				id:101,
+				name:"Chennai Express",
+				from:"Chennai",
+				to:"Bangalore",
+				price:500,
+				seats:50
+			},
+			{
+				id:102,
+				name:"Coimbatore Express",
+				from:"Chennai",
+				to:"Coimbatore",
+				price:400,
+				seats:40
+			},
+			{
+				id:103,
+				name:"Madurai Express",
+				from:"Chennai",
+				to:"Madurai",
+				price:350,
+				seats:60
+			},
+			{
+				id:104,
+				name:"Kovai Superfast",
+				from:"Chennai",
+				to:"Coimbatore",
+				price:300,
+				seats:45
+			},
+			{
+				id:105,
+				name:"Mysore Express",
+				from:"Chennai",
+				to:"Mysore",
+				price:600,
+				seats:35
+			}
+		];
+
+		this.revenue=0;
+	}
+
+
+	showTrains()
+	{
+		let output="";
+
+		for(let i=0;i<this.trains.length;i++)
+		{
+			output=output+
+			this.trains[i].id+
+			" - "+
+			this.trains[i].name+
+			" - "+
+			this.trains[i].from+
+			" to "+
+			this.trains[i].to+
+			" - ₹"+
+			this.trains[i].price+
+			" - "+
+			this.trains[i].seats+
+			" seats available<br>";
+		}
+
+		return output;
+	}
+
+
+	bookTicket(trainId,seats)
+	{
+		let train=null;
+
+		for(let i=0;i<this.trains.length;i++)
+		{
+			if(this.trains[i].id==trainId)
+			{
+				train=this.trains[i];
+				break;
+			}
+		}
+
+		if(train==null)
+		{
+			return "Train Not Found";
+		}
+
+		if(seats>train.seats)
+		{
+			return "Not Enough Seats";
+		}
+
+		let amount=train.price*seats;
+
+		let discount=0;
+
+		if(seats>=5)
+		{
+			discount=amount*10/100;
+		}
+
+		let finalAmount=amount-discount;
+
+		train.seats=train.seats-seats;
+
+		this.revenue=this.revenue+finalAmount;
+
+		return `
+			<h3>========== BOOKING RECEIPT ==========</h3>
+
+			Train : ${train.name}<br>
+
+			From : ${train.from}<br>
+
+			To : ${train.to}<br>
+
+			Seats Booked : ${seats}<br>
+
+			Original Amount : ₹${amount}<br>
+
+			Discount : ₹${discount}<br>
+
+			<b>Final Amount : ₹${finalAmount}</b><br><br>
+
+			Status : Booking Successful
+		`;
+	}
+
+
+	cancelTicket(trainId,seats)
+	{
+		let train=null;
+
+		for(let i=0;i<this.trains.length;i++)
+		{
+			if(this.trains[i].id==trainId)
+			{
+				train=this.trains[i];
+				break;
+			}
+		}
+
+		if(train==null)
+		{
+			return "Train Not Found";
+		}
+
+		train.seats=train.seats+seats;
+
+		return seats+
+		" ticket(s) cancelled successfully.";
+	}
+
+
+	checkAvailability(trainId)
+	{
+		for(let i=0;i<this.trains.length;i++)
+		{
+			if(this.trains[i].id==trainId)
+			{
+				return this.trains[i].name+
+				" - "+
+				this.trains[i].seats+
+				" seats available";
+			}
+		}
+
+		return "Train Not Found";
+	}
+
+
+	getCheapestTrain()
+	{
+		let cheapest=this.trains[0];
+
+		for(let i=1;i<this.trains.length;i++)
+		{
+			if(this.trains[i].price<cheapest.price)
+			{
+				cheapest=this.trains[i];
+			}
+		}
+
+		return cheapest;
+	}
+
+
+	searchTrain(place)
+	{
+		let output="";
+
+		for(let i=0;i<this.trains.length;i++)
+		{
+			if(
+				this.trains[i].from.toLowerCase()==place.toLowerCase()
+				||
+				this.trains[i].to.toLowerCase()==place.toLowerCase()
+			)
+			{
+				output=output+
+				this.trains[i].id+
+				" - "+
+				this.trains[i].name+
+				" - "+
+				this.trains[i].from+
+				" to "+
+				this.trains[i].to+
+				" - ₹"+
+				this.trains[i].price+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="Train Not Found";
+		}
+
+		return output;
+	}
+
+
+	getTotalRevenue()
+	{
+		return this.revenue;
+	}
+}
+
+
+let train1=new TrainBooking();
+
+
+let bookingMessage=
+train1.bookTicket(101,5);
+
+
+let cancelMessage=
+train1.cancelTicket(102,2);
+
+
+let cheapest=
+train1.getCheapestTrain();
+
+
+let availability=
+train1.checkAvailability(101);
+
+
+let search=
+train1.searchTrain("Coimbatore");
+
+
+let revenue=
+train1.getTotalRevenue();
+
+
+let output=
+"<h3>========== TRAIN DETAILS ==========</h3>";
+
+
+output=output+
+train1.showTrains();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+bookingMessage;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Seat Availability</b><br><br>";
+
+
+output=output+
+availability;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Cancellation</b><br><br>";
+
+
+output=output+
+cancelMessage;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Cheapest Train</b><br><br>";
+
+
+output=output+
+cheapest.name+
+" - ₹"+
+cheapest.price;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Search Result</b><br><br>";
+
+
+output=output+
+search;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Total Revenue : ₹"+
+revenue+
+"</b>";
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
