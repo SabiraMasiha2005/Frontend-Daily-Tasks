@@ -1,0 +1,341 @@
+<html>
+
+<head>
+<title>Smart Hospital Appointment Management System</title>
+</head>
+
+<body>
+
+<h2>Smart Hospital Appointment Management System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class Hospital
+{
+	constructor()
+	{
+		this.doctors=[
+			{
+				id:101,
+				name:"Dr. Kumar",
+				specialist:"Cardiologist",
+				fee:800,
+				available:true
+			},
+			{
+				id:102,
+				name:"Dr. Priya",
+				specialist:"Dermatologist",
+				fee:600,
+				available:true
+			},
+			{
+				id:103,
+				name:"Dr. Arun",
+				specialist:"Neurologist",
+				fee:1000,
+				available:false
+			},
+			{
+				id:104,
+				name:"Dr. Meena",
+				specialist:"Pediatrician",
+				fee:500,
+				available:true
+			},
+			{
+				id:105,
+				name:"Dr. Raj",
+				specialist:"Orthopedic",
+				fee:700,
+				available:true
+			}
+		];
+
+		this.revenue=0;
+	}
+
+
+	showDoctors()
+	{
+		let output="";
+
+		for(let i=0;i<this.doctors.length;i++)
+		{
+			let status="";
+
+			if(this.doctors[i].available)
+			{
+				status="Available";
+			}
+			else
+			{
+				status="Not Available";
+			}
+
+			output=output+
+			this.doctors[i].id+
+			" - "+
+			this.doctors[i].name+
+			" - "+
+			this.doctors[i].specialist+
+			" - ₹"+
+			this.doctors[i].fee+
+			" - "+
+			status+
+			"<br>";
+		}
+
+		return output;
+	}
+
+
+	bookAppointment(doctorId,patientName)
+	{
+		let doctor=null;
+
+		for(let i=0;i<this.doctors.length;i++)
+		{
+			if(this.doctors[i].id==doctorId)
+			{
+				doctor=this.doctors[i];
+				break;
+			}
+		}
+
+		if(doctor==null)
+		{
+			return "Doctor Not Found";
+		}
+
+		if(doctor.available==false)
+		{
+			return "Doctor Not Available";
+		}
+
+		this.revenue=this.revenue+doctor.fee;
+
+		doctor.available=false;
+
+		return `
+			<h3>========== APPOINTMENT RECEIPT ==========</h3>
+
+			Patient Name : ${patientName}<br>
+
+			Doctor : ${doctor.name}<br>
+
+			Specialist : ${doctor.specialist}<br>
+
+			Consultation Fee : ₹${doctor.fee}<br><br>
+
+			Status : Appointment Confirmed
+		`;
+	}
+
+
+	cancelAppointment(doctorId)
+	{
+		for(let i=0;i<this.doctors.length;i++)
+		{
+			if(this.doctors[i].id==doctorId)
+			{
+				if(this.doctors[i].available)
+				{
+					return "No Active Appointment";
+				}
+
+				this.doctors[i].available=true;
+
+				return "Appointment Cancelled Successfully";
+			}
+		}
+
+		return "Doctor Not Found";
+	}
+
+
+	searchDoctor(specialist)
+	{
+		let output="";
+
+		for(let i=0;i<this.doctors.length;i++)
+		{
+			if(
+				this.doctors[i].specialist.toLowerCase()
+				.includes(specialist.toLowerCase())
+			)
+			{
+				output=output+
+				this.doctors[i].name+
+				" - "+
+				this.doctors[i].specialist+
+				" - ₹"+
+				this.doctors[i].fee+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="Doctor Not Found";
+		}
+
+		return output;
+	}
+
+
+	getCheapestDoctor()
+	{
+		let cheapest=this.doctors[0];
+
+		for(let i=1;i<this.doctors.length;i++)
+		{
+			if(this.doctors[i].fee<cheapest.fee)
+			{
+				cheapest=this.doctors[i];
+			}
+		}
+
+		return cheapest;
+	}
+
+
+	getAvailableDoctors()
+	{
+		let count=0;
+
+		for(let i=0;i<this.doctors.length;i++)
+		{
+			if(this.doctors[i].available)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+
+	getTotalRevenue()
+	{
+		return this.revenue;
+	}
+}
+
+
+let hospital1=new Hospital();
+
+
+let appointment=
+hospital1.bookAppointment(
+	101,
+	"Masiha"
+);
+
+
+let search=
+hospital1.searchDoctor(
+	"Dermatologist"
+);
+
+
+let cheapest=
+hospital1.getCheapestDoctor();
+
+
+let available=
+hospital1.getAvailableDoctors();
+
+
+let cancellation=
+hospital1.cancelAppointment(101);
+
+
+let revenue=
+hospital1.getTotalRevenue();
+
+
+let output=
+"<h3>========== DOCTOR DETAILS ==========</h3>";
+
+
+output=output+
+hospital1.showDoctors();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+appointment;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Search Doctor</b><br><br>";
+
+
+output=output+
+search;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Cheapest Doctor</b><br><br>";
+
+
+output=output+
+cheapest.name+
+" - "+
+cheapest.specialist+
+" - ₹"+
+cheapest.fee;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"Available Doctors : "+
+available;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Cancellation</b><br><br>";
+
+
+output=output+
+cancellation;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Total Revenue : ₹"+
+revenue+
+"</b>";
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
