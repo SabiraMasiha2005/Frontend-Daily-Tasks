@@ -1,4 +1,4 @@
-# Day 52 - JavaScript Smart Vehicle Service Center Management System
+# Smart Vehicle Service Center Management System
 
 ## Overview
 
