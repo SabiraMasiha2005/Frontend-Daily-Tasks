@@ -1,0 +1,350 @@
+<html>
+
+<head>
+<title>Smart Vehicle Service Center Management System</title>
+</head>
+
+<body>
+
+<h2>Smart Vehicle Service Center Management System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class VehicleService
+{
+	constructor()
+	{
+		this.vehicles=[
+			{
+				id:101,
+				owner:"Masiha",
+				vehicle:"Swift",
+				service:"Oil Change",
+				cost:1500,
+				status:"Pending"
+			},
+			{
+				id:102,
+				owner:"Arun",
+				vehicle:"Honda City",
+				service:"Full Service",
+				cost:4000,
+				status:"Pending"
+			},
+			{
+				id:103,
+				owner:"Sherin",
+				vehicle:"Activa",
+				service:"General Service",
+				cost:1000,
+				status:"Pending"
+			},
+			{
+				id:104,
+				owner:"Nabil",
+				vehicle:"Hyundai i20",
+				service:"Full Service",
+				cost:3500,
+				status:"Pending"
+			},
+			{
+				id:105,
+				owner:"Priya",
+				vehicle:"Royal Enfield",
+				service:"Oil Change",
+				cost:1200,
+				status:"Pending"
+			}
+		];
+
+		this.revenue=0;
+	}
+
+
+	showVehicles()
+	{
+		let output="";
+
+		for(let i=0;i<this.vehicles.length;i++)
+		{
+			output=output+
+			this.vehicles[i].id+
+			" - "+
+			this.vehicles[i].owner+
+			" - "+
+			this.vehicles[i].vehicle+
+			" - "+
+			this.vehicles[i].service+
+			" - ₹"+
+			this.vehicles[i].cost+
+			" - "+
+			this.vehicles[i].status+
+			"<br>";
+		}
+
+		return output;
+	}
+
+
+	bookService(id)
+	{
+		for(let i=0;i<this.vehicles.length;i++)
+		{
+			if(this.vehicles[i].id==id)
+			{
+				if(this.vehicles[i].status!="Pending")
+				{
+					return "Service Already Booked";
+				}
+
+				this.vehicles[i].status="Booked";
+
+				return "Service Booked Successfully";
+			}
+		}
+
+		return "Vehicle Not Found";
+	}
+
+
+	completeService(id)
+	{
+		for(let i=0;i<this.vehicles.length;i++)
+		{
+			if(this.vehicles[i].id==id)
+			{
+				if(this.vehicles[i].status=="Pending")
+				{
+					return "Please Book the Service First";
+				}
+
+				if(this.vehicles[i].status=="Completed")
+				{
+					return "Service Already Completed";
+				}
+
+				this.vehicles[i].status="Completed";
+
+				this.revenue=
+				this.revenue+this.vehicles[i].cost;
+
+				return "Service Completed Successfully";
+			}
+		}
+
+		return "Vehicle Not Found";
+	}
+
+
+	searchVehicle(name)
+	{
+		let output="";
+
+		for(let i=0;i<this.vehicles.length;i++)
+		{
+			if(
+				this.vehicles[i].owner.toLowerCase()
+				.includes(name.toLowerCase())
+			)
+			{
+				output=output+
+				this.vehicles[i].id+
+				" - "+
+				this.vehicles[i].owner+
+				" - "+
+				this.vehicles[i].vehicle+
+				" - ₹"+
+				this.vehicles[i].cost+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="Vehicle Not Found";
+		}
+
+		return output;
+	}
+
+
+	getCostliestService()
+	{
+		let highest=this.vehicles[0];
+
+		for(let i=1;i<this.vehicles.length;i++)
+		{
+			if(this.vehicles[i].cost>highest.cost)
+			{
+				highest=this.vehicles[i];
+			}
+		}
+
+		return highest;
+	}
+
+
+	getServiceCount()
+	{
+		let count=0;
+
+		for(let i=0;i<this.vehicles.length;i++)
+		{
+			if(
+				this.vehicles[i].status=="Booked" ||
+				this.vehicles[i].status=="Completed"
+			)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+
+	getTotalRevenue()
+	{
+		return this.revenue;
+	}
+
+
+	changeService(id,newService,newCost)
+	{
+		for(let i=0;i<this.vehicles.length;i++)
+		{
+			if(this.vehicles[i].id==id)
+			{
+				if(this.vehicles[i].status=="Completed")
+				{
+					return "Completed Service Cannot Be Changed";
+				}
+
+				this.vehicles[i].service=newService;
+				this.vehicles[i].cost=newCost;
+
+				return "Service Updated Successfully";
+			}
+		}
+
+		return "Vehicle Not Found";
+	}
+}
+
+
+let service1=new VehicleService();
+
+
+let booking=
+service1.bookService(101);
+
+
+let completed=
+service1.completeService(101);
+
+
+let booking2=
+service1.bookService(102);
+
+
+let updated=
+service1.changeService(
+	103,
+	"Full Service",
+	2500
+);
+
+
+let search=
+service1.searchVehicle("Sherin");
+
+
+let highest=
+service1.getCostliestService();
+
+
+let count=
+service1.getServiceCount();
+
+
+let revenue=
+service1.getTotalRevenue();
+
+
+let output=
+"<h3>========== VEHICLE DETAILS ==========</h3>";
+
+
+output=output+
+service1.showVehicles();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Booking Status</b><br><br>";
+
+
+output=output+
+booking+
+"<br>";
+
+
+output=output+
+completed+
+"<br><br>";
+
+
+output=output+
+"<b>Update Service</b><br><br>";
+
+
+output=output+
+updated+
+"<br><br>";
+
+
+output=output+
+"<b>Search Result</b><br><br>";
+
+
+output=output+
+search+
+"<br><br>";
+
+
+output=output+
+"<b>Costliest Service</b><br><br>";
+
+
+output=output+
+highest.vehicle+
+" - "+
+highest.service+
+" - ₹"+
+highest.cost+
+"<br><br>";
+
+
+output=output+
+"Total Booked Services : "+
+count+
+"<br>";
+
+
+output=output+
+"Total Revenue : ₹"+
+revenue;
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
