@@ -1,0 +1,445 @@
+<html>
+
+<head>
+<title>Smart Movie Ticket Booking System</title>
+</head>
+
+<body>
+
+<h2>Smart Movie Ticket Booking System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class MovieBooking
+{
+	constructor()
+	{
+		this.movies=[
+			{
+				id:101,
+				name:"Leo",
+				language:"Tamil",
+				price:180,
+				seats:50
+			},
+			{
+				id:102,
+				name:"Jawan",
+				language:"Hindi",
+				price:200,
+				seats:40
+			},
+			{
+				id:103,
+				name:"GOAT",
+				language:"Tamil",
+				price:150,
+				seats:60
+			},
+			{
+				id:104,
+				name:"Kalki",
+				language:"Telugu",
+				price:220,
+				seats:35
+			},
+			{
+				id:105,
+				name:"Dragon",
+				language:"Tamil",
+				price:160,
+				seats:45
+			}
+		];
+
+		this.revenue=0;
+		this.bookings=[];
+	}
+
+
+	showMovies()
+	{
+		let output="";
+
+		for(let i=0;i<this.movies.length;i++)
+		{
+			output=output+
+			this.movies[i].id+
+			" - "+
+			this.movies[i].name+
+			" - "+
+			this.movies[i].language+
+			" - ₹"+
+			this.movies[i].price+
+			" - "+
+			this.movies[i].seats+
+			" seats available<br>";
+		}
+
+		return output;
+	}
+
+
+	bookTicket(id,seats)
+	{
+		let movie=null;
+
+		for(let i=0;i<this.movies.length;i++)
+		{
+			if(this.movies[i].id==id)
+			{
+				movie=this.movies[i];
+				break;
+			}
+		}
+
+		if(movie==null)
+		{
+			return "Movie Not Found";
+		}
+
+		if(seats<=0)
+		{
+			return "Invalid Seat Count";
+		}
+
+		if(seats>movie.seats)
+		{
+			return "Not Enough Seats";
+		}
+
+		let amount=movie.price*seats;
+
+		let discount=0;
+
+		if(seats>=5)
+		{
+			discount=amount*10/100;
+		}
+
+		let finalAmount=amount-discount;
+
+		movie.seats=movie.seats-seats;
+
+		this.revenue=this.revenue+finalAmount;
+
+		this.bookings.push(
+			{
+				movieId:id,
+				seats:seats,
+				amount:finalAmount
+			}
+		);
+
+		return `
+			<h3>========== BOOKING RECEIPT ==========</h3>
+
+			Movie : ${movie.name}<br>
+
+			Language : ${movie.language}<br>
+
+			Tickets Booked : ${seats}<br>
+
+			Ticket Price : ₹${movie.price}<br>
+
+			Original Amount : ₹${amount}<br>
+
+			Discount : ₹${discount}<br>
+
+			<b>Final Amount : ₹${finalAmount}</b><br><br>
+
+			Status : Booking Successful
+		`;
+	}
+
+
+	cancelTicket(id,seats)
+	{
+		let movie=null;
+
+		for(let i=0;i<this.movies.length;i++)
+		{
+			if(this.movies[i].id==id)
+			{
+				movie=this.movies[i];
+				break;
+			}
+		}
+
+		if(movie==null)
+		{
+			return "Movie Not Found";
+		}
+
+		if(seats<=0)
+		{
+			return "Invalid Seat Count";
+		}
+
+		let bookedSeats=0;
+
+		for(let i=0;i<this.bookings.length;i++)
+		{
+			if(this.bookings[i].movieId==id)
+			{
+				bookedSeats=bookedSeats+
+				this.bookings[i].seats;
+			}
+		}
+
+		if(seats>bookedSeats)
+		{
+			return "Invalid Cancellation";
+		}
+
+		let remaining=seats;
+
+		for(let i=0;i<this.bookings.length;i++)
+		{
+			if(
+				this.bookings[i].movieId==id &&
+				remaining>0
+			)
+			{
+				let cancelled=Math.min(
+					remaining,
+					this.bookings[i].seats
+				);
+
+				let refund=
+				this.bookings[i].amount*
+				cancelled/
+				this.bookings[i].seats;
+
+				this.revenue=this.revenue-refund;
+
+				this.bookings[i].amount=
+				this.bookings[i].amount-refund;
+
+				this.bookings[i].seats=
+				this.bookings[i].seats-cancelled;
+
+				remaining=remaining-cancelled;
+			}
+		}
+
+		movie.seats=movie.seats+seats;
+
+		return seats+
+		" ticket(s) cancelled successfully.";
+	}
+
+
+	searchMovie(name)
+	{
+		let output="";
+
+		for(let i=0;i<this.movies.length;i++)
+		{
+			if(
+				this.movies[i].name.toLowerCase()
+				.includes(name.toLowerCase())
+			)
+			{
+				output=output+
+				this.movies[i].id+
+				" - "+
+				this.movies[i].name+
+				" - "+
+				this.movies[i].language+
+				" - ₹"+
+				this.movies[i].price+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="Movie Not Found";
+		}
+
+		return output;
+	}
+
+
+	getCostliestMovie()
+	{
+		let highest=this.movies[0];
+
+		for(let i=1;i<this.movies.length;i++)
+		{
+			if(this.movies[i].price>highest.price)
+			{
+				highest=this.movies[i];
+			}
+		}
+
+		return highest;
+	}
+
+
+	getAvailableSeats(id)
+	{
+		for(let i=0;i<this.movies.length;i++)
+		{
+			if(this.movies[i].id==id)
+			{
+				return this.movies[i].name+
+				" - "+
+				this.movies[i].seats+
+				" seats available";
+			}
+		}
+
+		return "Movie Not Found";
+	}
+
+
+	getTotalRevenue()
+	{
+		return this.revenue;
+	}
+
+
+	getLanguageCount(language)
+	{
+		let count=0;
+
+		for(let i=0;i<this.movies.length;i++)
+		{
+			if(
+				this.movies[i].language.toLowerCase()
+				==language.toLowerCase()
+			)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+}
+
+
+let movie1=new MovieBooking();
+
+
+let booking=
+movie1.bookTicket(101,5);
+
+
+let cancellation=
+movie1.cancelTicket(101,2);
+
+
+let search=
+movie1.searchMovie("Leo");
+
+
+let highest=
+movie1.getCostliestMovie();
+
+
+let availability=
+movie1.getAvailableSeats(101);
+
+
+let revenue=
+movie1.getTotalRevenue();
+
+
+let tamilCount=
+movie1.getLanguageCount("Tamil");
+
+
+let output=
+"<h3>========== MOVIE DETAILS ==========</h3>";
+
+
+output=output+
+movie1.showMovies();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+booking;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Ticket Cancellation</b><br><br>";
+
+
+output=output+
+cancellation;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Search Result</b><br><br>";
+
+
+output=output+
+search;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Costliest Movie</b><br><br>";
+
+
+output=output+
+highest.name+
+" - ₹"+
+highest.price;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Seat Availability</b><br><br>";
+
+
+output=output+
+availability;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"Tamil Movies : "+
+tamilCount+
+"<br><br>";
+
+
+output=output+
+"<b>Total Revenue : ₹"+
+revenue+
+"</b>";
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
