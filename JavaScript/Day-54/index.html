@@ -1,0 +1,427 @@
+<html>
+
+<head>
+<title>Smart Bank Loan Management System</title>
+</head>
+
+<body>
+
+<h2>Smart Bank Loan Management System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class BankLoan
+{
+	constructor()
+	{
+		this.customers=[
+			{
+				id:101,
+				name:"Masiha",
+				loanType:"Education",
+				amount:200000,
+				interest:8,
+				months:24,
+				status:"Pending"
+			},
+			{
+				id:102,
+				name:"Arun",
+				loanType:"Home",
+				amount:1500000,
+				interest:7,
+				months:120,
+				status:"Pending"
+			},
+			{
+				id:103,
+				name:"Sherin",
+				loanType:"Personal",
+				amount:100000,
+				interest:12,
+				months:12,
+				status:"Pending"
+			},
+			{
+				id:104,
+				name:"Nabil",
+				loanType:"Business",
+				amount:500000,
+				interest:10,
+				months:60,
+				status:"Pending"
+			},
+			{
+				id:105,
+				name:"Priya",
+				loanType:"Education",
+				amount:300000,
+				interest:8,
+				months:36,
+				status:"Pending"
+			}
+		];
+	}
+
+
+	showCustomers()
+	{
+		let output="";
+
+		for(let i=0;i<this.customers.length;i++)
+		{
+			output=output+
+			this.customers[i].id+
+			" - "+
+			this.customers[i].name+
+			" - "+
+			this.customers[i].loanType+
+			" - ₹"+
+			this.customers[i].amount+
+			" - "+
+			this.customers[i].status+
+			"<br>";
+		}
+
+		return output;
+	}
+
+
+	applyLoan(id,amount)
+	{
+		for(let i=0;i<this.customers.length;i++)
+		{
+			if(this.customers[i].id==id)
+			{
+				if(this.customers[i].status!="Pending")
+				{
+					return "Loan Application Already Processed";
+				}
+
+				if(amount<=0)
+				{
+					return "Invalid Loan Amount";
+				}
+
+				this.customers[i].amount=amount;
+
+				return "Loan Applied Successfully";
+			}
+		}
+
+		return "Customer Not Found";
+	}
+
+
+	approveLoan(id)
+	{
+		for(let i=0;i<this.customers.length;i++)
+		{
+			if(this.customers[i].id==id)
+			{
+				if(this.customers[i].status!="Pending")
+				{
+					return "Loan Already Processed";
+				}
+
+				if(this.customers[i].amount>1000000)
+				{
+					this.customers[i].status="Rejected";
+
+					return "Loan Rejected: Amount Exceeds Limit";
+				}
+
+				this.customers[i].status="Approved";
+
+				return "Loan Approved Successfully";
+			}
+		}
+
+		return "Customer Not Found";
+	}
+
+
+	rejectLoan(id)
+	{
+		for(let i=0;i<this.customers.length;i++)
+		{
+			if(this.customers[i].id==id)
+			{
+				if(this.customers[i].status!="Pending")
+				{
+					return "Loan Already Processed";
+				}
+
+				this.customers[i].status="Rejected";
+
+				return "Loan Rejected Successfully";
+			}
+		}
+
+		return "Customer Not Found";
+	}
+
+
+	calculateInterest(id)
+	{
+		for(let i=0;i<this.customers.length;i++)
+		{
+			if(this.customers[i].id==id)
+			{
+				let customer=this.customers[i];
+
+				let interestAmount=
+				customer.amount*
+				customer.interest*
+				customer.months/
+				1200;
+
+				let totalAmount=
+				customer.amount+interestAmount;
+
+				return `
+					<h3>========== LOAN DETAILS ==========</h3>
+
+					Customer : ${customer.name}<br>
+
+					Loan Type : ${customer.loanType}<br>
+
+					Loan Amount : ₹${customer.amount}<br>
+
+					Interest Rate : ${customer.interest}%<br>
+
+					Duration : ${customer.months} months<br>
+
+					Interest Amount : ₹${interestAmount}<br><br>
+
+					<b>Total Repayment : ₹${totalAmount}</b>
+				`;
+			}
+		}
+
+		return "Customer Not Found";
+	}
+
+
+	searchCustomer(name)
+	{
+		let output="";
+
+		for(let i=0;i<this.customers.length;i++)
+		{
+			if(
+				this.customers[i].name.toLowerCase()
+				.includes(name.toLowerCase())
+			)
+			{
+				output=output+
+				this.customers[i].id+
+				" - "+
+				this.customers[i].name+
+				" - "+
+				this.customers[i].loanType+
+				" - ₹"+
+				this.customers[i].amount+
+				" - "+
+				this.customers[i].status+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="Customer Not Found";
+		}
+
+		return output;
+	}
+
+
+	getHighestLoan()
+	{
+		let highest=this.customers[0];
+
+		for(let i=1;i<this.customers.length;i++)
+		{
+			if(this.customers[i].amount>highest.amount)
+			{
+				highest=this.customers[i];
+			}
+		}
+
+		return highest;
+	}
+
+
+	getApprovedLoanAmount()
+	{
+		let total=0;
+
+		for(let i=0;i<this.customers.length;i++)
+		{
+			if(this.customers[i].status=="Approved")
+			{
+				total=total+this.customers[i].amount;
+			}
+		}
+
+		return total;
+	}
+
+
+	getLoanCount(type)
+	{
+		let count=0;
+
+		for(let i=0;i<this.customers.length;i++)
+		{
+			if(
+				this.customers[i].loanType.toLowerCase()
+				==type.toLowerCase()
+			)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+}
+
+
+let bank1=new BankLoan();
+
+
+let application=
+bank1.applyLoan(101,250000);
+
+
+let approval1=
+bank1.approveLoan(101);
+
+
+let approval2=
+bank1.approveLoan(102);
+
+
+let rejection=
+bank1.rejectLoan(103);
+
+
+let interest=
+bank1.calculateInterest(101);
+
+
+let search=
+bank1.searchCustomer("Masiha");
+
+
+let highest=
+bank1.getHighestLoan();
+
+
+let approvedAmount=
+bank1.getApprovedLoanAmount();
+
+
+let educationCount=
+bank1.getLoanCount("Education");
+
+
+let output=
+"<h3>========== CUSTOMER DETAILS ==========</h3>";
+
+
+output=output+
+bank1.showCustomers();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Loan Application</b><br><br>";
+
+
+output=output+
+application+
+"<br>";
+
+
+output=output+
+approval1+
+"<br>";
+
+
+output=output+
+approval2+
+"<br>";
+
+
+output=output+
+rejection;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+interest;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Customer Search</b><br><br>";
+
+
+output=output+
+search;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Highest Loan</b><br><br>";
+
+
+output=output+
+highest.name+
+" - ₹"+
+highest.amount;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"Education Loan Applications : "+
+educationCount;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Total Approved Loan Amount : ₹"+
+approvedAmount+
+"</b>";
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
