@@ -1,0 +1,485 @@
+<html>
+
+<head>
+<title>Smart Event Registration Management System</title>
+</head>
+
+<body>
+
+<h2>Smart Event Registration Management System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class EventManagement
+{
+	constructor()
+	{
+		this.events=[
+			{
+				id:101,
+				name:"Tech Conference",
+				category:"Technical",
+				fee:1000,
+				seats:50
+			},
+			{
+				id:102,
+				name:"Web Development Workshop",
+				category:"Technical",
+				fee:500,
+				seats:30
+			},
+			{
+				id:103,
+				name:"Photography Contest",
+				category:"Creative",
+				fee:300,
+				seats:25
+			},
+			{
+				id:104,
+				name:"Startup Meetup",
+				category:"Business",
+				fee:700,
+				seats:40
+			},
+			{
+				id:105,
+				name:"Coding Competition",
+				category:"Technical",
+				fee:800,
+				seats:20
+			}
+		];
+
+		this.revenue=0;
+		this.registrations=[];
+	}
+
+
+	showEvents()
+	{
+		let output="";
+
+		for(let i=0;i<this.events.length;i++)
+		{
+			output=output+
+			this.events[i].id+
+			" - "+
+			this.events[i].name+
+			" - "+
+			this.events[i].category+
+			" - ₹"+
+			this.events[i].fee+
+			" - "+
+			this.events[i].seats+
+			" seats available<br>";
+		}
+
+		return output;
+	}
+
+
+	registerEvent(id,seats)
+	{
+		let event=null;
+
+		for(let i=0;i<this.events.length;i++)
+		{
+			if(this.events[i].id==id)
+			{
+				event=this.events[i];
+				break;
+			}
+		}
+
+		if(event==null)
+		{
+			return "Event Not Found";
+		}
+
+		if(seats<=0)
+		{
+			return "Invalid Seat Count";
+		}
+
+		if(seats>event.seats)
+		{
+			return "Not Enough Seats";
+		}
+
+		let amount=event.fee*seats;
+
+		let discount=0;
+
+		if(seats>=5)
+		{
+			discount=amount*10/100;
+		}
+
+		let finalAmount=amount-discount;
+
+		event.seats=event.seats-seats;
+
+		this.revenue=this.revenue+finalAmount;
+
+		this.registrations.push(
+			{
+				eventId:id,
+				seats:seats,
+				amount:finalAmount
+			}
+		);
+
+		return `
+			<h3>========== REGISTRATION RECEIPT ==========</h3>
+
+			Event : ${event.name}<br>
+
+			Category : ${event.category}<br>
+
+			Seats Registered : ${seats}<br>
+
+			Registration Fee : ₹${event.fee}<br>
+
+			Original Amount : ₹${amount}<br>
+
+			Discount : ₹${discount}<br>
+
+			<b>Final Amount : ₹${finalAmount}</b><br><br>
+
+			Status : Registration Successful
+		`;
+	}
+
+
+	cancelRegistration(id,seats)
+	{
+		let event=null;
+
+		for(let i=0;i<this.events.length;i++)
+		{
+			if(this.events[i].id==id)
+			{
+				event=this.events[i];
+				break;
+			}
+		}
+
+		if(event==null)
+		{
+			return "Event Not Found";
+		}
+
+		if(seats<=0)
+		{
+			return "Invalid Seat Count";
+		}
+
+		let bookedSeats=0;
+
+		for(let i=0;i<this.registrations.length;i++)
+		{
+			if(this.registrations[i].eventId==id)
+			{
+				bookedSeats=bookedSeats+
+				this.registrations[i].seats;
+			}
+		}
+
+		if(seats>bookedSeats)
+		{
+			return "Invalid Cancellation";
+		}
+
+		let remaining=seats;
+
+		for(let i=0;i<this.registrations.length;i++)
+		{
+			if(
+				this.registrations[i].eventId==id &&
+				remaining>0
+			)
+			{
+				let cancelled=Math.min(
+					remaining,
+					this.registrations[i].seats
+				);
+
+				let refund=
+				this.registrations[i].amount*
+				cancelled/
+				this.registrations[i].seats;
+
+				this.revenue=this.revenue-refund;
+
+				this.registrations[i].amount=
+				this.registrations[i].amount-refund;
+
+				this.registrations[i].seats=
+				this.registrations[i].seats-cancelled;
+
+				remaining=remaining-cancelled;
+			}
+		}
+
+		event.seats=event.seats+seats;
+
+		return seats+
+		" registration(s) cancelled successfully.";
+	}
+
+
+	searchEvent(name)
+	{
+		let output="";
+
+		for(let i=0;i<this.events.length;i++)
+		{
+			if(
+				this.events[i].name.toLowerCase()
+				.includes(name.toLowerCase())
+			)
+			{
+				output=output+
+				this.events[i].id+
+				" - "+
+				this.events[i].name+
+				" - "+
+				this.events[i].category+
+				" - ₹"+
+				this.events[i].fee+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="Event Not Found";
+		}
+
+		return output;
+	}
+
+
+	getCostliestEvent()
+	{
+		let highest=this.events[0];
+
+		for(let i=1;i<this.events.length;i++)
+		{
+			if(this.events[i].fee>highest.fee)
+			{
+				highest=this.events[i];
+			}
+		}
+
+		return highest;
+	}
+
+
+	getAvailableSeats(id)
+	{
+		for(let i=0;i<this.events.length;i++)
+		{
+			if(this.events[i].id==id)
+			{
+				return this.events[i].name+
+				" - "+
+				this.events[i].seats+
+				" seats available";
+			}
+		}
+
+		return "Event Not Found";
+	}
+
+
+	getTotalRevenue()
+	{
+		return this.revenue;
+	}
+
+
+	getCategoryCount(category)
+	{
+		let count=0;
+
+		for(let i=0;i<this.events.length;i++)
+		{
+			if(
+				this.events[i].category.toLowerCase()
+				==category.toLowerCase()
+			)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+
+	updateEventFee(id,newFee)
+	{
+		if(newFee<=0)
+		{
+			return "Invalid Event Fee";
+		}
+
+		for(let i=0;i<this.events.length;i++)
+		{
+			if(this.events[i].id==id)
+			{
+				this.events[i].fee=newFee;
+
+				return "Event Fee Updated Successfully";
+			}
+		}
+
+		return "Event Not Found";
+	}
+}
+
+
+let event1=new EventManagement();
+
+
+let registration=
+event1.registerEvent(101,5);
+
+
+let cancellation=
+event1.cancelRegistration(101,2);
+
+
+let update=
+event1.updateEventFee(103,400);
+
+
+let search=
+event1.searchEvent("Coding");
+
+
+let highest=
+event1.getCostliestEvent();
+
+
+let availability=
+event1.getAvailableSeats(101);
+
+
+let technicalCount=
+event1.getCategoryCount("Technical");
+
+
+let revenue=
+event1.getTotalRevenue();
+
+
+let output=
+"<h3>========== EVENT DETAILS ==========</h3>";
+
+
+output=output+
+event1.showEvents();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+registration;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Cancellation</b><br><br>";
+
+
+output=output+
+cancellation;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Update Event Fee</b><br><br>";
+
+
+output=output+
+update;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Search Result</b><br><br>";
+
+
+output=output+
+search;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Costliest Event</b><br><br>";
+
+
+output=output+
+highest.name+
+" - ₹"+
+highest.fee;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Seat Availability</b><br><br>";
+
+
+output=output+
+availability;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"Technical Events : "+
+technicalCount;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Total Revenue : ₹"+
+revenue+
+"</b>";
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
