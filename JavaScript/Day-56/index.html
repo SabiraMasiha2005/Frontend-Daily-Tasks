@@ -1,0 +1,366 @@
+<html>
+
+<head>
+<title>Smart Job Application Tracker</title>
+</head>
+
+<body>
+
+<h2>Smart Job Application Tracker</h2>
+
+<div id="result"></div>
+
+<script>
+
+class JobTracker
+{
+	constructor()
+	{
+		this.jobs=[
+			{
+				id:101,
+				company:"TCS",
+				role:"Frontend Developer",
+				salary:30000,
+				status:"Applied"
+			},
+			{
+				id:102,
+				company:"Infosys",
+				role:"Java Developer",
+				salary:35000,
+				status:"Interview"
+			},
+			{
+				id:103,
+				company:"Wipro",
+				role:"Software Developer",
+				salary:28000,
+				status:"Applied"
+			},
+			{
+				id:104,
+				company:"Zoho",
+				role:"Full Stack Developer",
+				salary:40000,
+				status:"Selected"
+			},
+			{
+				id:105,
+				company:"Accenture",
+				role:"React Developer",
+				salary:32000,
+				status:"Rejected"
+			}
+		];
+	}
+
+
+	showJobs()
+	{
+		let output="";
+
+		for(let i=0;i<this.jobs.length;i++)
+		{
+			output=output+
+			this.jobs[i].id+
+			" - "+
+			this.jobs[i].company+
+			" - "+
+			this.jobs[i].role+
+			" - ₹"+
+			this.jobs[i].salary+
+			" - "+
+			this.jobs[i].status+
+			"<br>";
+		}
+
+		return output;
+	}
+
+
+	addJob(id,company,role,salary)
+	{
+		for(let i=0;i<this.jobs.length;i++)
+		{
+			if(this.jobs[i].id==id)
+			{
+				return "Job ID Already Exists";
+			}
+		}
+
+		if(salary<=0)
+		{
+			return "Invalid Salary";
+		}
+
+		this.jobs.push(
+			{
+				id:id,
+				company:company,
+				role:role,
+				salary:salary,
+				status:"Applied"
+			}
+		);
+
+		return "Job Application Added Successfully";
+	}
+
+
+	updateStatus(id,newStatus)
+	{
+		for(let i=0;i<this.jobs.length;i++)
+		{
+			if(this.jobs[i].id==id)
+			{
+				this.jobs[i].status=newStatus;
+
+				return "Application Status Updated";
+			}
+		}
+
+		return "Job Not Found";
+	}
+
+
+	searchCompany(name)
+	{
+		let output="";
+
+		for(let i=0;i<this.jobs.length;i++)
+		{
+			if(
+				this.jobs[i].company.toLowerCase()
+				.includes(name.toLowerCase())
+			)
+			{
+				output=output+
+				this.jobs[i].company+
+				" - "+
+				this.jobs[i].role+
+				" - "+
+				this.jobs[i].status+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="Company Not Found";
+		}
+
+		return output;
+	}
+
+
+	getSelectedJobs()
+	{
+		let output="";
+		let count=0;
+
+		for(let i=0;i<this.jobs.length;i++)
+		{
+			if(this.jobs[i].status=="Selected")
+			{
+				output=output+
+				this.jobs[i].company+
+				" - "+
+				this.jobs[i].role+
+				"<br>";
+
+				count++;
+			}
+		}
+
+		if(count==0)
+		{
+			return "No Selected Applications";
+		}
+
+		return output;
+	}
+
+
+	getHighestSalary()
+	{
+		let highest=this.jobs[0];
+
+		for(let i=1;i<this.jobs.length;i++)
+		{
+			if(this.jobs[i].salary>highest.salary)
+			{
+				highest=this.jobs[i];
+			}
+		}
+
+		return highest;
+	}
+
+
+	getStatusCount(status)
+	{
+		let count=0;
+
+		for(let i=0;i<this.jobs.length;i++)
+		{
+			if(
+				this.jobs[i].status.toLowerCase()
+				==status.toLowerCase()
+			)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+
+	deleteJob(id)
+	{
+		for(let i=0;i<this.jobs.length;i++)
+		{
+			if(this.jobs[i].id==id)
+			{
+				this.jobs.splice(i,1);
+
+				return "Job Application Deleted Successfully";
+			}
+		}
+
+		return "Job Not Found";
+	}
+}
+
+
+let tracker=new JobTracker();
+
+
+let add=
+tracker.addJob(
+	106,
+	"Freshworks",
+	"Java Developer",
+	38000
+);
+
+
+let update=
+tracker.updateStatus(101,"Interview");
+
+
+let search=
+tracker.searchCompany("Zoho");
+
+
+let selected=
+tracker.getSelectedJobs();
+
+
+let highest=
+tracker.getHighestSalary();
+
+
+let applied=
+tracker.getStatusCount("Applied");
+
+
+let interview=
+tracker.getStatusCount("Interview");
+
+
+let output=
+"<h3>========== JOB APPLICATIONS ==========</h3>";
+
+
+output=output+
+tracker.showJobs();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Add Job</b><br><br>";
+
+
+output=output+
+add;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Update Status</b><br><br>";
+
+
+output=output+
+update;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Search Result</b><br><br>";
+
+
+output=output+
+search;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Selected Applications</b><br><br>";
+
+
+output=output+
+selected;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Highest Salary</b><br><br>";
+
+
+output=output+
+highest.company+
+" - "+
+highest.role+
+" - ₹"+
+highest.salary;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"Applied Jobs : "+
+applied+
+"<br>";
+
+
+output=output+
+"Interview Jobs : "+
+interview;
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
