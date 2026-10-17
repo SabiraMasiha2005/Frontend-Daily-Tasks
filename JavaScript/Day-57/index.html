@@ -1,0 +1,380 @@
+<html>
+
+<head>
+<title>Smart Courier Parcel Tracking System</title>
+</head>
+
+<body>
+
+<h2>Smart Courier Parcel Tracking System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class Courier
+{
+	constructor()
+	{
+		this.parcels=[
+			{
+				id:101,
+				customer:"Masiha",
+				destination:"Chennai",
+				weight:2,
+				cost:200,
+				status:"Booked"
+			},
+			{
+				id:102,
+				customer:"Arun",
+				destination:"Bangalore",
+				weight:5,
+				cost:500,
+				status:"In Transit"
+			},
+			{
+				id:103,
+				customer:"Sherin",
+				destination:"Madurai",
+				weight:3,
+				cost:300,
+				status:"Delivered"
+			},
+			{
+				id:104,
+				customer:"Nabil",
+				destination:"Coimbatore",
+				weight:4,
+				cost:400,
+				status:"Booked"
+			},
+			{
+				id:105,
+				customer:"Priya",
+				destination:"Trichy",
+				weight:1,
+				cost:100,
+				status:"In Transit"
+			}
+		];
+	}
+
+
+	showParcels()
+	{
+		let output="";
+
+		for(let i=0;i<this.parcels.length;i++)
+		{
+			output=output+
+			this.parcels[i].id+
+			" - "+
+			this.parcels[i].customer+
+			" - "+
+			this.parcels[i].destination+
+			" - "+
+			this.parcels[i].weight+
+			" kg - ₹"+
+			this.parcels[i].cost+
+			" - "+
+			this.parcels[i].status+
+			"<br>";
+		}
+
+		return output;
+	}
+
+
+	bookParcel(id,customer,destination,weight)
+	{
+		for(let i=0;i<this.parcels.length;i++)
+		{
+			if(this.parcels[i].id==id)
+			{
+				return "Parcel ID Already Exists";
+			}
+		}
+
+		if(weight<=0)
+		{
+			return "Invalid Parcel Weight";
+		}
+
+		let cost=weight*100;
+
+		this.parcels.push(
+			{
+				id:id,
+				customer:customer,
+				destination:destination,
+				weight:weight,
+				cost:cost,
+				status:"Booked"
+			}
+		);
+
+		return "Parcel Booked Successfully";
+	}
+
+
+	updateStatus(id,newStatus)
+	{
+		for(let i=0;i<this.parcels.length;i++)
+		{
+			if(this.parcels[i].id==id)
+			{
+				this.parcels[i].status=newStatus;
+
+				return "Parcel Status Updated Successfully";
+			}
+		}
+
+		return "Parcel Not Found";
+	}
+
+
+	trackParcel(id)
+	{
+		for(let i=0;i<this.parcels.length;i++)
+		{
+			if(this.parcels[i].id==id)
+			{
+				return `
+					<h3>========== PARCEL TRACKING ==========</h3>
+
+					Parcel ID : ${this.parcels[i].id}<br>
+
+					Customer : ${this.parcels[i].customer}<br>
+
+					Destination : ${this.parcels[i].destination}<br>
+
+					Weight : ${this.parcels[i].weight} kg<br>
+
+					Status : ${this.parcels[i].status}
+				`;
+			}
+		}
+
+		return "Parcel Not Found";
+	}
+
+
+	searchCustomer(name)
+	{
+		let output="";
+
+		for(let i=0;i<this.parcels.length;i++)
+		{
+			if(
+				this.parcels[i].customer.toLowerCase()
+				.includes(name.toLowerCase())
+			)
+			{
+				output=output+
+				this.parcels[i].id+
+				" - "+
+				this.parcels[i].customer+
+				" - "+
+				this.parcels[i].destination+
+				" - "+
+				this.parcels[i].status+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="Customer Not Found";
+		}
+
+		return output;
+	}
+
+
+	getCostliestParcel()
+	{
+		let highest=this.parcels[0];
+
+		for(let i=1;i<this.parcels.length;i++)
+		{
+			if(this.parcels[i].cost>highest.cost)
+			{
+				highest=this.parcels[i];
+			}
+		}
+
+		return highest;
+	}
+
+
+	getStatusCount(status)
+	{
+		let count=0;
+
+		for(let i=0;i<this.parcels.length;i++)
+		{
+			if(
+				this.parcels[i].status.toLowerCase()
+				==status.toLowerCase()
+			)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+
+	getTotalRevenue()
+	{
+		let total=0;
+
+		for(let i=0;i<this.parcels.length;i++)
+		{
+			total=total+this.parcels[i].cost;
+		}
+
+		return total;
+	}
+}
+
+
+let courier1=new Courier();
+
+
+let booking=
+courier1.bookParcel(
+	106,
+	"Rahul",
+	"Salem",
+	6
+);
+
+
+let update=
+courier1.updateStatus(101,"In Transit");
+
+
+let tracking=
+courier1.trackParcel(102);
+
+
+let search=
+courier1.searchCustomer("Masiha");
+
+
+let highest=
+courier1.getCostliestParcel();
+
+
+let booked=
+courier1.getStatusCount("Booked");
+
+
+let delivered=
+courier1.getStatusCount("Delivered");
+
+
+let revenue=
+courier1.getTotalRevenue();
+
+
+let output=
+"<h3>========== PARCEL DETAILS ==========</h3>";
+
+
+output=output+
+courier1.showParcels();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>New Parcel Booking</b><br><br>";
+
+
+output=output+
+booking;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Update Status</b><br><br>";
+
+
+output=output+
+update;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+tracking;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Customer Search</b><br><br>";
+
+
+output=output+
+search;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Costliest Parcel</b><br><br>";
+
+
+output=output+
+highest.customer+
+" - "+
+highest.destination+
+" - ₹"+
+highest.cost;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"Booked Parcels : "+
+booked+
+"<br>";
+
+
+output=output+
+"Delivered Parcels : "+
+delivered+
+"<br><br>";
+
+
+output=output+
+"<b>Total Revenue : ₹"+
+revenue+
+"</b>";
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
