@@ -1,0 +1,403 @@
+<html>
+
+<head>
+<title>Smart Gym Membership Management System</title>
+</head>
+
+<body>
+
+<h2>Smart Gym Membership Management System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class Gym
+{
+	constructor()
+	{
+		this.members=[
+			{
+				id:101,
+				name:"Masiha",
+				plan:"Monthly",
+				fee:1500,
+				months:1,
+				status:"Active"
+			},
+			{
+				id:102,
+				name:"Arun",
+				plan:"Quarterly",
+				fee:4000,
+				months:3,
+				status:"Active"
+			},
+			{
+				id:103,
+				name:"Sherin",
+				plan:"Yearly",
+				fee:12000,
+				months:12,
+				status:"Active"
+			},
+			{
+				id:104,
+				name:"Nabil",
+				plan:"Monthly",
+				fee:1500,
+				months:1,
+				status:"Expired"
+			},
+			{
+				id:105,
+				name:"Priya",
+				plan:"Half-Yearly",
+				fee:7000,
+				months:6,
+				status:"Active"
+			}
+		];
+
+		this.revenue=0;
+	}
+
+
+	showMembers()
+	{
+		let output="";
+
+		for(let i=0;i<this.members.length;i++)
+		{
+			output=output+
+			this.members[i].id+
+			" - "+
+			this.members[i].name+
+			" - "+
+			this.members[i].plan+
+			" - ₹"+
+			this.members[i].fee+
+			" - "+
+			this.members[i].status+
+			"<br>";
+		}
+
+		return output;
+	}
+
+
+	addMember(id,name,plan,fee,months)
+	{
+		for(let i=0;i<this.members.length;i++)
+		{
+			if(this.members[i].id==id)
+			{
+				return "Member ID Already Exists";
+			}
+		}
+
+		if(fee<=0 || months<=0)
+		{
+			return "Invalid Membership Details";
+		}
+
+		this.members.push(
+			{
+				id:id,
+				name:name,
+				plan:plan,
+				fee:fee,
+				months:months,
+				status:"Active"
+			}
+		);
+
+		this.revenue=this.revenue+fee;
+
+		return "Membership Added Successfully";
+	}
+
+
+	searchMember(name)
+	{
+		let output="";
+
+		for(let i=0;i<this.members.length;i++)
+		{
+			if(
+				this.members[i].name.toLowerCase()
+				.includes(name.toLowerCase())
+			)
+			{
+				output=output+
+				this.members[i].id+
+				" - "+
+				this.members[i].name+
+				" - "+
+				this.members[i].plan+
+				" - "+
+				this.members[i].status+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="Member Not Found";
+		}
+
+		return output;
+	}
+
+
+	renewMembership(id)
+	{
+		for(let i=0;i<this.members.length;i++)
+		{
+			if(this.members[i].id==id)
+			{
+				this.members[i].status="Active";
+
+				this.revenue=
+				this.revenue+this.members[i].fee;
+
+				return "Membership Renewed Successfully";
+			}
+		}
+
+		return "Member Not Found";
+	}
+
+
+	expireMembership(id)
+	{
+		for(let i=0;i<this.members.length;i++)
+		{
+			if(this.members[i].id==id)
+			{
+				this.members[i].status="Expired";
+
+				return "Membership Expired Successfully";
+			}
+		}
+
+		return "Member Not Found";
+	}
+
+
+	getCostliestPlan()
+	{
+		let highest=this.members[0];
+
+		for(let i=1;i<this.members.length;i++)
+		{
+			if(this.members[i].fee>highest.fee)
+			{
+				highest=this.members[i];
+			}
+		}
+
+		return highest;
+	}
+
+
+	getActiveCount()
+	{
+		let count=0;
+
+		for(let i=0;i<this.members.length;i++)
+		{
+			if(this.members[i].status=="Active")
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+
+	getPlanCount(plan)
+	{
+		let count=0;
+
+		for(let i=0;i<this.members.length;i++)
+		{
+			if(
+				this.members[i].plan.toLowerCase()
+				==plan.toLowerCase()
+			)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+
+	getTotalRevenue()
+	{
+		return this.revenue;
+	}
+
+
+	deleteMember(id)
+	{
+		for(let i=0;i<this.members.length;i++)
+		{
+			if(this.members[i].id==id)
+			{
+				this.members.splice(i,1);
+
+				return "Member Deleted Successfully";
+			}
+		}
+
+		return "Member Not Found";
+	}
+}
+
+
+let gym1=new Gym();
+
+
+let added=
+gym1.addMember(
+	106,
+	"Rahul",
+	"Monthly",
+	1500,
+	1
+);
+
+
+let renewed=
+gym1.renewMembership(104);
+
+
+let expired=
+gym1.expireMembership(102);
+
+
+let search=
+gym1.searchMember("Masiha");
+
+
+let highest=
+gym1.getCostliestPlan();
+
+
+let active=
+gym1.getActiveCount();
+
+
+let monthly=
+gym1.getPlanCount("Monthly");
+
+
+let revenue=
+gym1.getTotalRevenue();
+
+
+let output=
+"<h3>========== GYM MEMBERS ==========</h3>";
+
+
+output=output+
+gym1.showMembers();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Add Member</b><br><br>";
+
+
+output=output+
+added;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Renew Membership</b><br><br>";
+
+
+output=output+
+renewed;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Expire Membership</b><br><br>";
+
+
+output=output+
+expired;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Search Member</b><br><br>";
+
+
+output=output+
+search;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Costliest Plan</b><br><br>";
+
+
+output=output+
+highest.name+
+" - "+
+highest.plan+
+" - ₹"+
+highest.fee;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"Active Members : "+
+active+
+"<br>";
+
+
+output=output+
+"Monthly Members : "+
+monthly+
+"<br><br>";
+
+
+output=output+
+"<b>Total Revenue : ₹"+
+revenue+
+"</b>";
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
