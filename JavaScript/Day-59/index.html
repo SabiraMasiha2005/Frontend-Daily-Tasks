@@ -1,0 +1,386 @@
+<html>
+
+<head>
+<title>Smart Hotel Room Service Management System</title>
+</head>
+
+<body>
+
+<h2>Smart Hotel Room Service Management System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class HotelService
+{
+	constructor()
+	{
+		this.rooms=[
+			{
+				id:101,
+				guest:"Masiha",
+				roomType:"Deluxe",
+				service:"Food",
+				cost:500,
+				status:"Requested"
+			},
+			{
+				id:102,
+				guest:"Arun",
+				roomType:"Suite",
+				service:"Laundry",
+				cost:300,
+				status:"Completed"
+			},
+			{
+				id:103,
+				guest:"Sherin",
+				roomType:"Standard",
+				service:"Cleaning",
+				cost:200,
+				status:"Requested"
+			},
+			{
+				id:104,
+				guest:"Nabil",
+				roomType:"Deluxe",
+				service:"Spa",
+				cost:1000,
+				status:"Requested"
+			},
+			{
+				id:105,
+				guest:"Priya",
+				roomType:"Suite",
+				service:"Food",
+				cost:700,
+				status:"Completed"
+			}
+		];
+
+		this.revenue=0;
+	}
+
+
+	showServices()
+	{
+		let output="";
+
+		for(let i=0;i<this.rooms.length;i++)
+		{
+			output=output+
+			this.rooms[i].id+
+			" - "+
+			this.rooms[i].guest+
+			" - "+
+			this.rooms[i].roomType+
+			" - "+
+			this.rooms[i].service+
+			" - ₹"+
+			this.rooms[i].cost+
+			" - "+
+			this.rooms[i].status+
+			"<br>";
+		}
+
+		return output;
+	}
+
+
+	addService(id,guest,roomType,service,cost)
+	{
+		for(let i=0;i<this.rooms.length;i++)
+		{
+			if(this.rooms[i].id==id)
+			{
+				return "Room ID Already Exists";
+			}
+		}
+
+		if(cost<=0)
+		{
+			return "Invalid Service Cost";
+		}
+
+		this.rooms.push(
+			{
+				id:id,
+				guest:guest,
+				roomType:roomType,
+				service:service,
+				cost:cost,
+				status:"Requested"
+			}
+		);
+
+		return "Service Added Successfully";
+	}
+
+
+	completeService(id)
+	{
+		for(let i=0;i<this.rooms.length;i++)
+		{
+			if(this.rooms[i].id==id)
+			{
+				if(this.rooms[i].status=="Completed")
+				{
+					return "Service Already Completed";
+				}
+
+				this.rooms[i].status="Completed";
+
+				this.revenue=
+				this.revenue+this.rooms[i].cost;
+
+				return "Service Completed Successfully";
+			}
+		}
+
+		return "Room Not Found";
+	}
+
+
+	searchGuest(name)
+	{
+		let output="";
+
+		for(let i=0;i<this.rooms.length;i++)
+		{
+			if(
+				this.rooms[i].guest.toLowerCase()
+				.includes(name.toLowerCase())
+			)
+			{
+				output=output+
+				this.rooms[i].id+
+				" - "+
+				this.rooms[i].guest+
+				" - "+
+				this.rooms[i].service+
+				" - "+
+				this.rooms[i].status+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="Guest Not Found";
+		}
+
+		return output;
+	}
+
+
+	getCostliestService()
+	{
+		let highest=this.rooms[0];
+
+		for(let i=1;i<this.rooms.length;i++)
+		{
+			if(this.rooms[i].cost>highest.cost)
+			{
+				highest=this.rooms[i];
+			}
+		}
+
+		return highest;
+	}
+
+
+	getServiceCount(status)
+	{
+		let count=0;
+
+		for(let i=0;i<this.rooms.length;i++)
+		{
+			if(
+				this.rooms[i].status.toLowerCase()
+				==status.toLowerCase()
+			)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+
+	updateServiceCost(id,newCost)
+	{
+		if(newCost<=0)
+		{
+			return "Invalid Service Cost";
+		}
+
+		for(let i=0;i<this.rooms.length;i++)
+		{
+			if(this.rooms[i].id==id)
+			{
+				if(this.rooms[i].status=="Completed")
+				{
+					return "Completed Service Cannot Be Updated";
+				}
+
+				this.rooms[i].cost=newCost;
+
+				return "Service Cost Updated Successfully";
+			}
+		}
+
+		return "Room Not Found";
+	}
+
+
+	getTotalRevenue()
+	{
+		return this.revenue;
+	}
+}
+
+
+let hotel1=new HotelService();
+
+
+let added=
+hotel1.addService(
+	106,
+	"Rahul",
+	"Deluxe",
+	"Food",
+	600
+);
+
+
+let completed=
+hotel1.completeService(101);
+
+
+let updated=
+hotel1.updateServiceCost(103,400);
+
+
+let search=
+hotel1.searchGuest("Masiha");
+
+
+let highest=
+hotel1.getCostliestService();
+
+
+let requested=
+hotel1.getServiceCount("Requested");
+
+
+let completedCount=
+hotel1.getServiceCount("Completed");
+
+
+let revenue=
+hotel1.getTotalRevenue();
+
+
+let output=
+"<h3>========== HOTEL SERVICES ==========</h3>";
+
+
+output=output+
+hotel1.showServices();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Add Service</b><br><br>";
+
+
+output=output+
+added;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Complete Service</b><br><br>";
+
+
+output=output+
+completed;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Update Service Cost</b><br><br>";
+
+
+output=output+
+updated;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Guest Search</b><br><br>";
+
+
+output=output+
+search;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Costliest Service</b><br><br>";
+
+
+output=output+
+highest.guest+
+" - "+
+highest.service+
+" - ₹"+
+highest.cost;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"Requested Services : "+
+requested+
+"<br>";
+
+
+output=output+
+"Completed Services : "+
+completedCount+
+"<br><br>";
+
+
+output=output+
+"<b>Total Revenue : ₹"+
+revenue+
+"</b>";
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
