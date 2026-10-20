@@ -1,0 +1,393 @@
+<html>
+
+<head>
+    <title>Smart E-Commerce Order Management System</title>
+</head>
+
+<body>
+
+<h2>Smart E-Commerce Order Management System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class OrderManagement
+{
+    constructor()
+    {
+        this.orders=[
+            {
+                id:101,
+                customer:"Masiha",
+                product:"Laptop",
+                price:50000,
+                quantity:1,
+                status:"Delivered"
+            },
+            {
+                id:102,
+                customer:"Arun",
+                product:"Headphones",
+                price:2000,
+                quantity:2,
+                status:"Pending"
+            },
+            {
+                id:103,
+                customer:"Sherin",
+                product:"Mobile",
+                price:25000,
+                quantity:1,
+                status:"Shipped"
+            },
+            {
+                id:104,
+                customer:"Nabil",
+                product:"Keyboard",
+                price:3000,
+                quantity:2,
+                status:"Pending"
+            },
+            {
+                id:105,
+                customer:"Priya",
+                product:"Monitor",
+                price:12000,
+                quantity:1,
+                status:"Delivered"
+            }
+        ];
+    }
+
+
+    showOrders()
+    {
+        let output="";
+
+        for(let i=0;i<this.orders.length;i++)
+        {
+            output=output+
+            this.orders[i].id+" - "+
+            this.orders[i].customer+" - "+
+            this.orders[i].product+" - ₹"+
+            this.orders[i].price+" - Qty: "+
+            this.orders[i].quantity+" - "+
+            this.orders[i].status+"<br>";
+        }
+
+        return output;
+    }
+
+
+    addOrder(id,customer,product,price,quantity)
+    {
+        for(let i=0;i<this.orders.length;i++)
+        {
+            if(this.orders[i].id==id)
+            {
+                return "Order ID Already Exists";
+            }
+        }
+
+        if(price<=0 || quantity<=0)
+        {
+            return "Invalid Order Details";
+        }
+
+        this.orders.push(
+            {
+                id:id,
+                customer:customer,
+                product:product,
+                price:price,
+                quantity:quantity,
+                status:"Pending"
+            }
+        );
+
+        return "Order Added Successfully";
+    }
+
+
+    updateStatus(id,newStatus)
+    {
+        for(let i=0;i<this.orders.length;i++)
+        {
+            if(this.orders[i].id==id)
+            {
+                this.orders[i].status=newStatus;
+
+                return "Order Status Updated Successfully";
+            }
+        }
+
+        return "Order Not Found";
+    }
+
+
+    searchCustomer(name)
+    {
+        let output="";
+
+        for(let i=0;i<this.orders.length;i++)
+        {
+            if(
+                this.orders[i].customer.toLowerCase()
+                .includes(name.toLowerCase())
+            )
+            {
+                output=output+
+                this.orders[i].id+" - "+
+                this.orders[i].customer+" - "+
+                this.orders[i].product+" - "+
+                this.orders[i].status+"<br>";
+            }
+        }
+
+        if(output=="")
+        {
+            output="Customer Not Found";
+        }
+
+        return output;
+    }
+
+
+    cancelOrder(id)
+    {
+        for(let i=0;i<this.orders.length;i++)
+        {
+            if(this.orders[i].id==id)
+            {
+                if(this.orders[i].status=="Delivered")
+                {
+                    return "Delivered Order Cannot Be Cancelled";
+                }
+
+                if(this.orders[i].status=="Cancelled")
+                {
+                    return "Order Already Cancelled";
+                }
+
+                this.orders[i].status="Cancelled";
+
+                return "Order Cancelled Successfully";
+            }
+        }
+
+        return "Order Not Found";
+    }
+
+
+    getHighestOrder()
+    {
+        let highest=this.orders[0];
+
+        for(let i=1;i<this.orders.length;i++)
+        {
+            if(
+                this.orders[i].price*this.orders[i].quantity >
+                highest.price*highest.quantity
+            )
+            {
+                highest=this.orders[i];
+            }
+        }
+
+        return highest;
+    }
+
+
+    getStatusCount(status)
+    {
+        let count=0;
+
+        for(let i=0;i<this.orders.length;i++)
+        {
+            if(
+                this.orders[i].status.toLowerCase()
+                ==status.toLowerCase()
+            )
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+
+    getTotalRevenue()
+    {
+        let total=0;
+
+        for(let i=0;i<this.orders.length;i++)
+        {
+            if(this.orders[i].status=="Delivered")
+            {
+                total=total+
+                this.orders[i].price*
+                this.orders[i].quantity;
+            }
+        }
+
+        return total;
+    }
+
+
+    deleteOrder(id)
+    {
+        for(let i=0;i<this.orders.length;i++)
+        {
+            if(this.orders[i].id==id)
+            {
+                this.orders.splice(i,1);
+
+                return "Order Deleted Successfully";
+            }
+        }
+
+        return "Order Not Found";
+    }
+}
+
+
+let order1=new OrderManagement();
+
+
+let added=
+order1.addOrder(
+    106,
+    "Rahul",
+    "Mouse",
+    1000,
+    2
+);
+
+
+let updated=
+order1.updateStatus(102,"Shipped");
+
+
+let search=
+order1.searchCustomer("Masiha");
+
+
+let cancellation=
+order1.cancelOrder(103);
+
+
+let highest=
+order1.getHighestOrder();
+
+
+let pending=
+order1.getStatusCount("Pending");
+
+
+let delivered=
+order1.getStatusCount("Delivered");
+
+
+let revenue=
+order1.getTotalRevenue();
+
+
+let output=
+"<h3>========== ORDER DETAILS ==========</h3>";
+
+
+output=output+
+order1.showOrders();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Add Order</b><br><br>";
+
+
+output=output+
+added;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Update Status</b><br><br>";
+
+
+output=output+
+updated;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Customer Search</b><br><br>";
+
+
+output=output+
+search;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Cancel Order</b><br><br>";
+
+
+output=output+
+cancellation;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Highest Order</b><br><br>";
+
+
+output=output+
+highest.customer+" - "+
+highest.product+" - ₹"+
+(highest.price*highest.quantity);
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"Pending Orders : "+pending+
+"<br>";
+
+
+output=output+
+"Delivered Orders : "+delivered+
+"<br><br>";
+
+
+output=output+
+"<b>Total Revenue : ₹"+
+revenue+
+"</b>";
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
