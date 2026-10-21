@@ -1,0 +1,467 @@
+<html>
+
+<head>
+<title>Smart Digital Wallet Management System</title>
+</head>
+
+<body>
+
+<h2>Smart Digital Wallet Management System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class DigitalWallet
+{
+	constructor()
+	{
+		this.users=[
+			{
+				id:101,
+				name:"Masiha",
+				balance:5000
+			},
+			{
+				id:102,
+				name:"Arun",
+				balance:8000
+			},
+			{
+				id:103,
+				name:"Sherin",
+				balance:3500
+			},
+			{
+				id:104,
+				name:"Nabil",
+				balance:10000
+			},
+			{
+				id:105,
+				name:"Priya",
+				balance:6000
+			}
+		];
+
+		this.transactions=[];
+	}
+
+
+	showUsers()
+	{
+		let output="";
+
+		for(let i=0;i<this.users.length;i++)
+		{
+			output=output+
+			this.users[i].id+
+			" - "+
+			this.users[i].name+
+			" - ₹"+
+			this.users[i].balance+
+			"<br>";
+		}
+
+		return output;
+	}
+
+
+	addMoney(id,amount)
+	{
+		if(amount<=0)
+		{
+			return "Invalid Amount";
+		}
+
+		for(let i=0;i<this.users.length;i++)
+		{
+			if(this.users[i].id==id)
+			{
+				this.users[i].balance=
+				this.users[i].balance+amount;
+
+				this.transactions.push(
+					{
+						userId:id,
+						type:"Deposit",
+						amount:amount
+					}
+				);
+
+				return "Money Added Successfully";
+			}
+		}
+
+		return "User Not Found";
+	}
+
+
+	withdrawMoney(id,amount)
+	{
+		if(amount<=0)
+		{
+			return "Invalid Amount";
+		}
+
+		for(let i=0;i<this.users.length;i++)
+		{
+			if(this.users[i].id==id)
+			{
+				if(this.users[i].balance<amount)
+				{
+					return "Insufficient Balance";
+				}
+
+				this.users[i].balance=
+				this.users[i].balance-amount;
+
+				this.transactions.push(
+					{
+						userId:id,
+						type:"Withdrawal",
+						amount:amount
+					}
+				);
+
+				return "Money Withdrawn Successfully";
+			}
+		}
+
+		return "User Not Found";
+	}
+
+
+	transferMoney(fromId,toId,amount)
+	{
+		if(amount<=0)
+		{
+			return "Invalid Amount";
+		}
+
+		let sender=null;
+		let receiver=null;
+
+		for(let i=0;i<this.users.length;i++)
+		{
+			if(this.users[i].id==fromId)
+			{
+				sender=this.users[i];
+			}
+
+			if(this.users[i].id==toId)
+			{
+				receiver=this.users[i];
+			}
+		}
+
+		if(sender==null || receiver==null)
+		{
+			return "User Not Found";
+		}
+
+		if(fromId==toId)
+		{
+			return "Cannot Transfer To Same User";
+		}
+
+		if(sender.balance<amount)
+		{
+			return "Insufficient Balance";
+		}
+
+		sender.balance=sender.balance-amount;
+
+		receiver.balance=receiver.balance+amount;
+
+		this.transactions.push(
+			{
+				userId:fromId,
+				type:"Transfer Sent",
+				amount:amount
+			}
+		);
+
+		this.transactions.push(
+			{
+				userId:toId,
+				type:"Transfer Received",
+				amount:amount
+			}
+		);
+
+		return "Money Transferred Successfully";
+	}
+
+
+	checkBalance(id)
+	{
+		for(let i=0;i<this.users.length;i++)
+		{
+			if(this.users[i].id==id)
+			{
+				return this.users[i].name+
+				" Balance : ₹"+
+				this.users[i].balance;
+			}
+		}
+
+		return "User Not Found";
+	}
+
+
+	getRichestUser()
+	{
+		let richest=this.users[0];
+
+		for(let i=1;i<this.users.length;i++)
+		{
+			if(this.users[i].balance>richest.balance)
+			{
+				richest=this.users[i];
+			}
+		}
+
+		return richest;
+	}
+
+
+	getTotalBalance()
+	{
+		let total=0;
+
+		for(let i=0;i<this.users.length;i++)
+		{
+			total=total+this.users[i].balance;
+		}
+
+		return total;
+	}
+
+
+	searchUser(name)
+	{
+		let output="";
+
+		for(let i=0;i<this.users.length;i++)
+		{
+			if(
+				this.users[i].name.toLowerCase()
+				.includes(name.toLowerCase())
+			)
+			{
+				output=output+
+				this.users[i].id+
+				" - "+
+				this.users[i].name+
+				" - ₹"+
+				this.users[i].balance+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="User Not Found";
+		}
+
+		return output;
+	}
+
+
+	getTransactionCount(id)
+	{
+		let count=0;
+
+		for(let i=0;i<this.transactions.length;i++)
+		{
+			if(this.transactions[i].userId==id)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+
+	showTransactions()
+	{
+		let output="";
+
+		for(let i=0;i<this.transactions.length;i++)
+		{
+			output=output+
+			this.transactions[i].userId+
+			" - "+
+			this.transactions[i].type+
+			" - ₹"+
+			this.transactions[i].amount+
+			"<br>";
+		}
+
+		if(output=="")
+		{
+			output="No Transactions Found";
+		}
+
+		return output;
+	}
+}
+
+
+let wallet1=new DigitalWallet();
+
+
+let deposit=
+wallet1.addMoney(101,2000);
+
+
+let withdrawal=
+wallet1.withdrawMoney(102,1000);
+
+
+let transfer=
+wallet1.transferMoney(101,103,1500);
+
+
+let balance=
+wallet1.checkBalance(101);
+
+
+let richest=
+wallet1.getRichestUser();
+
+
+let total=
+wallet1.getTotalBalance();
+
+
+let search=
+wallet1.searchUser("Sherin");
+
+
+let count=
+wallet1.getTransactionCount(101);
+
+
+let output=
+"<h3>========== WALLET USERS ==========</h3>";
+
+
+output=output+
+wallet1.showUsers();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Deposit</b><br><br>";
+
+
+output=output+
+deposit;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Withdrawal</b><br><br>";
+
+
+output=output+
+withdrawal;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Money Transfer</b><br><br>";
+
+
+output=output+
+transfer;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Balance Check</b><br><br>";
+
+
+output=output+
+balance;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Richest User</b><br><br>";
+
+
+output=output+
+richest.name+
+" - ₹"+
+richest.balance;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Total Wallet Balance : ₹"+
+total+
+"</b>";
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Search Result</b><br><br>";
+
+
+output=output+
+search;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"User 101 Transactions : "+
+count;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Transaction History</b><br><br>";
+
+
+output=output+
+wallet1.showTransactions();
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
