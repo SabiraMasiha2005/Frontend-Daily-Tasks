@@ -1,0 +1,427 @@
+<html>
+
+<head>
+<title>Smart EV Charging Station Management System</title>
+</head>
+
+<body>
+
+<h2>Smart EV Charging Station Management System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class ChargingStation
+{
+	constructor()
+	{
+		this.vehicles=[
+			{
+				id:101,
+				owner:"Masiha",
+				vehicle:"Tata Nexon EV",
+				battery:20,
+				units:15,
+				rate:12,
+				status:"Waiting"
+			},
+			{
+				id:102,
+				owner:"Arun",
+				vehicle:"MG ZS EV",
+				battery:35,
+				units:20,
+				rate:12,
+				status:"Charging"
+			},
+			{
+				id:103,
+				owner:"Sherin",
+				vehicle:"Tata Tiago EV",
+				battery:15,
+				units:10,
+				rate:12,
+				status:"Waiting"
+			},
+			{
+				id:104,
+				owner:"Nabil",
+				vehicle:"Hyundai Kona",
+				battery:50,
+				units:25,
+				rate:12,
+				status:"Completed"
+			},
+			{
+				id:105,
+				owner:"Priya",
+				vehicle:"Mahindra XUV400",
+				battery:25,
+				units:18,
+				rate:12,
+				status:"Waiting"
+			}
+		];
+
+		this.revenue=0;
+
+		for(let i=0;i<this.vehicles.length;i++)
+		{
+			if(this.vehicles[i].status=="Completed")
+			{
+				this.revenue=
+				this.revenue+
+				this.vehicles[i].units*
+				this.vehicles[i].rate;
+			}
+		}
+	}
+
+
+	showVehicles()
+	{
+		let output="";
+
+		for(let i=0;i<this.vehicles.length;i++)
+		{
+			output=output+
+			this.vehicles[i].id+
+			" - "+
+			this.vehicles[i].owner+
+			" - "+
+			this.vehicles[i].vehicle+
+			" - Battery: "+
+			this.vehicles[i].battery+
+			"% - "+
+			this.vehicles[i].units+
+			" kWh - "+
+			this.vehicles[i].status+
+			"<br>";
+		}
+
+		return output;
+	}
+
+
+	startCharging(id)
+	{
+		for(let i=0;i<this.vehicles.length;i++)
+		{
+			if(this.vehicles[i].id==id)
+			{
+				if(this.vehicles[i].status!="Waiting")
+				{
+					return "Vehicle Is Not Waiting";
+				}
+
+				this.vehicles[i].status="Charging";
+
+				return "Charging Started Successfully";
+			}
+		}
+
+		return "Vehicle Not Found";
+	}
+
+
+	completeCharging(id)
+	{
+		for(let i=0;i<this.vehicles.length;i++)
+		{
+			if(this.vehicles[i].id==id)
+			{
+				if(this.vehicles[i].status!="Charging")
+				{
+					return "Vehicle Is Not Charging";
+				}
+
+				this.vehicles[i].status="Completed";
+
+				let amount=
+				this.vehicles[i].units*
+				this.vehicles[i].rate;
+
+				this.revenue=this.revenue+amount;
+
+				return `
+					<h3>========== CHARGING RECEIPT ==========</h3>
+
+					Owner : ${this.vehicles[i].owner}<br>
+
+					Vehicle : ${this.vehicles[i].vehicle}<br>
+
+					Energy Used : ${this.vehicles[i].units} kWh<br>
+
+					Rate : ₹${this.vehicles[i].rate} per kWh<br>
+
+					<b>Total Amount : ₹${amount}</b><br><br>
+
+					Status : Charging Completed
+				`;
+			}
+		}
+
+		return "Vehicle Not Found";
+	}
+
+
+	searchVehicle(name)
+	{
+		let output="";
+
+		for(let i=0;i<this.vehicles.length;i++)
+		{
+			if(
+				this.vehicles[i].vehicle.toLowerCase()
+				.includes(name.toLowerCase())
+			)
+			{
+				output=output+
+				this.vehicles[i].id+
+				" - "+
+				this.vehicles[i].vehicle+
+				" - "+
+				this.vehicles[i].status+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="Vehicle Not Found";
+		}
+
+		return output;
+	}
+
+
+	getHighestEnergyVehicle()
+	{
+		let highest=this.vehicles[0];
+
+		for(let i=1;i<this.vehicles.length;i++)
+		{
+			if(this.vehicles[i].units>highest.units)
+			{
+				highest=this.vehicles[i];
+			}
+		}
+
+		return highest;
+	}
+
+
+	getStatusCount(status)
+	{
+		let count=0;
+
+		for(let i=0;i<this.vehicles.length;i++)
+		{
+			if(
+				this.vehicles[i].status.toLowerCase()
+				==status.toLowerCase()
+			)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+
+	getTotalEnergy()
+	{
+		let total=0;
+
+		for(let i=0;i<this.vehicles.length;i++)
+		{
+			if(this.vehicles[i].status=="Completed")
+			{
+				total=total+this.vehicles[i].units;
+			}
+		}
+
+		return total;
+	}
+
+
+	getTotalRevenue()
+	{
+		return this.revenue;
+	}
+
+
+	updateChargingUnits(id,newUnits)
+	{
+		if(newUnits<=0)
+		{
+			return "Invalid Energy Units";
+		}
+
+		for(let i=0;i<this.vehicles.length;i++)
+		{
+			if(this.vehicles[i].id==id)
+			{
+				if(this.vehicles[i].status=="Completed")
+				{
+					return "Charging Already Completed";
+				}
+
+				this.vehicles[i].units=newUnits;
+
+				return "Charging Units Updated Successfully";
+			}
+		}
+
+		return "Vehicle Not Found";
+	}
+}
+
+
+let station1=new ChargingStation();
+
+
+let started=
+station1.startCharging(101);
+
+
+let completed=
+station1.completeCharging(102);
+
+
+let updated=
+station1.updateChargingUnits(103,12);
+
+
+let search=
+station1.searchVehicle("Tata");
+
+
+let highest=
+station1.getHighestEnergyVehicle();
+
+
+let waiting=
+station1.getStatusCount("Waiting");
+
+
+let charging=
+station1.getStatusCount("Charging");
+
+
+let energy=
+station1.getTotalEnergy();
+
+
+let revenue=
+station1.getTotalRevenue();
+
+
+let output=
+"<h3>========== CHARGING STATION REPORT ==========</h3>";
+
+
+output=output+
+station1.showVehicles();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Start Charging</b><br><br>";
+
+
+output=output+
+started;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Complete Charging</b><br><br>";
+
+
+output=output+
+completed;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Update Charging Units</b><br><br>";
+
+
+output=output+
+updated;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Search Result</b><br><br>";
+
+
+output=output+
+search;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Highest Energy Vehicle</b><br><br>";
+
+
+output=output+
+highest.vehicle+
+" - "+
+highest.units+
+" kWh";
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"Waiting Vehicles : "+
+waiting+
+"<br>";
+
+
+output=output+
+"Charging Vehicles : "+
+charging+
+"<br>";
+
+
+output=output+
+"Completed Energy : "+
+energy+
+" kWh<br><br>";
+
+
+output=output+
+"<b>Total Revenue : ₹"+
+revenue+
+"</b>";
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
