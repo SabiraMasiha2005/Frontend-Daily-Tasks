@@ -1,113 +1,98 @@
 <html>
 
 <head>
-<title>Smart Waste Collection Management System</title>
+<title>Smart Agriculture & Crop Management System</title>
 </head>
 
 <body>
 
-<h2>Smart Waste Collection & Recycling Management System</h2>
+<h2>Smart Agriculture & Crop Management System</h2>
 
 <div id="result"></div>
 
 <script>
 
-class WasteManagement
+class FarmManagement
 {
 	constructor()
 	{
-		this.requests=[
+		this.crops=[
 			{
 				id:101,
-				area:"Medavakkam",
-				wasteType:"Plastic",
-				weight:25,
-				fee:500,
-				recyclable:true,
-				status:"Pending"
+				name:"Rice",
+				season:"Monsoon",
+				area:5,
+				yield:2000,
+				price:30,
+				water:80,
+				status:"Growing"
 			},
 			{
 				id:102,
-				area:"Velachery",
-				wasteType:"Food Waste",
-				weight:40,
-				fee:400,
-				recyclable:false,
-				status:"Scheduled"
+				name:"Wheat",
+				season:"Winter",
+				area:4,
+				yield:1500,
+				price:25,
+				water:50,
+				status:"Growing"
 			},
 			{
 				id:103,
-				area:"Tambaram",
-				wasteType:"Paper",
-				weight:30,
-				fee:300,
-				recyclable:true,
-				status:"Pending"
+				name:"Tomato",
+				season:"Summer",
+				area:2,
+				yield:1000,
+				price:40,
+				water:70,
+				status:"Ready"
 			},
 			{
 				id:104,
-				area:"Sholinganallur",
-				wasteType:"Metal",
-				weight:50,
-				fee:1000,
-				recyclable:true,
-				status:"Collected"
+				name:"Cotton",
+				season:"Monsoon",
+				area:6,
+				yield:2500,
+				price:60,
+				water:40,
+				status:"Growing"
 			},
 			{
 				id:105,
-				area:"Pallikaranai",
-				wasteType:"Food Waste",
-				weight:20,
-				fee:200,
-				recyclable:false,
-				status:"Scheduled"
+				name:"Maize",
+				season:"Summer",
+				area:3,
+				yield:1200,
+				price:20,
+				water:60,
+				status:"Ready"
 			}
 		];
 
 		this.revenue=0;
-
-		for(let i=0;i<this.requests.length;i++)
-		{
-			if(this.requests[i].status=="Collected")
-			{
-				this.revenue=
-				this.revenue+this.requests[i].fee;
-			}
-		}
 	}
 
 
-	showRequests()
+	showCrops()
 	{
 		let output="";
 
-		for(let i=0;i<this.requests.length;i++)
+		for(let i=0;i<this.crops.length;i++)
 		{
-			let recycling="";
-
-			if(this.requests[i].recyclable)
-			{
-				recycling="Recyclable";
-			}
-			else
-			{
-				recycling="Non-Recyclable";
-			}
-
 			output=output+
-			this.requests[i].id+
+			this.crops[i].id+
 			" - "+
-			this.requests[i].area+
+			this.crops[i].name+
 			" - "+
-			this.requests[i].wasteType+
+			this.crops[i].season+
 			" - "+
-			this.requests[i].weight+
+			this.crops[i].area+
+			" acres - "+
+			this.crops[i].yield+
 			" kg - ₹"+
-			this.requests[i].fee+
-			" - "+
-			recycling+
-			" - "+
-			this.requests[i].status+
+			this.crops[i].price+
+			"/kg - "+
+			this.crops[i].status+
 			"<br>";
 		}
 
@@ -115,123 +100,133 @@ class WasteManagement
 	}
 
 
-	addRequest(id,area,wasteType,weight,fee,recyclable)
+	addCrop(id,name,season,area,yieldAmount,price,water)
 	{
-		for(let i=0;i<this.requests.length;i++)
+		for(let i=0;i<this.crops.length;i++)
 		{
-			if(this.requests[i].id==id)
+			if(this.crops[i].id==id)
 			{
-				return "Request ID Already Exists";
+				return "Crop ID Already Exists";
 			}
 		}
 
-		if(weight<=0 || fee<0)
+		if(area<=0 || yieldAmount<=0 || price<=0)
 		{
-			return "Invalid Weight or Fee";
+			return "Invalid Crop Details";
 		}
 
-		this.requests.push(
+		this.crops.push(
 			{
 				id:id,
+				name:name,
+				season:season,
 				area:area,
-				wasteType:wasteType,
-				weight:weight,
-				fee:fee,
-				recyclable:recyclable,
-				status:"Pending"
+				yield:yieldAmount,
+				price:price,
+				water:water,
+				status:"Growing"
 			}
 		);
 
-		return "Waste Collection Request Added Successfully";
+		return "Crop Added Successfully";
 	}
 
 
-	scheduleCollection(id)
-	{
-		for(let i=0;i<this.requests.length;i++)
-		{
-			if(this.requests[i].id==id)
-			{
-				if(this.requests[i].status!="Pending")
-				{
-					return "Request Cannot Be Scheduled";
-				}
-
-				this.requests[i].status="Scheduled";
-
-				return "Collection Scheduled Successfully";
-			}
-		}
-
-		return "Request Not Found";
-	}
-
-
-	completeCollection(id)
-	{
-		for(let i=0;i<this.requests.length;i++)
-		{
-			if(this.requests[i].id==id)
-			{
-				if(this.requests[i].status!="Scheduled")
-				{
-					return "Please Schedule Collection First";
-				}
-
-				this.requests[i].status="Collected";
-
-				this.revenue=
-				this.revenue+this.requests[i].fee;
-
-				return "Waste Collected Successfully";
-			}
-		}
-
-		return "Request Not Found";
-	}
-
-
-	searchArea(area)
+	searchCrop(name)
 	{
 		let output="";
 
-		for(let i=0;i<this.requests.length;i++)
+		for(let i=0;i<this.crops.length;i++)
 		{
 			if(
-				this.requests[i].area.toLowerCase()
-				.includes(area.toLowerCase())
+				this.crops[i].name.toLowerCase()
+				.includes(name.toLowerCase())
 			)
 			{
 				output=output+
-				this.requests[i].id+
+				this.crops[i].name+
 				" - "+
-				this.requests[i].area+
+				this.crops[i].season+
 				" - "+
-				this.requests[i].wasteType+
-				" - "+
-				this.requests[i].status+
+				this.crops[i].yield+
+				" kg"+
 				"<br>";
 			}
 		}
 
 		if(output=="")
 		{
-			output="Area Not Found";
+			output="Crop Not Found";
 		}
 
 		return output;
 	}
 
 
-	getHeaviestWaste()
+	updateCropStatus(id,newStatus)
 	{
-		let highest=this.requests[0];
-
-		for(let i=1;i<this.requests.length;i++)
+		for(let i=0;i<this.crops.length;i++)
 		{
-			if(this.requests[i].weight>highest.weight)
+			if(this.crops[i].id==id)
 			{
-				highest=this.requests[i];
+				this.crops[i].status=newStatus;
+
+				return "Crop Status Updated Successfully";
+			}
+		}
+
+		return "Crop Not Found";
+	}
+
+
+	calculateCropRevenue(id)
+	{
+		for(let i=0;i<this.crops.length;i++)
+		{
+			if(this.crops[i].id==id)
+			{
+				if(this.crops[i].status!="Ready")
+				{
+					return "Crop Is Not Ready For Harvest";
+				}
+
+				let amount=
+				this.crops[i].yield*
+				this.crops[i].price;
+
+				this.revenue=this.revenue+amount;
+
+				this.crops[i].status="Harvested";
+
+				return `
+					<h3>========== HARVEST REPORT ==========</h3>
+
+					Crop : ${this.crops[i].name}<br>
+
+					Yield : ${this.crops[i].yield} kg<br>
+
+					Price Per KG : ₹${this.crops[i].price}<br><br>
+
+					<b>Crop Revenue : ₹${amount}</b><br><br>
+
+					Status : Harvested
+				`;
+			}
+		}
+
+		return "Crop Not Found";
+	}
+
+
+	getHighestYieldCrop()
+	{
+		let highest=this.crops[0];
+
+		for(let i=1;i<this.crops.length;i++)
+		{
+			if(this.crops[i].yield>highest.yield)
+			{
+				highest=this.crops[i];
 			}
 		}
 
@@ -239,13 +234,16 @@ class WasteManagement
 	}
 
 
-	getPendingCount()
+	getSeasonCount(season)
 	{
 		let count=0;
 
-		for(let i=0;i<this.requests.length;i++)
+		for(let i=0;i<this.crops.length;i++)
 		{
-			if(this.requests[i].status=="Pending")
+			if(
+				this.crops[i].season.toLowerCase()
+				==season.toLowerCase()
+			)
 			{
 				count++;
 			}
@@ -255,19 +253,15 @@ class WasteManagement
 	}
 
 
-	getRecyclingWeight()
+	getWaterUsage()
 	{
 		let total=0;
 
-		for(let i=0;i<this.requests.length;i++)
+		for(let i=0;i<this.crops.length;i++)
 		{
-			if(
-				this.requests[i].recyclable &&
-				this.requests[i].status=="Collected"
-			)
-			{
-				total=total+this.requests[i].weight;
-			}
+			total=total+
+			this.crops[i].water*
+			this.crops[i].area;
 		}
 
 		return total;
@@ -280,16 +274,13 @@ class WasteManagement
 	}
 
 
-	getWasteTypeCount(type)
+	getReadyCropCount()
 	{
 		let count=0;
 
-		for(let i=0;i<this.requests.length;i++)
+		for(let i=0;i<this.crops.length;i++)
 		{
-			if(
-				this.requests[i].wasteType.toLowerCase()
-				==type.toLowerCase()
-			)
+			if(this.crops[i].status=="Ready")
 			{
 				count++;
 			}
@@ -300,58 +291,59 @@ class WasteManagement
 }
 
 
-let waste1=new WasteManagement();
+let farm1=new FarmManagement();
 
 
 let added=
-waste1.addRequest(
+farm1.addCrop(
 	106,
-	"Chromepet",
-	"Plastic",
-	15,
-	300,
-	true
+	"Groundnut",
+	"Summer",
+	2,
+	900,
+	35,
+	45
 );
 
 
-let scheduled=
-waste1.scheduleCollection(101);
+let updated=
+farm1.updateCropStatus(101,"Ready");
 
 
-let completed=
-waste1.completeCollection(102);
+let harvest=
+farm1.calculateCropRevenue(103);
 
 
 let search=
-waste1.searchArea("Tambaram");
+farm1.searchCrop("Rice");
 
 
 let highest=
-waste1.getHeaviestWaste();
+farm1.getHighestYieldCrop();
 
 
-let pending=
-waste1.getPendingCount();
+let monsoonCount=
+farm1.getSeasonCount("Monsoon");
 
 
-let recycling=
-waste1.getRecyclingWeight();
+let water=
+farm1.getWaterUsage();
 
 
-let plasticCount=
-waste1.getWasteTypeCount("Plastic");
+let ready=
+farm1.getReadyCropCount();
 
 
 let revenue=
-waste1.getTotalRevenue();
+farm1.getTotalRevenue();
 
 
 let output=
-"<h3>========== WASTE COLLECTION REPORT ==========</h3>";
+"<h3>========== FARM CROP REPORT ==========</h3>";
 
 
 output=output+
-waste1.showRequests();
+farm1.showCrops();
 
 
 output=output+
@@ -359,7 +351,7 @@ output=output+
 
 
 output=output+
-"<b>Add Request</b><br><br>";
+"<b>Add Crop</b><br><br>";
 
 
 output=output+
@@ -371,11 +363,11 @@ output=output+
 
 
 output=output+
-"<b>Schedule Collection</b><br><br>";
+"<b>Update Crop Status</b><br><br>";
 
 
 output=output+
-scheduled;
+updated;
 
 
 output=output+
@@ -383,11 +375,7 @@ output=output+
 
 
 output=output+
-"<b>Complete Collection</b><br><br>";
-
-
-output=output+
-completed;
+harvest;
 
 
 output=output+
@@ -395,7 +383,7 @@ output=output+
 
 
 output=output+
-"<b>Area Search</b><br><br>";
+"<b>Search Crop</b><br><br>";
 
 
 output=output+
@@ -403,19 +391,17 @@ search;
 
 
 output=output+
-"<br><br>--------------------------------<br><br>";
+"<br><br>";
 
 
 output=output+
-"<b>Heaviest Waste Request</b><br><br>";
+"<b>Highest Yield Crop</b><br><br>";
 
 
 output=output+
-highest.area+
+highest.name+
 " - "+
-highest.wasteType+
-" - "+
-highest.weight+
+highest.yield+
 " kg";
 
 
@@ -424,26 +410,25 @@ output=output+
 
 
 output=output+
-"Pending Requests : "+
-pending+
+"Monsoon Crops : "+
+monsoonCount+
 "<br>";
 
 
 output=output+
-"Collected Recyclable Waste : "+
-recycling+
-" kg"+
-"<br>";
+"Total Water Usage : "+
+water+
+" units<br>";
 
 
 output=output+
-"Plastic Requests : "+
-plasticCount+
+"Ready Crops : "+
+ready+
 "<br><br>";
 
 
 output=output+
-"<b>Total Collection Revenue : ₹"+
+"<b>Total Harvest Revenue : ₹"+
 revenue+
 "</b>";
 
