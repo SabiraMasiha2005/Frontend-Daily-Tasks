@@ -1,0 +1,464 @@
+<html>
+
+<head>
+<title>Smart Emergency Resource Management System</title>
+</head>
+
+<body>
+
+<h2>Smart Emergency Resource Management System</h2>
+
+<div id="result"></div>
+
+<script>
+
+class EmergencyManagement
+{
+	constructor()
+	{
+		this.requests=[
+			{
+				id:101,
+				area:"Medavakkam",
+				resource:"Food Kits",
+				quantity:100,
+				priority:"High",
+				status:"Pending"
+			},
+			{
+				id:102,
+				area:"Velachery",
+				resource:"Water Bottles",
+				quantity:200,
+				priority:"Medium",
+				status:"Approved"
+			},
+			{
+				id:103,
+				area:"Tambaram",
+				resource:"Medical Kits",
+				quantity:50,
+				priority:"High",
+				status:"Pending"
+			},
+			{
+				id:104,
+				area:"Sholinganallur",
+				resource:"Blankets",
+				quantity:150,
+				priority:"Low",
+				status:"Delivered"
+			},
+			{
+				id:105,
+				area:"Pallikaranai",
+				resource:"Food Kits",
+				quantity:80,
+				priority:"Medium",
+				status:"Approved"
+			}
+		];
+
+		this.deliveredQuantity=150;
+	}
+
+
+	showRequests()
+	{
+		let output="";
+
+		for(let i=0;i<this.requests.length;i++)
+		{
+			output=output+
+			this.requests[i].id+
+			" - "+
+			this.requests[i].area+
+			" - "+
+			this.requests[i].resource+
+			" - "+
+			this.requests[i].quantity+
+			" units - "+
+			this.requests[i].priority+
+			" - "+
+			this.requests[i].status+
+			"<br>";
+		}
+
+		return output;
+	}
+
+
+	addRequest(id,area,resource,quantity,priority)
+	{
+		for(let i=0;i<this.requests.length;i++)
+		{
+			if(this.requests[i].id==id)
+			{
+				return "Request ID Already Exists";
+			}
+		}
+
+		if(quantity<=0)
+		{
+			return "Invalid Quantity";
+		}
+
+		this.requests.push(
+			{
+				id:id,
+				area:area,
+				resource:resource,
+				quantity:quantity,
+				priority:priority,
+				status:"Pending"
+			}
+		);
+
+		return "Emergency Request Added Successfully";
+	}
+
+
+	approveRequest(id)
+	{
+		for(let i=0;i<this.requests.length;i++)
+		{
+			if(this.requests[i].id==id)
+			{
+				if(this.requests[i].status!="Pending")
+				{
+					return "Request Cannot Be Approved";
+				}
+
+				this.requests[i].status="Approved";
+
+				return "Request Approved Successfully";
+			}
+		}
+
+		return "Request Not Found";
+	}
+
+
+	deliverResource(id)
+	{
+		for(let i=0;i<this.requests.length;i++)
+		{
+			if(this.requests[i].id==id)
+			{
+				if(this.requests[i].status!="Approved")
+				{
+					return "Please Approve Request First";
+				}
+
+				this.requests[i].status="Delivered";
+
+				this.deliveredQuantity=
+				this.deliveredQuantity+
+				this.requests[i].quantity;
+
+				return "Resource Delivered Successfully";
+			}
+		}
+
+		return "Request Not Found";
+	}
+
+
+	searchArea(area)
+	{
+		let output="";
+
+		for(let i=0;i<this.requests.length;i++)
+		{
+			if(
+				this.requests[i].area.toLowerCase()
+				.includes(area.toLowerCase())
+			)
+			{
+				output=output+
+				this.requests[i].id+
+				" - "+
+				this.requests[i].area+
+				" - "+
+				this.requests[i].resource+
+				" - "+
+				this.requests[i].status+
+				"<br>";
+			}
+		}
+
+		if(output=="")
+		{
+			output="Area Not Found";
+		}
+
+		return output;
+	}
+
+
+	getHighestPriorityRequest()
+	{
+		let highest=null;
+
+		for(let i=0;i<this.requests.length;i++)
+		{
+			if(this.requests[i].status=="Pending")
+			{
+				if(
+					highest==null ||
+					(
+						this.requests[i].priority=="High" &&
+						highest.priority!="High"
+					) ||
+					(
+						this.requests[i].priority=="Medium" &&
+						highest.priority=="Low"
+					)
+				)
+				{
+					highest=this.requests[i];
+				}
+			}
+		}
+
+		return highest;
+	}
+
+
+	getStatusCount(status)
+	{
+		let count=0;
+
+		for(let i=0;i<this.requests.length;i++)
+		{
+			if(
+				this.requests[i].status.toLowerCase()
+				==status.toLowerCase()
+			)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+
+	getResourceCount(resource)
+	{
+		let count=0;
+
+		for(let i=0;i<this.requests.length;i++)
+		{
+			if(
+				this.requests[i].resource.toLowerCase()
+				==resource.toLowerCase()
+			)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+
+	getTotalRequestedQuantity()
+	{
+		let total=0;
+
+		for(let i=0;i<this.requests.length;i++)
+		{
+			total=total+this.requests[i].quantity;
+		}
+
+		return total;
+	}
+
+
+	getDeliveredQuantity()
+	{
+		return this.deliveredQuantity;
+	}
+}
+
+
+let emergency1=new EmergencyManagement();
+
+
+let added=
+emergency1.addRequest(
+	106,
+	"Chromepet",
+	"Water Bottles",
+	120,
+	"High"
+);
+
+
+let approved=
+emergency1.approveRequest(101);
+
+
+let delivered=
+emergency1.deliverResource(102);
+
+
+let search=
+emergency1.searchArea("Tambaram");
+
+
+let highest=
+emergency1.getHighestPriorityRequest();
+
+
+let pending=
+emergency1.getStatusCount("Pending");
+
+
+let approvedCount=
+emergency1.getStatusCount("Approved");
+
+
+let deliveredCount=
+emergency1.getStatusCount("Delivered");
+
+
+let foodCount=
+emergency1.getResourceCount("Food Kits");
+
+
+let total=
+emergency1.getTotalRequestedQuantity();
+
+
+let deliveredTotal=
+emergency1.getDeliveredQuantity();
+
+
+let output=
+"<h3>========== EMERGENCY REPORT ==========</h3>";
+
+
+output=output+
+emergency1.showRequests();
+
+
+output=output+
+"<br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Add Request</b><br><br>";
+
+
+output=output+
+added;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Approve Request</b><br><br>";
+
+
+output=output+
+approved;
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"<b>Deliver Resource</b><br><br>";
+
+
+output=output+
+delivered;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Area Search</b><br><br>";
+
+
+output=output+
+search;
+
+
+output=output+
+"<br><br>--------------------------------<br><br>";
+
+
+output=output+
+"<b>Highest Priority Pending Request</b><br><br>";
+
+
+if(highest!=null)
+{
+	output=output+
+	highest.area+
+	" - "+
+	highest.resource+
+	" - "+
+	highest.priority;
+}
+else
+{
+	output=output+"No Pending Requests";
+}
+
+
+output=output+
+"<br><br>";
+
+
+output=output+
+"Pending Requests : "+
+pending+
+"<br>";
+
+
+output=output+
+"Approved Requests : "+
+approvedCount+
+"<br>";
+
+
+output=output+
+"Delivered Requests : "+
+deliveredCount+
+"<br>";
+
+
+output=output+
+"Food Kit Requests : "+
+foodCount+
+"<br>";
+
+
+output=output+
+"Total Requested Quantity : "+
+total+
+" units<br>";
+
+
+output=output+
+"<b>Total Delivered Quantity : "+
+deliveredTotal+
+" units</b>";
+
+
+document.getElementById("result").innerHTML=output;
+
+</script>
+
+</body>
+
+</html>
