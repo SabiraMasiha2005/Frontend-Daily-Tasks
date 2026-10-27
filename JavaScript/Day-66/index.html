@@ -1,0 +1,336 @@
+
+<html>
+
+<head>
+    <title>Smart Blood Bank Management System</title>
+</head>
+
+<body>
+
+    <h2>Smart Blood Bank Management System</h2>
+
+    <div id="result"></div>
+
+    <script>
+
+        class BloodBankManagement
+        {
+            constructor()
+            {
+                this.donors = [
+                    {
+                        id: 101,
+                        name: "Arun",
+                        bloodGroup: "A+",
+                        age: 25,
+                        unitsDonated: 2
+                    },
+                    {
+                        id: 102,
+                        name: "Priya",
+                        bloodGroup: "O+",
+                        age: 28,
+                        unitsDonated: 3
+                    },
+                    {
+                        id: 103,
+                        name: "Rahul",
+                        bloodGroup: "B+",
+                        age: 23,
+                        unitsDonated: 1
+                    },
+                    {
+                        id: 104,
+                        name: "Divya",
+                        bloodGroup: "A+",
+                        age: 26,
+                        unitsDonated: 2
+                    }
+                ];
+
+                this.bloodStock = [
+                    { bloodGroup: "A+", units: 10 },
+                    { bloodGroup: "B+", units: 8 },
+                    { bloodGroup: "O+", units: 15 },
+                    { bloodGroup: "AB+", units: 5 },
+                    { bloodGroup: "O-", units: 4 }
+                ];
+
+                this.requests = [
+                    {
+                        id: 201,
+                        hospital: "City Hospital",
+                        bloodGroup: "A+",
+                        units: 3,
+                        status: "Pending"
+                    },
+                    {
+                        id: 202,
+                        hospital: "Green Hospital",
+                        bloodGroup: "O+",
+                        units: 5,
+                        status: "Approved"
+                    },
+                    {
+                        id: 203,
+                        hospital: "Life Care Hospital",
+                        bloodGroup: "B+",
+                        units: 2,
+                        status: "Pending"
+                    }
+                ];
+            }
+
+            showDonors()
+            {
+                let output = "<h3>Blood Donors</h3>";
+
+                for (let i = 0; i < this.donors.length; i++)
+                {
+                    output +=
+                        "ID: " + this.donors[i].id +
+                        " | Name: " + this.donors[i].name +
+                        " | Blood Group: " + this.donors[i].bloodGroup +
+                        " | Age: " + this.donors[i].age +
+                        " | Units Donated: " + this.donors[i].unitsDonated +
+                        "<br>";
+                }
+
+                return output;
+            }
+
+            addDonor(id, name, bloodGroup, age, unitsDonated)
+            {
+                this.donors.push({
+                    id: id,
+                    name: name,
+                    bloodGroup: bloodGroup,
+                    age: age,
+                    unitsDonated: unitsDonated
+                });
+
+                return name + " added as a donor successfully.<br>";
+            }
+
+            searchDonorByBloodGroup(bloodGroup)
+            {
+                let output = "<h3>Donors with Blood Group " + bloodGroup + "</h3>";
+                let found = false;
+
+                for (let i = 0; i < this.donors.length; i++)
+                {
+                    if (this.donors[i].bloodGroup === bloodGroup)
+                    {
+                        output += this.donors[i].name + " - " +
+                            this.donors[i].bloodGroup + "<br>";
+
+                        found = true;
+                    }
+                }
+
+                if (found === false)
+                {
+                    output += "No matching donors found.<br>";
+                }
+
+                return output;
+            }
+
+            addBloodStock(bloodGroup, units)
+            {
+                let found = false;
+
+                for (let i = 0; i < this.bloodStock.length; i++)
+                {
+                    if (this.bloodStock[i].bloodGroup === bloodGroup)
+                    {
+                        this.bloodStock[i].units += units;
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found === false)
+                {
+                    this.bloodStock.push({
+                        bloodGroup: bloodGroup,
+                        units: units
+                    });
+                }
+
+                return units + " units added to " + bloodGroup + " stock.<br>";
+            }
+
+            showBloodStock()
+            {
+                let output = "<h3>Available Blood Stock</h3>";
+
+                for (let i = 0; i < this.bloodStock.length; i++)
+                {
+                    output +=
+                        this.bloodStock[i].bloodGroup +
+                        " : " + this.bloodStock[i].units +
+                        " units<br>";
+                }
+
+                return output;
+            }
+
+            requestBlood(id, hospital, bloodGroup, units)
+            {
+                this.requests.push({
+                    id: id,
+                    hospital: hospital,
+                    bloodGroup: bloodGroup,
+                    units: units,
+                    status: "Pending"
+                });
+
+                return "Blood request created for " + hospital + ".<br>";
+            }
+
+            approveRequest(id)
+            {
+                for (let i = 0; i < this.requests.length; i++)
+                {
+                    if (this.requests[i].id === id)
+                    {
+                        if (this.requests[i].status === "Pending")
+                        {
+                            this.requests[i].status = "Approved";
+
+                            return "Request " + id + " approved.<br>";
+                        }
+                        else
+                        {
+                            return "Request is already processed.<br>";
+                        }
+                    }
+                }
+
+                return "Request not found.<br>";
+            }
+
+            checkBloodAvailability(bloodGroup)
+            {
+                for (let i = 0; i < this.bloodStock.length; i++)
+                {
+                    if (this.bloodStock[i].bloodGroup === bloodGroup)
+                    {
+                        return bloodGroup + " available units: " +
+                            this.bloodStock[i].units + "<br>";
+                    }
+                }
+
+                return "Blood group not found in stock.<br>";
+            }
+
+            getTotalBloodStock()
+            {
+                let total = 0;
+
+                for (let i = 0; i < this.bloodStock.length; i++)
+                {
+                    total += this.bloodStock[i].units;
+                }
+
+                return "Total Blood Stock: " + total + " units<br>";
+            }
+
+            getPendingRequests()
+            {
+                let output = "<h3>Pending Blood Requests</h3>";
+                let found = false;
+
+                for (let i = 0; i < this.requests.length; i++)
+                {
+                    if (this.requests[i].status === "Pending")
+                    {
+                        output +=
+                            "Request ID: " + this.requests[i].id +
+                            " | Hospital: " + this.requests[i].hospital +
+                            " | Blood Group: " + this.requests[i].bloodGroup +
+                            " | Units: " + this.requests[i].units +
+                            "<br>";
+
+                        found = true;
+                    }
+                }
+
+                if (found === false)
+                {
+                    output += "No pending requests.<br>";
+                }
+
+                return output;
+            }
+
+            getMostAvailableBloodGroup()
+            {
+                let highest = -1;
+                let bloodGroup = "No stock available";
+
+                for (let i = 0; i < this.bloodStock.length; i++)
+                {
+                    if (this.bloodStock[i].units > highest)
+                    {
+                        highest = this.bloodStock[i].units;
+                        bloodGroup = this.bloodStock[i].bloodGroup;
+                    }
+                }
+
+                return "Highest Stock: " + bloodGroup +
+                    " (" + highest + " units)<br>";
+            }
+        }
+
+        let bank = new BloodBankManagement();
+
+        let output = "";
+
+        output += bank.showDonors();
+
+        output += "<hr>";
+
+        output += bank.addDonor(105, "Karthik", "O-", 27, 1);
+
+        output += bank.showDonors();
+
+        output += "<hr>";
+
+        output += bank.searchDonorByBloodGroup("A+");
+
+        output += "<hr>";
+
+        output += bank.addBloodStock("A+", 4);
+
+        output += bank.showBloodStock();
+
+        output += "<hr>";
+
+        output += bank.requestBlood(
+            204,
+            "Sunrise Hospital",
+            "B+",
+            2
+        );
+
+        output += bank.approveRequest(201);
+
+        output += bank.getPendingRequests();
+
+        output += "<hr>";
+
+        output += bank.checkBloodAvailability("O+");
+
+        output += bank.getTotalBloodStock();
+
+        output += bank.getMostAvailableBloodGroup();
+
+        document.getElementById("result").innerHTML = output;
+
+    </script>
+
+</body>
+
+</html>
