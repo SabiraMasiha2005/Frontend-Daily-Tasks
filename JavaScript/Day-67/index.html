@@ -1,0 +1,303 @@
+
+<html>
+
+<head>
+    <title>Smart Solar Energy Management System</title>
+</head>
+
+<body>
+
+    <h2>Smart Solar Energy Management System</h2>
+
+    <div id="result"></div>
+
+    <script>
+
+        class SolarEnergyManagement
+        {
+            constructor()
+            {
+                this.solarPanels = [
+                    {
+                        id: 101,
+                        location: "Rooftop A",
+                        generation: 25,
+                        consumption: 18,
+                        efficiency: 85
+                    },
+                    {
+                        id: 102,
+                        location: "Rooftop B",
+                        generation: 32,
+                        consumption: 20,
+                        efficiency: 90
+                    },
+                    {
+                        id: 103,
+                        location: "Parking Area",
+                        generation: 18,
+                        consumption: 12,
+                        efficiency: 75
+                    },
+                    {
+                        id: 104,
+                        location: "Office Block",
+                        generation: 40,
+                        consumption: 28,
+                        efficiency: 95
+                    }
+                ];
+
+                this.batteries = [
+                    { id: 201, location: "Battery A", charge: 80 },
+                    { id: 202, location: "Battery B", charge: 25 },
+                    { id: 203, location: "Battery C", charge: 15 }
+                ];
+            }
+
+            showSolarPanels()
+            {
+                let output = "<h3>Solar Panel Details</h3>";
+
+                for (let i = 0; i < this.solarPanels.length; i++)
+                {
+                    output +=
+                        "Panel ID: " + this.solarPanels[i].id +
+                        " | Location: " + this.solarPanels[i].location +
+                        " | Generation: " + this.solarPanels[i].generation + " kWh" +
+                        " | Consumption: " + this.solarPanels[i].consumption + " kWh" +
+                        " | Efficiency: " + this.solarPanels[i].efficiency + "%" +
+                        "<br>";
+                }
+
+                return output;
+            }
+
+            addSolarPanel(id, location, generation, consumption, efficiency)
+            {
+                this.solarPanels.push({
+                    id: id,
+                    location: location,
+                    generation: generation,
+                    consumption: consumption,
+                    efficiency: efficiency
+                });
+
+                return "Solar panel added successfully: " + location + "<br>";
+            }
+
+            calculateTotalGeneration()
+            {
+                let total = 0;
+
+                for (let i = 0; i < this.solarPanels.length; i++)
+                {
+                    total += this.solarPanels[i].generation;
+                }
+
+                return "Total Energy Generated: " + total + " kWh<br>";
+            }
+
+            calculateTotalConsumption()
+            {
+                let total = 0;
+
+                for (let i = 0; i < this.solarPanels.length; i++)
+                {
+                    total += this.solarPanels[i].consumption;
+                }
+
+                return "Total Energy Consumed: " + total + " kWh<br>";
+            }
+
+            updateBatteryStorage(id, charge)
+            {
+                if (charge < 0 || charge > 100)
+                {
+                    return "Invalid battery charge. Enter 0 to 100%.<br>";
+                }
+
+                for (let i = 0; i < this.batteries.length; i++)
+                {
+                    if (this.batteries[i].id === id)
+                    {
+                        this.batteries[i].charge = charge;
+
+                        return this.batteries[i].location +
+                            " updated to " + charge + "% charge.<br>";
+                    }
+                }
+
+                return "Battery not found.<br>";
+            }
+
+            showBatteries()
+            {
+                let output = "<h3>Battery Storage Details</h3>";
+
+                for (let i = 0; i < this.batteries.length; i++)
+                {
+                    output +=
+                        "Battery ID: " + this.batteries[i].id +
+                        " | Location: " + this.batteries[i].location +
+                        " | Charge: " + this.batteries[i].charge + "%" +
+                        "<br>";
+                }
+
+                return output;
+            }
+
+            checkLowBattery()
+            {
+                let output = "<h3>Low Battery Report</h3>";
+                let found = false;
+
+                for (let i = 0; i < this.batteries.length; i++)
+                {
+                    if (this.batteries[i].charge < 30)
+                    {
+                        output +=
+                            this.batteries[i].location +
+                            " has low charge: " +
+                            this.batteries[i].charge + "%<br>";
+
+                        found = true;
+                    }
+                }
+
+                if (found === false)
+                {
+                    output += "No batteries have low charge.<br>";
+                }
+
+                return output;
+            }
+
+            calculateEnergyBalance()
+            {
+                let generation = 0;
+                let consumption = 0;
+
+                for (let i = 0; i < this.solarPanels.length; i++)
+                {
+                    generation += this.solarPanels[i].generation;
+                    consumption += this.solarPanels[i].consumption;
+                }
+
+                let balance = generation - consumption;
+
+                if (balance > 0)
+                {
+                    return "Energy Surplus: " + balance + " kWh<br>";
+                }
+                else if (balance < 0)
+                {
+                    return "Energy Deficit: " + Math.abs(balance) + " kWh<br>";
+                }
+                else
+                {
+                    return "Energy generation and consumption are equal.<br>";
+                }
+            }
+
+            findHighestGeneratingPanel()
+            {
+                let highest = this.solarPanels[0];
+
+                for (let i = 1; i < this.solarPanels.length; i++)
+                {
+                    if (this.solarPanels[i].generation > highest.generation)
+                    {
+                        highest = this.solarPanels[i];
+                    }
+                }
+
+                return "Highest Generating Panel: " +
+                    highest.location + " (" +
+                    highest.generation + " kWh)<br>";
+            }
+
+            calculateEfficiency()
+            {
+                let total = 0;
+
+                for (let i = 0; i < this.solarPanels.length; i++)
+                {
+                    total += this.solarPanels[i].efficiency;
+                }
+
+                let average = total / this.solarPanels.length;
+
+                return "Average Solar Panel Efficiency: " +
+                    average.toFixed(2) + "%<br>";
+            }
+
+            generateDailyReport()
+            {
+                let output = "<h3>Daily Solar Energy Report</h3>";
+
+                output += this.calculateTotalGeneration();
+                output += this.calculateTotalConsumption();
+                output += this.calculateEnergyBalance();
+                output += this.calculateEfficiency();
+                output += this.findHighestGeneratingPanel();
+
+                return output;
+            }
+        }
+
+        let solar = new SolarEnergyManagement();
+
+        let output = "";
+
+        output += solar.showSolarPanels();
+
+        output += "<hr>";
+
+        output += solar.addSolarPanel(
+            105,
+            "Warehouse",
+            30,
+            16,
+            88
+        );
+
+        output += solar.showSolarPanels();
+
+        output += "<hr>";
+
+        output += solar.calculateTotalGeneration();
+
+        output += solar.calculateTotalConsumption();
+
+        output += "<hr>";
+
+        output += solar.showBatteries();
+
+        output += solar.updateBatteryStorage(202, 65);
+
+        output += solar.showBatteries();
+
+        output += "<hr>";
+
+        output += solar.checkLowBattery();
+
+        output += "<hr>";
+
+        output += solar.calculateEnergyBalance();
+
+        output += solar.findHighestGeneratingPanel();
+
+        output += solar.calculateEfficiency();
+
+        output += "<hr>";
+
+        output += solar.generateDailyReport();
+
+        document.getElementById("result").innerHTML = output;
+
+    </script>
+
+</body>
+
+</html>
