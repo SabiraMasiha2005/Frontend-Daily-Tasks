@@ -1,4 +1,4 @@
-# Day 65 - JavaScript Smart Solar Energy Management System
+# Day 67 - JavaScript Smart Solar Energy Management System
 
 ## Overview
 
