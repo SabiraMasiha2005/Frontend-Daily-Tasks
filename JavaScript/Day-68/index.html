@@ -1,0 +1,354 @@
+
+<html>
+
+<head>
+    <title>Smart Pet Adoption Management System</title>
+</head>
+
+<body>
+
+    <h2>Smart Pet Adoption & Care Management System</h2>
+
+    <div id="result"></div>
+
+    <script>
+
+        class PetAdoptionManagement
+        {
+            constructor()
+            {
+                this.pets = [
+                    {
+                        id: 101,
+                        name: "Bruno",
+                        type: "Dog",
+                        age: 3,
+                        status: "Available",
+                        vaccinated: true
+                    },
+                    {
+                        id: 102,
+                        name: "Kitty",
+                        type: "Cat",
+                        age: 2,
+                        status: "Available",
+                        vaccinated: false
+                    },
+                    {
+                        id: 103,
+                        name: "Coco",
+                        type: "Rabbit",
+                        age: 1,
+                        status: "Adopted",
+                        vaccinated: true
+                    },
+                    {
+                        id: 104,
+                        name: "Max",
+                        type: "Dog",
+                        age: 5,
+                        status: "Available",
+                        vaccinated: true
+                    }
+                ];
+
+                this.adoptionRecords = [];
+            }
+
+            showPets()
+            {
+                let output = "<h3>All Pet Details</h3>";
+
+                for (let i = 0; i < this.pets.length; i++)
+                {
+                    output +=
+                        "ID: " + this.pets[i].id +
+                        " | Name: " + this.pets[i].name +
+                        " | Type: " + this.pets[i].type +
+                        " | Age: " + this.pets[i].age + " years" +
+                        " | Status: " + this.pets[i].status +
+                        " | Vaccinated: " +
+                        (this.pets[i].vaccinated ? "Yes" : "No") +
+                        "<br>";
+                }
+
+                return output;
+            }
+
+            addPet(id, name, type, age)
+            {
+                this.pets.push({
+                    id: id,
+                    name: name,
+                    type: type,
+                    age: age,
+                    status: "Available",
+                    vaccinated: false
+                });
+
+                return name + " added successfully.<br>";
+            }
+
+            searchPetByType(type)
+            {
+                let output = "<h3>Search Results: " + type + "</h3>";
+                let found = false;
+
+                for (let i = 0; i < this.pets.length; i++)
+                {
+                    if (this.pets[i].type.toLowerCase() === type.toLowerCase())
+                    {
+                        output +=
+                            "Name: " + this.pets[i].name +
+                            " | Age: " + this.pets[i].age +
+                            " | Status: " + this.pets[i].status +
+                            "<br>";
+
+                        found = true;
+                    }
+                }
+
+                if (found === false)
+                {
+                    output += "No pets found for this type.<br>";
+                }
+
+                return output;
+            }
+
+            adoptPet(id, adopterName)
+            {
+                for (let i = 0; i < this.pets.length; i++)
+                {
+                    if (this.pets[i].id === id)
+                    {
+                        if (this.pets[i].status === "Available")
+                        {
+                            this.pets[i].status = "Adopted";
+
+                            this.adoptionRecords.push({
+                                petId: id,
+                                petName: this.pets[i].name,
+                                adopter: adopterName
+                            });
+
+                            return this.pets[i].name +
+                                " adopted successfully by " +
+                                adopterName + ".<br>";
+                        }
+                        else
+                        {
+                            return this.pets[i].name +
+                                " is already adopted.<br>";
+                        }
+                    }
+                }
+
+                return "Pet ID not found.<br>";
+            }
+
+            showAvailablePets()
+            {
+                let output = "<h3>Available Pets</h3>";
+                let found = false;
+
+                for (let i = 0; i < this.pets.length; i++)
+                {
+                    if (this.pets[i].status === "Available")
+                    {
+                        output +=
+                            this.pets[i].name +
+                            " | Type: " + this.pets[i].type +
+                            " | Age: " + this.pets[i].age +
+                            "<br>";
+
+                        found = true;
+                    }
+                }
+
+                if (found === false)
+                {
+                    output += "No pets are currently available.<br>";
+                }
+
+                return output;
+            }
+
+            addVaccination(id)
+            {
+                for (let i = 0; i < this.pets.length; i++)
+                {
+                    if (this.pets[i].id === id)
+                    {
+                        if (this.pets[i].vaccinated === false)
+                        {
+                            this.pets[i].vaccinated = true;
+
+                            return this.pets[i].name +
+                                " vaccination status updated.<br>";
+                        }
+                        else
+                        {
+                            return this.pets[i].name +
+                                " is already vaccinated.<br>";
+                        }
+                    }
+                }
+
+                return "Pet ID not found.<br>";
+            }
+
+            getAdoptionCount()
+            {
+                let count = 0;
+
+                for (let i = 0; i < this.pets.length; i++)
+                {
+                    if (this.pets[i].status === "Adopted")
+                    {
+                        count++;
+                    }
+                }
+
+                return "Total Adopted Pets: " + count + "<br>";
+            }
+
+            getAvailablePetCount()
+            {
+                let count = 0;
+
+                for (let i = 0; i < this.pets.length; i++)
+                {
+                    if (this.pets[i].status === "Available")
+                    {
+                        count++;
+                    }
+                }
+
+                return "Available Pets: " + count + "<br>";
+            }
+
+            findOldestPet()
+            {
+                if (this.pets.length === 0)
+                {
+                    return "No pet records available.<br>";
+                }
+
+                let oldest = this.pets[0];
+
+                for (let i = 1; i < this.pets.length; i++)
+                {
+                    if (this.pets[i].age > oldest.age)
+                    {
+                        oldest = this.pets[i];
+                    }
+                }
+
+                return "Oldest Pet: " + oldest.name +
+                    " (" + oldest.age + " years old)<br>";
+            }
+
+            showAdoptionRecords()
+            {
+                let output = "<h3>Adoption Records</h3>";
+
+                if (this.adoptionRecords.length === 0)
+                {
+                    return output + "No adoption records available.<br>";
+                }
+
+                for (let i = 0; i < this.adoptionRecords.length; i++)
+                {
+                    output +=
+                        "Pet: " + this.adoptionRecords[i].petName +
+                        " | Adopted By: " + this.adoptionRecords[i].adopter +
+                        "<br>";
+                }
+
+                return output;
+            }
+
+            generateAdoptionReport()
+            {
+                let output = "<h3>Pet Adoption Report</h3>";
+
+                output += "Total Pets: " + this.pets.length + "<br>";
+                output += this.getAvailablePetCount();
+                output += this.getAdoptionCount();
+
+                let vaccinatedCount = 0;
+
+                for (let i = 0; i < this.pets.length; i++)
+                {
+                    if (this.pets[i].vaccinated === true)
+                    {
+                        vaccinatedCount++;
+                    }
+                }
+
+                output += "Vaccinated Pets: " +
+                    vaccinatedCount + "<br>";
+
+                return output;
+            }
+        }
+
+        let petCenter = new PetAdoptionManagement();
+
+        let output = "";
+
+        output += petCenter.showPets();
+
+        output += "<hr>";
+
+        output += petCenter.addPet(
+            105,
+            "Charlie",
+            "Dog",
+            2
+        );
+
+        output += petCenter.showPets();
+
+        output += "<hr>";
+
+        output += petCenter.searchPetByType("Dog");
+
+        output += "<hr>";
+
+        output += petCenter.adoptPet(101, "Rahul");
+
+        output += petCenter.adoptPet(103, "Priya");
+
+        output += petCenter.showAvailablePets();
+
+        output += "<hr>";
+
+        output += petCenter.addVaccination(102);
+
+        output += petCenter.addVaccination(104);
+
+        output += "<hr>";
+
+        output += petCenter.getAdoptionCount();
+
+        output += petCenter.getAvailablePetCount();
+
+        output += petCenter.findOldestPet();
+
+        output += "<hr>";
+
+        output += petCenter.showAdoptionRecords();
+
+        output += "<hr>";
+
+        output += petCenter.generateAdoptionReport();
+
+        document.getElementById("result").innerHTML = output;
+
+    </script>
+
+</body>
+
+</html>
