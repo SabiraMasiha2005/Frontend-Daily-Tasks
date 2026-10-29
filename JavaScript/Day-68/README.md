@@ -61,9 +61,7 @@ Performed the following operations:
 - `innerHTML`
 
 ## Output
-
 ![Output](./screenshots/output.png)
 
 ## Learning Outcome
-
 Learned how to manage pet records, process adoptions, track vaccinations, identify the oldest pet, maintain adoption records, and generate reports using JavaScript classes, arrays, loops, and conditional statements.
